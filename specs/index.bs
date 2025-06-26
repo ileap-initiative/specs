@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.0)
+Title: iLEAP Technical Specifications (Version 1.0.1)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -2673,7 +2673,8 @@ are performed accurately in end-to-end scenarios.
         <th style="text-align: left">Conformance
     <tbody >
       <tr>
-        <td style="text-align: left">All [PACT Required Test Cases](https://wbcsd.github.io/pact-conformance-testing/checklist.html#required-tests)
+        <td style="text-align: left">All [PACT Mandatory Test Cases
+V2](https://github.com/wbcsd/pact-conformance-service/blob/main/docs/v2-test-cases-expected-results.md)
         <td rowspan="4"><dfn>iLEAP Emissions Data Conformance</dfn>
 
       <tr>
@@ -2730,6 +2731,10 @@ apply for additional support, materials, and marketing opportunities.
 
 
 # Appendix A: Changelog # {#changelog}
+
+## Version 1.0.1 (2025-06-30) ## {#version-1.0.1}
+
+- update PACT Test Cases V2 links in [[#conformance]]
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
@@ -3056,9 +3061,10 @@ In order to test the conformance of an iLEAP implementation, the following tests
 ## PACT Conformance Tests ## {#pact-conformance-tests}
 
 Since the iLEAP Technical Specifications were conceived as an extension to the PACT Data Model and
-Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.1.0 or above. For that
-reason, the required tests in the [PACT Conformance Testing
-Checklist](https://wbcsd.github.io/pact-conformance-testing/checklist.html#required-tests) should also be performed.
+Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.1.0
+or above. For that reason, the mandatory tests in the [PACT Test Cases
+V2](https://github.com/wbcsd/pact-conformance-service/blob/main/docs/v2-test-cases-expected-results.md)
+should also be performed.
 
 ## iLEAP Specific Conformance Tests ## {#ileap-specific-conformance-tests}
 
