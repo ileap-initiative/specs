@@ -2674,7 +2674,7 @@ are performed accurately in end-to-end scenarios.
     <tbody >
       <tr>
         <td style="text-align: left">All [PACT Mandatory Test Cases
-V2](https://github.com/wbcsd/pact-conformance-service/blob/main/docs/v2-test-cases-expected-results.md)
+V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
         <td rowspan="4"><dfn>iLEAP Emissions Data Conformance</dfn>
 
       <tr>
@@ -3063,7 +3063,7 @@ In order to test the conformance of an iLEAP implementation, the following tests
 Since the iLEAP Technical Specifications were conceived as an extension to the PACT Data Model and
 Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.1.0
 or above. For that reason, the mandatory tests in the [PACT Test Cases
-V2](https://github.com/wbcsd/pact-conformance-service/blob/main/docs/v2-test-cases-expected-results.md)
+V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
 should also be performed.
 
 ## iLEAP Specific Conformance Tests ## {#ileap-specific-conformance-tests}
