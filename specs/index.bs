@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.0)
+Title: iLEAP Technical Specifications (Version 1.0.1-28072025)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -1612,7 +1612,7 @@ Properties of data type <dfn element>Location</dfn>:
         <td>Longitude of the location.  If <{Location/lat}> is defined, so <{Location/lng}> MUST be defined.
 
     </table>
-    <figcaption><{GLECDistance}> properties</figcaption>
+    <figcaption><{Location}> properties</figcaption>
 </figure>
 
 
@@ -2730,6 +2730,10 @@ apply for additional support, materials, and marketing opportunities.
 
 
 # Appendix A: Changelog # {#changelog}
+
+## Version 1.0.1-28072025 (2025-07-28) ## {#version-1.0.1}
+
+Fix typo in <{Location}> properties table
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
