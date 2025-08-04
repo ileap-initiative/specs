@@ -2209,6 +2209,22 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
 
               See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
       <tr>
+        <td>CarbonFootprint
+        <td>`secondaryEmissionFactorSources`
+        <td>
+              If GLEC default or modeled values were used, this SHOULD be indicated in the emission factor sources
+              array, setting
+              - `"name"` to `"GLEC Framework"`
+              - `"version"` to the version used (version 3.0 is recommended)
+
+              For example:
+              <pre highlight='json'>
+                {
+                  "name": "GLEC Framework",
+                  "version": "3.0"
+                }
+              </pre>
+      <tr>
         <td>DataModelExtension
         <td>`specVersion`
         <td>
@@ -2385,6 +2401,22 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
               The relative share of logistics emissions for whose calculation primary data has been used.
 
               See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`secondaryEmissionFactorSources`
+        <td>
+              If GLEC default or modeled values were used, this SHOULD be indicated in the emission factor sources
+              array, setting
+              - `"name"` to `"GLEC Framework"`
+              - `"version"` to the version used (version 3.0 is recommended)
+
+              For example:
+              <pre highlight='json'>
+                {
+                  "name": "GLEC Framework",
+                  "version": "3.0"
+                }
+              </pre>
       <tr>
         <td>DataModelExtension
         <td>`specVersion`
@@ -2566,7 +2598,22 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
               The relative share of logistics emissions for whose calculation primary data has been used.
 
               See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`secondaryEmissionFactorSources`
+        <td>
+              If GLEC default or modeled values were used, this SHOULD be indicated in the emission factor sources
+              array, setting
+              - `"name"` to `"GLEC Framework"`
+              - `"version"` to the version used (version 3.0 is recommended)
 
+              For example:
+              <pre highlight='json'>
+                {
+                  "name": "GLEC Framework",
+                  "version": "3.0"
+                }
+              </pre>
       <tr>
         <td>DataModelExtension
         <td>`specVersion`
@@ -2733,7 +2780,10 @@ apply for additional support, materials, and marketing opportunities.
 
 ## Version 1.0.1-28072025 (2025-07-28) ## {#version-1.0.1}
 
-Fix typo in <{Location}> properties table
+Summary of changes:
+- addition of guidance on `secondaryEmissionFactorSources` in [[#pcf-mapping-sf]],
+  [[#pcf-mapping-toc]], and [[#pcf-mapping-hoc]]
+- fix typo in <{Location}> properties table
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
