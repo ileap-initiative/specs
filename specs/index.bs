@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.0)
+Title: iLEAP Technical Specifications (Version 1.1.0-20251117)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -629,14 +629,16 @@ Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) is added 
 
 Please, find more details on emissions calculation and the relantionship between the different concepts in the [[!GLEC]] Framework and [[!ISO14083]]).
 
-The iLEAP Data Model is composed by five main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
-<{HOC}>, and <{TAD}>.
+The iLEAP Data Model is composed by six main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
+<{HOC}>, <{TAD}>, and <{AggregatedReport}>.
 
 <{ShipmentFootprint|ShipmentFootprints}> and <{TOC|TOCs}> can be exchanged independently as extensions to the PACT
 Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
 
 <{TAD|TADs}> can be exchanged through a dedicated endpoint. This should only be used by [=Transport
 Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, nor <{HOC|HOCs}>.
+
+<{AggregatedReport|AggregatedReports}> can be exchanged through a dedicated endpoint.
 
 ## ShipmentFootprint ## {#dt-sf}
 
@@ -1506,6 +1508,173 @@ encoded as a JSON object.
     <figcaption><{TAD}> properties</figcaption>
 </figure>
 
+## Aggregated Report (<dfn element>AggregatedReport</dfn>) ## {#dt-aggregated-report}
+
+The <{AggregatedReport}> data type contains aggregated emissions data for one or more shipments,
+disclosing total emissions, without disclosing TCE-level data. An AggregatedReport MAY disclose
+emissions aggregated per transport mode and  an aggregation of all hub TCEs (see ISO 14083 Chapter
+13.3).
+
+### Data Attributes ### {#aggregated-report-attributes}
+
+<figure id="aggregated-report-properties-table" dfn-type="element-attr" dfn-for="AggregatedReport">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Attribute Id
+        <th>Type
+        <th>Req
+        <th>Specification
+    <tbody>
+      <tr>
+        <td><dfn>reportId</dfn>
+        <td>String
+        <td>M
+        <td>The id of the <{AggregatedReport}>.
+      <tr>
+        <td><dfn>shipmentIds</dfn>
+        <td>String[]
+        <td>M
+        <td>
+            The shipment ids of the shipment(s) related to this <{AggregatedReport}>.
+            In case the report covers multiple shipments, these MUST all belong to the same transport contract,
+            hence having the same Transport Service User (see <{AggregatedReport/transportServiceUserId}>).
+      <tr>
+        <td><dfn>tceIds</dfn>
+        <td>String[]
+        <td>O
+        <td>The ids of all TCEs related to the shipments referenced in <{AggregatedReport/shipmentIds}>.
+      <tr>
+        <td><dfn>tocIds</dfn>
+        <td>String[]
+        <td>O
+        <td>The ids of the TOCs used for the calculation of this <{AggregatedReport}>.
+      <tr>
+        <td><dfn>hocIds</dfn>
+        <td>String[]
+        <td>O
+        <td>The ids of the HOCs used for the calculation of this <{AggregatedReport}>.
+      <tr>
+        <td><dfn>reportPeriodStart</dfn>
+        <td>String
+        <td>O
+        <td>
+            If this AggregatedReport is based on a specific report period, then this MUST be defined, encoding the
+            “start” (inclusive) of the report's period. Timestamp of departure. The value MUST be a date and time
+            string conforming to ISO 8601 with timezone UTC.
+      <tr>
+              <td><dfn>reportPeriodEnd</dfn>
+        <td>String
+        <td>O
+        <td>
+            If this AggregatedReport is based on a specific report period, then this MUST be defined, encoding the
+            “end” (exclusive) of the report’s period. The value MUST be a date and time string conforming to ISO 8601
+            with timezone UTC.
+      <tr>
+        <td><dfn>status</dfn>
+        <td>String
+        <td>M
+        <td>
+            Each <{AggregatedReport}> MUST include the property `status` with value one of the following
+            values:
+            <ul>
+              <li>`Active`: The default `status` of a report is `Active`. A report
+              with status Active CAN be used by data recipients for logistics emissions calculations.</li>
+              <li>`Deprecated`: The report is deprecated and SHOULD NOT be used for logistics emissions
+              calculations by data recipients.</li>
+            </ul>
+      <tr>
+        <td><dfn>transportServiceUserId</dfn>
+        <td>String
+        <td>O
+        <td>
+            The id of the Transport Service User procuring the Shipment(s). This can be a Shipper or another
+            stakeholder, but does not need to be the Consignee.
+            <tr>
+        <td><dfn>transportServiceUserBuId</dfn>
+        <td>String
+        <td>O
+        <td>
+            The id of the Business Unit of the Transport Service User procuring the Shipment(s). This can be a Shipper
+            or another stakeholder, but does not need to be the Consignee.
+      <tr>
+        <td><dfn>consignmentIds</dfn>
+        <td>String[]
+        <td>O
+        <td>The ids of the consignments corresponding to this <{AggregatedReport}>.
+      <tr>
+        <td><dfn>packagingOrTrEqType</dfn>
+        <td><{PackagingOrTrEqType}>
+        <td>O
+        <td>
+            Category of relevant packaging or transport equipment units utilized in the shipments referenced in
+            <{AggregatedReport/shipmentIds}>. See data type <{PackagingOrTrEqType}> for further information.
+      <tr>
+        <td><dfn>packagingOrTrEqAmount</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Number of packaging or transport equipment units utilized in the shipments referenced in
+            <{AggregatedReport/shipmentIds}>.
+      <tr>
+        <td><dfn>totalTransportActivity</dfn> : [=Decimal=]
+        <td>String
+        <td>M
+        <td>
+            The sum total of the transport activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
+            (SI derived Unit `ton kilometers`).
+      <tr>
+        <td><dfn>co2eWTW</dfn> : [=Decimal=]
+        <td>String
+        <td>M
+        <td>
+            GHG emissions released to atmosphere during the process of producing, storing, processing and distributing
+            an energy carrier for vehicle operation + GHG emissions released to atmosphere as a result of vehicle
+            operation. The value MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}>
+            with unit `kgCO2e`.
+      <tr>
+        <td><dfn>co2eTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            GHG emissions released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
+      <tr>
+        <td><dfn>noxTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Nitrogen oxide released to atmosphere as a result of vehicle operation. The value MUST be calculated for
+            the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>soxTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Sulphur oxide released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>ch4TTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Methane released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>pmTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Particulate matter (PM10 and PM2.5) released to atmosphere as a result of vehicle operation. The value MUST
+            be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>perModeEmissions</dfn>
+        <td><{ModeSpecificReport}>[]
+        <td>O
+        <td>The subreport with emissions per modality. This MUST be defined for ISO 14083 conformance.
+    </table>
+    <figcaption>Properties of data type <{AggregatedReport}></figcaption>
+</figure>
 
 ## Additional Utility Data Types ## {#dt-utility-section}
 
@@ -1896,6 +2065,70 @@ container equivalent unit.
 Advisement: The enumeration of packaging or transport equipment units above will be evolved in
   future revisions.
 
+### Data Type <dfn element>ModeSpecificReport</dfn> ### {#dt-mode-specific-report}
+
+<figure id="mode-specific-report-properties-table" dfn-type="element-attr" dfn-for="ModeSpecificReport">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Property
+        <th>Type
+        <th>Req
+        <th>Specification
+    <tbody>
+      <tr>
+        <td><dfn>mode</dfn>
+        <td>{{TransportMode}}
+        <td>M
+        <td>The mode of transport.
+      <tr>
+        <td><dfn>co2eWTW</dfn> : [=Decimal=]
+        <td>String
+        <td>M
+        <td>
+            GHG emissions released to atmosphere during the process of producing, storing, processing and distributing
+            an energy carrier for vehicle operation + GHG emissions released to atmosphere as a result of vehicle
+            operation. The value MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}>
+            with unit `kgCO2e`.
+      <tr>
+        <td><dfn>co2eTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            GHG emissions released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
+      <tr>
+        <td><dfn>noxTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Nitrogen oxide released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>soxTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Sulphur oxide released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>ch4TTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Methane released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>pmTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Particulate matter (PM10 and PM2.5) released to atmosphere as a result of vehicle operation. The value MUST
+            be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+  </table>
+  <figcaption>Properties of data type <{ModeSpecificReport}></figcaption>
+</figure>
+
 # HTTP REST API # {#http-rest-api}
 
 The iLEAP Technical Specifications are designed to be interoperable with the [[!PACTDX]] Protocol.
@@ -1904,7 +2137,6 @@ Therefore, a [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
 1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
 1. the endpoint for the exchange of [=Transport Activity Data=] (see [[#action-tad]])
-
 
 ## Action TransportActivityData ## {#action-tad}
 
