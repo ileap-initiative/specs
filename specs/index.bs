@@ -1583,12 +1583,12 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>
             Each <{AggregatedReport}> MUST include the property `status` with value one of the following
             values:
-            <ul>
-              <li>`Active`: The default `status` of a report is `Active`. A report
-              with status Active CAN be used by data recipients for logistics emissions calculations.</li>
-              <li>`Deprecated`: The report is deprecated and SHOULD NOT be used for logistics emissions
-              calculations by data recipients.</li>
-            </ul>
+              : `Active`
+              :: The default `status` of a report is `Active`. A report with status Active CAN be used by data
+                  recipients for logistics emissions calculations.
+              : `Deprecated`
+              :: The report is deprecated and SHOULD NOT be used for logistics emissions calculations by data
+                  recipients.
       <tr>
         <td><dfn>transportServiceUserId</dfn>
         <td>String
