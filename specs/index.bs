@@ -1510,7 +1510,7 @@ encoded as a JSON object.
 
 ## Aggregated Report (<dfn element>AggregatedReport</dfn>) ## {#dt-aggregated-report}
 
-The <{AggregatedReport}> data type contains aggregated emissions data for one or more shipments,
+The <dfn>AggregatedReport</dfn> data type contains aggregated emissions data for one or more shipments,
 disclosing total emissions, without disclosing TCE-level data. An AggregatedReport MAY disclose
 emissions aggregated per transport mode and  an aggregation of all hub TCEs (see ISO 14083 Chapter
 13.3).
@@ -2137,14 +2137,15 @@ Therefore, a [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
 1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
 1. the endpoint for the exchange of [=Transport Activity Data=] (see [[#action-tad]])
+1. the endpoint for the exchange of [=AggregatedReport=] (see [[#action-ar]])
 
 ## Action TransportActivityData ## {#action-tad}
 
-Lists the [=data owner=]'s [=Transport Activity Data=] with [[#pagination]] and optional [[#filtering]]
+Lists the [=data owner=]'s [=Transport Activity Data=] with [[#pagination-tad]] and optional [[#pagination-tad]]
 
 A [=Host system=] SHOULD implement an access management system to return only the [=transport activity data=] intended for the requesting [=data recipient=].
 
-### Filtering ### {#filtering}
+### Filtering ### {#filtering-tad}
 
 Filtering CAN be requested by a [=data recipient=] by supplying a [=filter statement=] through the [=Filter=] request parameter.
 
@@ -2159,8 +2160,7 @@ If a [=host system=] implements filtering, it CAN process the filter statement o
     For instance, a host system CAN return an error with code `NotImplemented` if it does not support a specific filter pair;
 1. it CAN treat concatenated filters disjunctively, i.e., returning the union of the results of the individual filters.
 
-
-### Pagination ### {#pagination}
+### Pagination ### {#pagination-tad}
 
 [=Host systems=] MUST implement pagination server-side such that
 
@@ -2179,7 +2179,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 1. upon each call, the host system;
     1. MUST return the same Transport Activity Data upon successful authentication (i.e. a Bearer token authentication as defined in [[!PACTDX]] Section 6.3);
     1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
-    1. MUST return a `Link` header conforming with the previous description in case there is additional Transport Activity Data  available;
+    1. MUST return a `Link` header conforming with the previous description in case there is additional Transport Activity Data available;
 1. if a response contains a second pagination link, upon the data recipient calling the second pagination link, the previous pagination link MAY no longer work.
     - i.e. data recipients MUST NOT assume that previous pagination links continue to return results after advancing in the pagination process;
 1. a pagination link MUST be valid for at least 180 seconds after creation;
@@ -2278,8 +2278,130 @@ With response parameters
 :: The length of the Body. See [[!rfc9112]].
 
 : <dfn>PaginationLink</dfn>
-:: See [=pagination link=] and [[#pagination]].
+:: See [=pagination link=] and [[#pagination-tad]].
 
+## Action AggregatedReport ## {#action-ar}
+
+Lists the [=data owner=]'s [=AggregatedReports=] with [[#pagination-ar]] and optional [[#filtering-ar]]
+
+A [=Host system=] SHOULD implement an access management system to return only the [=AggregatedReports=] intended for the requesting [=data recipient=].
+
+### Filtering ### {#filtering-ar}
+
+Filtering CAN be requested by a [=data recipient=] by supplying a [=filter statement=] through the [=Filter=] request parameter.
+
+Note: The filter statement syntax is described at the [=Filter=] request parameter.
+
+If a [=host system=] does not implement filtering, it MUST process the request as if no [=Filter=] was provided.
+
+If a [=host system=] implements filtering, it CAN process the filter statement on a best-effort basis:
+
+1. it CAN ignore the filter statement or parts of the filter statement, or
+1. it CAN return an error response as defined in the [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responses).
+    For instance, a host system CAN return an error with code `NotImplemented` if it does not support a specific filter pair;
+1. it CAN treat concatenated filters disjunctively, i.e., returning the union of the results of the individual filters.
+
+### Pagination ### {#pagination-ar}
+
+[=Host systems=] MUST implement pagination server-side such that
+
+1. the host system MAY return less [=AggregatedReports=] than requested through the [=Limit=] request parameter;
+1. the host system MUST return a `Link` header if there are additional [=AggregatedReports=] ready to be retrieved, such that
+    1. the `Link` header conforms to [[!RFC8288]];
+    1. the value of the `rel` parameter is equal to `next`;
+    1. the target IRI (RFC8288, section 3.1) of the `Link` header is absolute;
+    1. the value of `host` of the target IRI is equal to the value of the `host` request header from the original `AggregatedReports` HTTP request.
+
+The target IRI from a pagination `link` header is called a [=pagination link=].
+
+Upon a [=host system=] returning a [=pagination link=]:
+
+1. a data recipient CAN call the pagination link more than once;
+1. upon each call, the host system;
+    1. MUST return the same `AggregatedReports` upon successful authentication (i.e. a Bearer token authentication as defined in [[!PACTDX]] Section 6.3);
+    1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
+    1. MUST return a `Link` header conforming with the previous description in case there additional `AggregatedReports` are available;
+1. if a response contains a second pagination link, upon the data recipient calling the second pagination link, the previous pagination link MAY no longer work.
+    - i.e. data recipients MUST NOT assume that previous pagination links continue to return results after advancing in the pagination process;
+1. a pagination link MUST be valid for at least 180 seconds after creation;
+1. a data recipient SHOULD retry calling the pagination link after the server returned an error;
+    1. and SHOULD use a randomized exponential back-off strategy when retrying.
+
+### Request Syntax ### {#action-ar-request}
+
+<pre highlight=http>
+GET <l>[=Subpath=]</l>/2/ileap/ar?<l>[=ArFilter=]</l>&<l>[=ArLimit=]</l> HTTP/1.1
+host: <l>[=Hostname=]</l>
+authorization: Bearer <l>[=BearerToken=]</l>
+</pre>
+
+: <dfn>ArFilter</dfn>
+::
+    `Filter` is an OPTIONAL request parameter containing a filter statement.
+    A [=filter statement=] is a list of name-value filter pairs.
+    Each filter pair has a `$name=$value` syntax where `$name` is the (case-sensitive) name
+    of the field to filter by, and `$value` the (case-insensitive) value to filter for.
+    Filter pairs CAN be concatenated with `&`.
+
+    <div class=example>
+      Get `AggregatedReports` with <{AggregatedReport/reportId}> `"aggregated-report-1"`
+
+      ```http
+      GET /2/ileap/ar?reportId=aggregated-report-1 HTTP/1.1
+      ```
+    </div>
+
+: <dfn>ArLimit</dfn>
+::
+    `Limit` is an OPTIONAL request parameter. If defined,
+      1. the name of the HTTP request parameter MUST be `limit` and
+      2. the value MUST be a positive integer.
+
+### Response Syntax ### {#action-ar-response}
+
+Response without a `link` header:
+
+<pre highlight=http>
+HTTP/1.1 <l>[=ArStatusCode=]</l> <l>[=ArStatusText=]</l>
+content-type: application/json
+content-length: <l>[=ContentLength=]</l>
+
+<l>[=ArResponseBody=]</l>
+</pre>
+
+Paginated response with a `link` header:
+
+<pre highlight=http>
+HTTP/1.1 <l>[=ArStatusCode=]</l> <l>[=ArStatusText=]</l>
+content-type: application/json
+content-length: <l>[=ContentLength=]</l>
+link: <l>[=PaginationLink=]</l>; rel="next"
+
+<l>[=ArResponseBody=]</l>
+</pre>
+
+With response parameters
+
+: <dfn>ArStatusCode</dfn>
+::
+    If the host system returns `AggregatedReports`, the `HttpStatusCode` MUST be 200.
+
+    If the host system responds with an error response, the `HttpStatusCode` MUST match the HTTP Status Code of the respective error response code, as defined in the [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responsesm).
+
+: <dfn>ArStatusText</dfn>
+::
+    The HTTP Status text conforming to the HTTP status code [=ArStatusCode=].
+
+: <dfn>ArResponseBody</dfn>
+::
+    If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the list of [=AggregatedReports=].
+    The list MUST be encoded as a JSON array.
+
+    If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
+
+    If the host system does not accept the access token because it expired, the body SHOULD be an error response with code [TokenExpired](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#tokenexpired).
+
+    In all other cases, for instance in case of a malformed value of the header authorization, the body SHOULD be an error response with code [BadRequest](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#badrequest).
 
 ## PACT Integration ## {#pcf-mapping}
 
