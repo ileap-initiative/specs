@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.1.0-20251117)
+Title: iLEAP Technical Specifications (Version 1.1.0-20251201)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -7,9 +7,9 @@ ED: https://sine-fdn.github.io/ileap-extension/
 TR: https://sine-fdn.github.io/ileap-extension/TR/2025/ileap-extension-20250527/
 Canonical URL: ED
 Editor: Violetta Matzoros, https://www.smartfreightcentre.org, violetta.matzoros@smartfreightcentre.org
-Editor: Gabriela Rubio Domingo, https://www.smartfreightcentre.org, gabriela.rubiodomingo@smartfreightcentre.org
 Editor: Martin Pompéry, https://sine.foundation, martin@sine.foundation
 Editor: Raimundo Henriques, https://sine.foundation, raimundo@sine.foundation
+Former Editor: Gabriela Rubio Domingo
 Repository: sine-fdn/ileap-extension
 Abstract: The iLEAP Technical Specifications are designed to facilitate the automated, digital flow of accurate logistics emissions data among different parties in the global logistics value chain, following [[!ISO14083|ISO 14083:2023]] and the [[!GLEC|GLEC Framework V3.1]].
 Abstract: They introduce a data model and protocol for the interoperable exchange of emissions, emission intensity, and transport activity data.
@@ -629,7 +629,7 @@ Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) is added 
 
 Please, find more details on emissions calculation and the relantionship between the different concepts in the [[!GLEC]] Framework and [[!ISO14083]]).
 
-The iLEAP Data Model is composed by six main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
+The iLEAP Data Model is composed by five main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
 <{HOC}>, <{TAD}>, and <{AggregatedReport}>.
 
 <{ShipmentFootprint|ShipmentFootprints}> and <{TOC|TOCs}> can be exchanged independently as extensions to the PACT
@@ -1577,12 +1577,12 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>
             Each <{AggregatedReport}> MUST include the property `status` with value one of the following
             values:
-              : `Active`
-              :: The default `status` of a report is `Active`. A report with status Active CAN be used by data
-                  recipients for logistics emissions calculations.
-              : `Deprecated`
-              :: The report is deprecated and SHOULD NOT be used for logistics emissions calculations by data
-                  recipients.
+
+            :`Active`
+            :: The default `status` of a report is `Active`. A report with status Active CAN be used by data recipients for logistics emissions calculations.
+            : `Deprecated`
+            :: The report is deprecated and SHOULD NOT be used for logistics emissions calculations by data recipients.
+
       <tr>
         <td><dfn>transportServiceUserId</dfn>
         <td>String
@@ -2137,15 +2137,25 @@ Therefore, a [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
 1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
 1. the endpoint for the exchange of [=Transport Activity Data=] (see [[#action-tad]])
-1. the endpoint for the exchange of [=AggregatedReport=] (see [[#action-ar]])
+1. the endpoint for the exchange of [=AggregatedReports=] (see [[#action-ar]])
 
-## Action TransportActivityData ## {#action-tad}
+The endpoints for the exchange of [=Transport Activity Data=] and [=AggregatedReports=] share common characteristics regarding
 
-Lists the [=data owner=]'s [=Transport Activity Data=] with [[#pagination-tad]] and optional [[#pagination-tad]]
+1. [[#filtering]] of results
+1. [[#pagination]] of results
+1. request and response syntax
 
-A [=Host system=] SHOULD implement an access management system to return only the [=transport activity data=] intended for the requesting [=data recipient=].
+The common characteristics are described in the following sections and referred to from
+[[#action-tad]] and [[#action-ar]].
 
-### Filtering ### {#filtering-tad}
+## Definitions and Features ## {#definitions-and-features}
+
+Note: The following definitions and features apply to both the [[#action-tad]] and [[#action-ar]] endpoints.
+
+They do not apply to the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as these rely on
+the [[!PACTDX]] Protocol. See [[#pcf-mapping]] for details.
+
+### Filtering ### {#filtering}
 
 Filtering CAN be requested by a [=data recipient=] by supplying a [=filter statement=] through the [=Filter=] request parameter.
 
@@ -2156,20 +2166,23 @@ If a [=host system=] does not implement filtering, it MUST process the request a
 If a [=host system=] implements filtering, it CAN process the filter statement on a best-effort basis:
 
 1. it CAN ignore the filter statement or parts of the filter statement, or
-1. it CAN return an error response as defined in the [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responses).
-    For instance, a host system CAN return an error with code `NotImplemented` if it does not support a specific filter pair;
+1. it CAN return an error response as defined in the [PACT Technical
+    Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responses).
+    For instance, a host system CAN return an error with code `NotImplemented` if it does not
+    support a specific filter pair;
 1. it CAN treat concatenated filters disjunctively, i.e., returning the union of the results of the individual filters.
 
-### Pagination ### {#pagination-tad}
+### Pagination ### {#pagination}
 
 [=Host systems=] MUST implement pagination server-side such that
 
-1. the host system MAY return less [=Transport Activity Data=] than requested through the [=Limit=] request parameter;
-1. the host system MUST return a `Link` header if there is additional [=Transport Activity Data=] ready to be retrieved, such that
+1. the host system MAY return less data than requested through the [=Limit=] request parameter;
+1. the host system MUST return a `Link` header if there is additional data ready to be retrieved, such that
     1. the `Link` header conforms to [[!RFC8288]];
     1. the value of the `rel` parameter is equal to `next`;
     1. the target IRI (RFC8288, section 3.1) of the `Link` header is absolute;
-    1. the value of `host` of the target IRI is equal to the value of the `host` request header from the original `TransportActivityData` HTTP request.
+    1. the value of `host` of the target IRI is equal to the value of the `host` request header from
+        the original HTTP request.
 
 The target IRI from a pagination `link` header is called a <dfn>pagination link</dfn>.
 
@@ -2177,22 +2190,20 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 1. a data recipient CAN call the pagination link more than once;
 1. upon each call, the host system;
-    1. MUST return the same Transport Activity Data upon successful authentication (i.e. a Bearer token authentication as defined in [[!PACTDX]] Section 6.3);
+    1. MUST return the same data upon successful authentication (i.e. a Bearer token authentication
+        as defined in [[!PACTDX]] Section 6.3);
     1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
-    1. MUST return a `Link` header conforming with the previous description in case there is additional Transport Activity Data available;
-1. if a response contains a second pagination link, upon the data recipient calling the second pagination link, the previous pagination link MAY no longer work.
-    - i.e. data recipients MUST NOT assume that previous pagination links continue to return results after advancing in the pagination process;
+    1. MUST return a `Link` header conforming with the previous description in case there is
+        additional data  available;
+1. if a response contains a second pagination link, upon the data recipient calling the second
+    pagination link, the previous pagination link MAY no longer work.
+    - i.e. data recipients MUST NOT assume that previous pagination links continue to return results
+        after advancing in the pagination process;
 1. a pagination link MUST be valid for at least 180 seconds after creation;
 1. a data recipient SHOULD retry calling the pagination link after the server returned an error;
     1. and SHOULD use a randomized exponential back-off strategy when retrying.
 
-### Request Syntax ### {#action-tad-request}
-
-<pre highlight=http>
-GET <l>[=Subpath=]</l>/2/ileap/tad?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
-host: <l>[=Hostname=]</l>
-authorization: Bearer <l>[=BearerToken=]</l>
-</pre>
+### Definitions and Parameters ### {#definitions-and-parameters}
 
 : <dfn>Subpath</dfn>
 :: If a host system uses a relative subpath, then the requesting data recipient MUST prepend this subpath.
@@ -2211,62 +2222,27 @@ authorization: Bearer <l>[=BearerToken=]</l>
     of the field to filter by, and `$value` the (case-insensitive) value to filter for.
     Filter pairs CAN be concatenated with `&`.
 
-    <div class=example>
-      Get transport activity data with [=Feedstock=] `"Fossil"` and <{TAD/packagingOrTrEqType}> `"Pallet"`
-
-      ```http
-      GET /2/ileap/tad?feedstock=Fossil&packagingOrTrEqType=pallet HTTP/1.1
-      ```
-    </div>
-
 : <dfn>Limit</dfn>
 ::
     `Limit` is an OPTIONAL request parameter. If defined,
       1. the name of the HTTP request parameter MUST be `limit` and
       2. the value MUST be a positive integer.
 
-### Response Syntax ### {#action-tad-response}
-
-Response without a `link` header:
-
-<pre highlight=http>
-HTTP/1.1 <l>[=TadStatusCode=]</l> <l>[=TadStatusText=]</l>
-content-type: application/json
-content-length: <l>[=ContentLength=]</l>
-
-<l>[=TadResponseBody=]</l>
-</pre>
-
-
-Paginated response with a `link` header:
-
-<pre highlight=http>
-HTTP/1.1 <l>[=TadStatusCode=]</l> <l>[=TadStatusText=]</l>
-content-type: application/json
-content-length: <l>[=ContentLength=]</l>
-link: <l>[=PaginationLink=]</l>; rel="next"
-
-<l>[=TadResponseBody=]</l>
-</pre>
-
-
-
-With response parameters
-
-: <dfn>TadStatusCode</dfn>
+: <dfn>StatusCode</dfn>
 ::
     If the host system returns transport activity data, the `HttpStatusCode` MUST be 200.
 
     If the host system responds with an error response, the `HttpStatusCode` MUST match the HTTP Status Code of the respective error response code, as defined in the [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responsesm).
 
-: <dfn>TadStatusText</dfn>
+: <dfn>StatusText</dfn>
 ::
-    The HTTP Status text conforming to the HTTP status code [=TadStatusCode=].
+    The HTTP Status text conforming to the HTTP status code [=StatusCode=].
 
-: <dfn>TadResponseBody</dfn>
+: <dfn>ResponseBody</dfn>
 ::
-    If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the list of [=Transport Activity Data=].
-    The list MUST be encoded as a JSON array.
+    If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the
+    list of the relevant data (either [=Transport Activity Data=] or [=AggregatedReports=]). The list MUST be encoded as
+    a JSON array.
 
     If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
 
@@ -2278,130 +2254,258 @@ With response parameters
 :: The length of the Body. See [[!rfc9112]].
 
 : <dfn>PaginationLink</dfn>
-:: See [=pagination link=] and [[#pagination-tad]].
+:: See [=pagination link=] and [[#pagination]].
 
-## Action AggregatedReport ## {#action-ar}
 
-Lists the [=data owner=]'s [=AggregatedReports=] with [[#pagination-ar]] and optional [[#filtering-ar]]
+## Action TransportActivityData ## {#action-tad}
 
-A [=Host system=] SHOULD implement an access management system to return only the [=AggregatedReports=] intended for the requesting [=data recipient=].
+Lists the [=data owner=]'s [=Transport Activity Data=] with [[#pagination]] and optional [[#filtering]]
 
-### Filtering ### {#filtering-ar}
+A [=Host system=] SHOULD implement an access management system to return only the [=transport
+activity data=] intended for the requesting [=data recipient=].
 
-Filtering CAN be requested by a [=data recipient=] by supplying a [=filter statement=] through the [=Filter=] request parameter.
+### Request Syntax ### {#action-tad-request}
 
-Note: The filter statement syntax is described at the [=Filter=] request parameter.
+<pre highlight=http>
+  GET <l>[=Subpath=]</l>/2/ileap/tad?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  host: <l>[=Hostname=]</l>
+  authorization: Bearer <l>[=BearerToken=]</l>
+</pre>
 
-If a [=host system=] does not implement filtering, it MUST process the request as if no [=Filter=] was provided.
+#### Examples #### {#action-tad-request-examples}
 
-If a [=host system=] implements filtering, it CAN process the filter statement on a best-effort basis:
+<div class=example>
+  Get all transport activity
 
-1. it CAN ignore the filter statement or parts of the filter statement, or
-1. it CAN return an error response as defined in the [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responses).
-    For instance, a host system CAN return an error with code `NotImplemented` if it does not support a specific filter pair;
-1. it CAN treat concatenated filters disjunctively, i.e., returning the union of the results of the individual filters.
+  ```http
+  GET /2/ileap/tad HTTP/1.1
+  ```
+</div>
 
-### Pagination ### {#pagination-ar}
+<div class=example>
+  Get filtered transport activity data with [=Feedstock=] `"Fossil"` and <{TAD/packagingOrTrEqType}> `"Pallet"`
 
-[=Host systems=] MUST implement pagination server-side such that
+  ```http
+  GET /2/ileap/tad?feedstock=Fossil&packagingOrTrEqType=pallet HTTP/1.1
+  ```
+</div>
 
-1. the host system MAY return less [=AggregatedReports=] than requested through the [=Limit=] request parameter;
-1. the host system MUST return a `Link` header if there are additional [=AggregatedReports=] ready to be retrieved, such that
-    1. the `Link` header conforms to [[!RFC8288]];
-    1. the value of the `rel` parameter is equal to `next`;
-    1. the target IRI (RFC8288, section 3.1) of the `Link` header is absolute;
-    1. the value of `host` of the target IRI is equal to the value of the `host` request header from the original `AggregatedReports` HTTP request.
+<div class=example>
+  Get a limited amount of transport activity data (2)
 
-The target IRI from a pagination `link` header is called a [=pagination link=].
+  ```http
+  GET /2/ileap/tad?limit=2 HTTP/1.1
+  ```
+</div>
 
-Upon a [=host system=] returning a [=pagination link=]:
+### Response Syntax ### {#action-tad-response}
 
-1. a data recipient CAN call the pagination link more than once;
-1. upon each call, the host system;
-    1. MUST return the same `AggregatedReports` upon successful authentication (i.e. a Bearer token authentication as defined in [[!PACTDX]] Section 6.3);
-    1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
-    1. MUST return a `Link` header conforming with the previous description in case there additional `AggregatedReports` are available;
-1. if a response contains a second pagination link, upon the data recipient calling the second pagination link, the previous pagination link MAY no longer work.
-    - i.e. data recipients MUST NOT assume that previous pagination links continue to return results after advancing in the pagination process;
-1. a pagination link MUST be valid for at least 180 seconds after creation;
-1. a data recipient SHOULD retry calling the pagination link after the server returned an error;
-    1. and SHOULD use a randomized exponential back-off strategy when retrying.
+Response without a `link` header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  content-type: application/json
+  content-length: <l>[=ContentLength=]</l>
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+Paginated response with a `link` header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  content-type: application/json
+  content-length: <l>[=ContentLength=]</l>
+  link: <l>[=PaginationLink=]</l>; rel="next"
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+#### Example #### {#action-tad-response-examples}
+
+<div class=example>
+  Example response to request with `limit=1`
+
+  ```http
+  HTTP/1.1 200 OK
+  content-type: application/json
+  content-length: 1321
+  link: <https://api.ileap.sine.dev/2/ileap/tad?offset=1&limit=1>; rel="next"
+  ```
+
+  ```json
+  {
+    "data": [
+      {
+        "activityId": "1",
+        "consignmentIds": [
+          "1"
+        ],
+        "distance": {
+          "actual": "656.0"
+        },
+        "mass": "1000.0",
+        "loadFactor": "0.8",
+        "emptyDistanceFactor": "0.1",
+        "origin": {
+          "street": "Bredowstraße",
+          "zip": "10551",
+          "city": "Berlin",
+          "country": "DE",
+          "locode": "DEBER",
+          "lat": "52.52437",
+          "lng": "13.41053"
+        },
+        "destination": {
+          "street": "Keizersgracht",
+          "zip": "1017",
+          "city": "Amsterdam",
+          "country": "NL",
+          "locode": "NLAMS",
+          "lat": "52.37403",
+          "lng": "4.88969"
+        },
+        "departureAt": "2025-12-01T14:33:51.076755968Z",
+        "arrivalAt": "2025-12-11T14:33:51.076756378Z",
+        "mode": "Road",
+        "packagingOrTrEqType": "Pallet",
+        "packagingOrTrEqAmount": 10,
+        "energyCarriers": [
+          {
+            "energyCarrier": "Diesel",
+            "feedstocks": [
+              {
+                "feedstock": "Fossil",
+                "feedstockShare": "1.0",
+                "regionProvenance": "Europe"
+              }
+            ],
+            "energyConsumption": "10.496",
+            "energyConsumptionUnit": "l",
+            "emissionFactorWTW": "4.13",
+            "emissionFactorTTW": "3.17",
+            "relativeShare": "1.0"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+</div>
+
+## Action AggregatedReports ## {#action-ar}
+
+Lists the [=data owner=]'s [=AggregatedReports=] with [[#pagination]] and optional [[#filtering]]
+
+A [=Host system=] SHOULD implement an access management system to return only the
+[=AggregatedReports=] intended for the requesting [=data recipient=].
 
 ### Request Syntax ### {#action-ar-request}
 
 <pre highlight=http>
-GET <l>[=Subpath=]</l>/2/ileap/ar?<l>[=ArFilter=]</l>&<l>[=ArLimit=]</l> HTTP/1.1
-host: <l>[=Hostname=]</l>
-authorization: Bearer <l>[=BearerToken=]</l>
+  GET <l>[=Subpath=]</l>/2/ileap/ar?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  host: <l>[=Hostname=]</l>
+  authorization: Bearer <l>[=BearerToken=]</l>
 </pre>
 
-: <dfn>ArFilter</dfn>
-::
-    `Filter` is an OPTIONAL request parameter containing a filter statement.
-    A [=filter statement=] is a list of name-value filter pairs.
-    Each filter pair has a `$name=$value` syntax where `$name` is the (case-sensitive) name
-    of the field to filter by, and `$value` the (case-insensitive) value to filter for.
-    Filter pairs CAN be concatenated with `&`.
+#### Examples #### {#action-ar-request-examples}
 
-    <div class=example>
-      Get `AggregatedReports` with <{AggregatedReport/reportId}> `"aggregated-report-1"`
+<div class=example>
+  Get all `AggregatedReports`
 
-      ```http
-      GET /2/ileap/ar?reportId=aggregated-report-1 HTTP/1.1
-      ```
-    </div>
+  ```http
+  GET /2/ileap/ar HTTP/1.1
+  ```
+</div>
 
-: <dfn>ArLimit</dfn>
-::
-    `Limit` is an OPTIONAL request parameter. If defined,
-      1. the name of the HTTP request parameter MUST be `limit` and
-      2. the value MUST be a positive integer.
+<div class=example>
+  Get filtered `AggregatedReports` <{AggregatedReport/reportId}> `"report-1"`
+
+  ```http
+  GET /2/ileap/ar?reportId=report-1 HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get a limited amount of `AggregatedReports` (2)
+
+  ```http
+  GET /2/ileap/ar?limit=2 HTTP/1.1
+  ```
+</div>
 
 ### Response Syntax ### {#action-ar-response}
 
 Response without a `link` header:
 
 <pre highlight=http>
-HTTP/1.1 <l>[=ArStatusCode=]</l> <l>[=ArStatusText=]</l>
-content-type: application/json
-content-length: <l>[=ContentLength=]</l>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  content-type: application/json
+  content-length: <l>[=ContentLength=]</l>
 
-<l>[=ArResponseBody=]</l>
+  <l>[=ResponseBody=]</l>
 </pre>
 
 Paginated response with a `link` header:
 
 <pre highlight=http>
-HTTP/1.1 <l>[=ArStatusCode=]</l> <l>[=ArStatusText=]</l>
-content-type: application/json
-content-length: <l>[=ContentLength=]</l>
-link: <l>[=PaginationLink=]</l>; rel="next"
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  content-type: application/json
+  content-length: <l>[=ContentLength=]</l>
+  link: <l>[=PaginationLink=]</l>; rel="next"
 
-<l>[=ArResponseBody=]</l>
+  <l>[=ResponseBody=]</l>
 </pre>
 
-With response parameters
+#### Example #### {#action-ar-response-examples}
 
-: <dfn>ArStatusCode</dfn>
-::
-    If the host system returns `AggregatedReports`, the `HttpStatusCode` MUST be 200.
+<div class=example>
+  Example response to request with `limit=1`
 
-    If the host system responds with an error response, the `HttpStatusCode` MUST match the HTTP Status Code of the respective error response code, as defined in the [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responsesm).
+  ```http
+  HTTP/1.1 200 OK
+  content-type: application/json
+  content-length: 1321
+  link: <https://api.ileap.sine.dev/2/ileap/ar?offset=1&limit=1>; rel="next"
+  ```
 
-: <dfn>ArStatusText</dfn>
-::
-    The HTTP Status text conforming to the HTTP status code [=ArStatusCode=].
-
-: <dfn>ArResponseBody</dfn>
-::
-    If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the list of [=AggregatedReports=].
-    The list MUST be encoded as a JSON array.
-
-    If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
-
-    If the host system does not accept the access token because it expired, the body SHOULD be an error response with code [TokenExpired](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#tokenexpired).
-
-    In all other cases, for instance in case of a malformed value of the header authorization, the body SHOULD be an error response with code [BadRequest](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#badrequest).
+  ```json
+  {
+    "data": [
+      {
+        "reportId": "ar-2025-q4-001",
+        "shipmentIds": [
+          "shipment-12345",
+          "shipment-12346",
+          "shipment-12347"
+        ],
+        "status": "Active",
+        "reportPeriodStart": "2025-10-01T00:00:00Z",
+        "reportPeriodEnd": "2025-12-31T23:59:59Z",
+        "transportServiceUserId": "company-abc-123",
+        "totalTransportActivity": "50000",
+        "co2eWTW": "600",
+        "co2eTTW": "550",
+        "noxTTW": "2.5",
+        "perModeEmissions": [
+          {
+            "mode": "Road",
+            "co2eWTW": "400",
+            "co2eTTW": "360",
+            "noxTTW": "1.8"
+          },
+          {
+            "mode": "Rail",
+            "co2eWTW": "200",
+            "co2eTTW": "190",
+            "noxTTW": "0.7"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+</div>
 
 ## PACT Integration ## {#pcf-mapping}
 
@@ -3574,7 +3678,7 @@ host system=] with an invalid access token and the syntax specified in [[#action
 #### Expected Response #### {#test-case-007-response}
 
 The test [=target host system=] must respond with a 403 Forbidden status code and an `AccessDenied`
-error response code, as specified in [=TadResponseBody=].
+error response code, as specified in [=ResponseBody=].
 
 ### Test Case 008: Attempt TransportActivityData with Expired Token ### {#test-case-008}
 
@@ -3595,7 +3699,7 @@ through PACT's Test Cases
 #### Expected Response #### {#test-case-008-response}
 
 The test [=target host system=] must respond with a 401 Unauthorized status code and an
-`ExpiredToken` error response code, as specified in [=TadResponseBody=].
+`ExpiredToken` error response code, as specified in [=ResponseBody=].
 
 <pre class=biblio>
  {
