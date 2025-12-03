@@ -385,13 +385,13 @@ Note:
       lacking the capabilities to make emissions data available. Through this transaction they can
       provide activity data to their customers.
 
-## Data Transaction 4: Aggregated Reports ## {#txn4}
+## Data Transaction 4: Aggregated Emissions Data Exchange ## {#txn4}
 
 This data transaction enables a [=Transport Service Organizer=], a [=Transport Service User=], or
 Public Authorities to receive emissions data related to one or more shipments from a [=Transport
 Operator=], a [=Transport Service Organizer=], or a [=Transport Service User=], without disclosing
 TCE-level data. The data exchanged through this transaction MAY disclose emissions aggregated per
-transport mode and an aggregation of all hub <{TCE|TCEs}> (as requested in ISO 14083 Chapter 13.3.2, see
+transport mode and an aggregation of all hub <{TCE|TCEs}> (as requested in [[!ISO14083]] Chapter 13.3.2, see
 information"j)").
 
 To execute this transaction, a [=Transport Operator=] or [=Transport Service Organizer=] MUST:
@@ -2163,20 +2163,20 @@ Therefore, a [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
 1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
 1. the endpoint for the exchange of [=Transport Activity Data=] (see [[#action-tad]])
-1. the endpoint for the exchange of [=AggregatedReports=] (see [[#action-ar]])
+1. the endpoint for the exchange of [=Aggregated Emissions Data=] (see [[#action-aed]])
 
-The endpoints for the exchange of [=Transport Activity Data=] and [=AggregatedReports=] share common characteristics regarding
+The endpoints for the exchange of [=Transport Activity Data=] and [=Aggregated Emissions Data=] share common characteristics regarding
 
 1. [[#filtering]] of results
 1. [[#pagination]] of results
 1. request and response syntax
 
 The common characteristics are described in the following sections and referred to from
-[[#action-tad]] and [[#action-ar]].
+[[#action-tad]] and [[#action-aed]].
 
 ## Definitions and Features ## {#definitions-and-features}
 
-Note: The following definitions and features apply to both the [[#action-tad]] and [[#action-ar]] endpoints.
+Note: The following definitions and features apply to both the [[#action-tad]] and [[#action-aed]] endpoints.
 
 They do not apply to the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as these rely on
 the [[!PACTDX]] Protocol. See [[#pcf-mapping]] for details.
@@ -2267,7 +2267,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 : <dfn>ResponseBody</dfn>
 ::
     If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the
-    list of the relevant data (either [=Transport Activity Data=] or [=AggregatedReports=]). The list MUST be encoded as
+    list of the relevant data (either [=Transport Activity Data=] or [=Aggregated Emissions Data=]). The list MUST be encoded as
     a JSON array.
 
     If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
@@ -2419,28 +2419,28 @@ Paginated response with a `link` header:
   ```
 </div>
 
-## Action AggregatedReports ## {#action-ar}
+## Action AggregatedEmissionsData ## {#action-aed}
 
 Lists the [=data owner=]'s [=AggregatedReports=] with [[#pagination]] and optional [[#filtering]]
 
 A [=Host system=] SHOULD implement an access management system to return only the
 [=AggregatedReports=] intended for the requesting [=data recipient=].
 
-### Request Syntax ### {#action-ar-request}
+### Request Syntax ### {#action-aed-request}
 
 <pre highlight=http>
-  GET <l>[=Subpath=]</l>/2/ileap/ar?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  GET <l>[=Subpath=]</l>/2/ileap/aed?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
   host: <l>[=Hostname=]</l>
   authorization: Bearer <l>[=BearerToken=]</l>
 </pre>
 
-#### Examples #### {#action-ar-request-examples}
+#### Examples #### {#action-aed-request-examples}
 
 <div class=example>
   Get all `AggregatedReports`
 
   ```http
-  GET /2/ileap/ar HTTP/1.1
+  GET /2/ileap/aed HTTP/1.1
   ```
 </div>
 
@@ -2448,7 +2448,7 @@ A [=Host system=] SHOULD implement an access management system to return only th
   Get filtered `AggregatedReports` <{AggregatedReport/reportId}> `"report-1"`
 
   ```http
-  GET /2/ileap/ar?reportId=report-1 HTTP/1.1
+  GET /2/ileap/aed?reportId=report-1 HTTP/1.1
   ```
 </div>
 
@@ -2456,11 +2456,11 @@ A [=Host system=] SHOULD implement an access management system to return only th
   Get a limited amount of `AggregatedReports` (2)
 
   ```http
-  GET /2/ileap/ar?limit=2 HTTP/1.1
+  GET /2/ileap/aed?limit=2 HTTP/1.1
   ```
 </div>
 
-### Response Syntax ### {#action-ar-response}
+### Response Syntax ### {#action-aed-response}
 
 Response without a `link` header:
 
@@ -2483,7 +2483,7 @@ Paginated response with a `link` header:
   <l>[=ResponseBody=]</l>
 </pre>
 
-#### Example #### {#action-ar-response-examples}
+#### Example #### {#action-aed-response-examples}
 
 <div class=example>
   Example response to request with `limit=1`
@@ -2492,7 +2492,7 @@ Paginated response with a `link` header:
   HTTP/1.1 200 OK
   content-type: application/json
   content-length: 1321
-  link: <https://api.ileap.sine.dev/2/ileap/ar?offset=1&limit=1>; rel="next"
+  link: <https://api.ileap.sine.dev/2/ileap/aed?offset=1&limit=1>; rel="next"
   ```
 
   ```json
