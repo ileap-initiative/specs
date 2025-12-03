@@ -1,0 +1,22 @@
+---
+config:
+    theme: forest
+---
+
+sequenceDiagram
+
+    participant B as Telematics Provider
+    participant D as GHG Calculation Tool
+    participant L as Transport Service Organizer
+    participant S as Transport Service User
+    note over B: TAD
+
+    B ->>+ D: Data transaction 3
+    note over D: TAD
+    D ->>- D: Emissions calculation
+    note over D: ShipmentFootprint <br> TOC
+    D ->> L: Data Transactions 1 & 2
+    note over D: AggregatedReport
+    note over L: ShipmentFootprint <br> TOC
+    D ->> S: Data Transaction 4
+    note over S: AggregatedReport

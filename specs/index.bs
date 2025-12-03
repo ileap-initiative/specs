@@ -385,6 +385,34 @@ Note:
       lacking the capabilities to make emissions data available. Through this transaction they can
       provide activity data to their customers.
 
+## Data Transaction 4: Aggregated Reports ## {#txn4}
+
+This data transaction enables a [=Transport Service Organizer=], a [=Transport Service User=], or
+Public Authorities to receive emissions data related to one or more shipments from a [=Transport
+Operator=], a [=Transport Service Organizer=], or a [=Transport Service User=], without disclosing
+TCE-level data. The data exchanged through this transaction MAY disclose emissions aggregated per
+transport mode and an aggregation of all hub <{TCE|TCEs}> (as requested in ISO 14083 Chapter 13.3.2, see
+information"j)").
+
+To execute this transaction, a [=Transport Operator=] or [=Transport Service Organizer=] MUST:
+
+1.  calculate all <{TCE|TCEs}>' emissions corresponding to the shipment(s) in accordance with the GLEC Framework and ISO 14083,
+2. generate the [=AggregatedReport=] from the collected <{TCE|TCEs}>, and
+3. make the [=AggregatedReport=] available to a [=Transport Service Organizer=], [=Transport Service
+    User=], or Public Body, through an iLEAP Conformant API.
+
+### Examples ### {#txn4-examples}
+
+<figure id="dt4-example-1">
+  <img src="diagrams/dt4-example-1.svg" height="80%" width="80%" >
+  <figcaption>Data Transaction 4 Example 1</figcaption>
+</figure>
+
+<figure id="dt4-example-2">
+  <img src="diagrams/dt4-example-2.svg" height="80%" width="80%" >
+  <figcaption>Data Transaction 4 Example 2</figcaption>
+</figure>
+
 # End-to-End Example # {#example}
 
 Note: Non-normative section
@@ -524,8 +552,6 @@ The highlighted lines show the data exchanged according to the <{ShipmentFootpri
 </div>
 
 `LSP` can further access the <{TOC|TOCs}> from `Carrier A` through the same endpoint (see [[#txn2]] and [[#pcf-mapping-toc]]).
-
-
 
 ### Data Collection by `LSP` from `Carrier A` ### {#example-http-s}
 
