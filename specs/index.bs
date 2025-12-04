@@ -293,6 +293,11 @@ calculations.
 
 Data Transaction #3 ([[#txn3]]) enables this business case.
 
+## Aggregated Emissions Reporting ## {#business-case-4}
+
+Issue: WIP
+
+Data Transaction #4 ([[#txn4]]) enables this business case.
 
 ## Additional Business Cases ## {#txns-appendix}
 
@@ -397,11 +402,20 @@ information"j)").
 To execute this transaction, a [=Transport Operator=] or [=Transport Service Organizer=] MUST:
 
 1.  calculate all <{TCE|TCEs}>' emissions corresponding to the shipment(s) in accordance with the GLEC Framework and ISO 14083,
-2. generate the [=AggregatedReport=] from the collected <{TCE|TCEs}>, and
-3. make the [=AggregatedReport=] available to a [=Transport Service Organizer=], [=Transport Service
+2. generate the <{AR|AggregatedReport}> from the collected <{TCE|TCEs}>, and
+3. make the <{AR|AggregatedReport}> available to a [=Transport Service Organizer=], [=Transport Service
     User=], or Public Body, through an iLEAP Conformant API.
 
+Advisement: Aggregated Emissions Data is less granular than TCE-level data. Therefore, once
+Aggregated Emissions Data is exchanged, it is no longer possible to derive more granular (i.e.,
+TCE-level) data from it, thereby affecting the all data exchanges downstream. Please consider this
+when opting for this data transaction.
+
 ### Examples ### {#txn4-examples}
+
+Note: The following are are usecase examples, where a Transport Service Organizer and a Telematics
+Provider send data to a GHG Calculation Tool with the goal of having the emissions calculated and
+aggregated, in order to share less granular data with a Transport Service User.
 
 <figure id="dt4-example-1">
   <img src="diagrams/dt4-example-1.svg" height="80%" width="80%" >
@@ -656,7 +670,7 @@ Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) is added 
 Please, find more details on emissions calculation and the relantionship between the different concepts in the [[!GLEC]] Framework and [[!ISO14083]]).
 
 The iLEAP Data Model is composed by five main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
-<{HOC}>, <{TAD}>, and <{AggregatedReport}>.
+<{HOC}>, <{TAD}>, and <{AR|AggregatedReport}>.
 
 <{ShipmentFootprint|ShipmentFootprints}> and <{TOC|TOCs}> can be exchanged independently as extensions to the PACT
 Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
@@ -664,7 +678,7 @@ Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint
 <{TAD|TADs}> can be exchanged through a dedicated endpoint. This should only be used by [=Transport
 Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, nor <{HOC|HOCs}>.
 
-<{AggregatedReport|AggregatedReports}> can be exchanged through a dedicated endpoint.
+<{AR|AggregatedReports}> can be exchanged through a dedicated endpoint.
 
 ## ShipmentFootprint ## {#dt-sf}
 
@@ -1391,7 +1405,7 @@ The Data Type <{HOC}> has the following properties:
 
 ## Transport Activity Data (<dfn element>TAD</dfn>) ## {#dt-tad}
 
-The <dfn>Transport Activity Data </dfn> (<{TAD}>) data type contains activity
+The <dfn>Transport Activity Data</dfn> (<{TAD}>) data type contains activity
 data, referring to a single consignment, leg, and mode of transport, or to a
 single transshipment within a hub.
 
@@ -1540,16 +1554,16 @@ encoded as a JSON object.
     <figcaption><{TAD}> properties</figcaption>
 </figure>
 
-## Aggregated Report (<dfn element>AggregatedReport</dfn>) ## {#dt-aggregated-report}
+## Aggregated Report (<dfn element data-lt="AR|AggregatedReports">AR</dfn>) ## {#dt-ar}
 
-The <dfn>AggregatedReport</dfn> data type contains aggregated emissions data for one or more shipments,
+The <dfn>AggregatedReport</dfn> (<{AR}>) data type contains aggregated emissions data for one or more shipments,
 disclosing total emissions, without disclosing TCE-level data. An AggregatedReport MAY disclose
 emissions aggregated per transport mode and  an aggregation of all hub TCEs (see ISO 14083 Chapter
 13.3).
 
-### Data Attributes ### {#aggregated-report-attributes}
+### Data Attributes ### {#ar-attributes}
 
-<figure id="aggregated-report-properties-table" dfn-type="element-attr" dfn-for="AggregatedReport">
+<figure id="ar-properties-table" dfn-type="element-attr" dfn-for="AggregatedReport">
   <table class="data">
     <thead>
       <tr>
@@ -1562,13 +1576,13 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><dfn>reportId</dfn>
         <td>String
         <td>M
-        <td>The id of the <{AggregatedReport}>.
+        <td>The non-empty unique ID of this [=AggregatedReport=] relative to the [=host system=].
       <tr>
         <td><dfn>shipmentIds</dfn>
         <td>String[]
         <td>M
         <td>
-            The shipment ids of the shipment(s) related to this <{AggregatedReport}>.
+            The shipment ids of the shipment(s) related to this [=AggregatedReport=].
             In case the report covers multiple shipments, these MUST all belong to the same transport contract,
             hence having the same Transport Service User (see <{AggregatedReport/transportServiceUserId}>).
       <tr>
@@ -1580,12 +1594,12 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><dfn>tocIds</dfn>
         <td>String[]
         <td>O
-        <td>The ids of the TOCs used for the calculation of this <{AggregatedReport}>.
+        <td>The ids of the TOCs used for the calculation of this [=AggregatedReport=].
       <tr>
         <td><dfn>hocIds</dfn>
         <td>String[]
         <td>O
-        <td>The ids of the HOCs used for the calculation of this <{AggregatedReport}>.
+        <td>The ids of the HOCs used for the calculation of this [=AggregatedReport=].
       <tr>
         <td><dfn>reportPeriodStart</dfn>
         <td>String
@@ -1607,7 +1621,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>String
         <td>M
         <td>
-            Each <{AggregatedReport}> MUST include the property `status` with value one of the following
+            Each [=AggregatedReport=] MUST include the property `status` with value one of the following
             values:
 
             :`Active`
@@ -1633,7 +1647,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><dfn>consignmentIds</dfn>
         <td>String[]
         <td>O
-        <td>The ids of the consignments corresponding to this <{AggregatedReport}>.
+        <td>The ids of the consignments corresponding to this [=AggregatedReport=].
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
         <td><{PackagingOrTrEqType}>
@@ -1705,7 +1719,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>O
         <td>The subreport with emissions per modality. This MUST be defined for ISO 14083 conformance.
     </table>
-    <figcaption>Properties of data type <{AggregatedReport}></figcaption>
+    <figcaption>Properties of data type [=AggregatedReport=]</figcaption>
 </figure>
 
 ## Additional Utility Data Types ## {#dt-utility-section}
@@ -2168,10 +2182,11 @@ The iLEAP Technical Specifications are designed to be interoperable with the [[!
 Therefore, a [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
 1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
-1. the endpoint for the exchange of [=Transport Activity Data=] (see [[#action-tad]])
-1. the endpoint for the exchange of [=Aggregated Emissions Data=] (see [[#action-aed]])
+1. the endpoint for the exchange of <{Transport Activity Data=}> (see [[#action-tad]])
+1. the endpoint for the exchange of <{AR|AggregatedReports}> (see [[#action-aed]])
 
-The endpoints for the exchange of [=Transport Activity Data=] and [=Aggregated Emissions Data=] share common characteristics regarding
+The endpoints for the exchange of <{Transport Activity Data}> and <{AR|AggregatedReports}> share
+common characteristics regarding
 
 1. [[#filtering]] of results
 1. [[#pagination]] of results
@@ -2273,7 +2288,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 : <dfn>ResponseBody</dfn>
 ::
     If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the
-    list of the relevant data (either [=Transport Activity Data=] or [=Aggregated Emissions Data=]). The list MUST be encoded as
+    list of the relevant data (either [=Transport Activity Data=] or [=AggregatedReports=]). The list MUST be encoded as
     a JSON array.
 
     If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
@@ -2498,7 +2513,7 @@ Paginated response with a `link` header:
   HTTP/1.1 200 OK
   content-type: application/json
   content-length: 1321
-  link: <https://api.ileap.sine.dev/2/ileap/aed?offset=1&limit=1>; rel="next"
+  link: <https://api.ileap.sine.dev/2/ileap/ar?offset=1&limit=1>; rel="next"
   ```
 
   ```json
