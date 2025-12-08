@@ -1711,7 +1711,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><dfn>perModeEmissions</dfn>
         <td><{ModeSpecificReport}>[]
         <td>O
-        <td>The subreport with emissions per modality. This MUST be defined for ISO 14083 conformance.
+        <td>The subreport with emissions per modality. This MUST be defined for [[!ISO14083]] conformance.
     </table>
     <figcaption>Properties of data type [=AggregatedReport=]</figcaption>
 </figure>
