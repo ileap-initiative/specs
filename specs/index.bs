@@ -2734,7 +2734,8 @@ apply for additional support, materials, and marketing opportunities.
 
 ## Version 1.0.1 (2025-06-30) ## {#version-1.0.1}
 
-- update PACT Test Cases V2 links in [[#conformance]]
+- update PACT Test Cases V2 links in [[#conformance]] and fix pact version in
+    [[#pact-conformance-tests]]
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
@@ -3061,8 +3062,7 @@ In order to test the conformance of an iLEAP implementation, the following tests
 ## PACT Conformance Tests ## {#pact-conformance-tests}
 
 Since the iLEAP Technical Specifications were conceived as an extension to the PACT Data Model and
-Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.1.0
-or above. For that reason, the mandatory tests in the [PACT Test Cases
+Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.2.0. For that reason, the mandatory tests in the [PACT Test Cases
 V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
 should also be performed.
 
