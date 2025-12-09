@@ -2157,10 +2157,41 @@ Advisement: The enumeration of packaging or transport equipment units above will
         <th>Specification
     <tbody>
       <tr>
-        <td><dfn>mode</dfn>
+        <td><dfn>transportMode</dfn>
         <td>{{TransportMode}}
-        <td>M
-        <td>The mode of transport.
+        <td>O
+        <td>
+
+            Advisement: Either <{ModeSpecificReport/transportMode}> or <{ModeSpecificReport/hubOperations}> MUST be defined.
+
+            The mode of transport, if the emissions relate to a transport operation.
+      <tr>
+        <td><dfn>hubOperations</dfn>
+        <td>String[]
+        <td>O
+        <td>
+
+            Advisement: Either <{ModeSpecificReport/transportMode}> or <{ModeSpecificReport/hubOperations}> MUST be defined.
+
+            The non-empty set (without duplicates) of hub operations, if the emissions relate to hub operations,
+            optionally disclosing the hub type.
+
+            Elements of the array MUST be one of the following:
+
+            : Transshipment
+            :: Refers to hubs where transshipment is the main service (>80% of goods handled)
+
+            : StorageAndTransshipment
+            :: Refers to hubs where both transshipment and warehousing are relevant services
+
+            : Warehouse
+            :: Refers to hubs where warehousing is the main service (>80% of goods handled)
+
+            : LiquidBulkTerminal
+            :: Refers to terminals equiped to handle cargo in liquid and gaseous forms
+
+            : Hub
+            :: Refers to hub operations in general
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
