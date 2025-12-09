@@ -6,9 +6,9 @@ Status Text: Frequently Asked Questions
 ED: https://sine-fdn.github.io/ileap-extension/faq
 Canonical URL: ED
 Editor: Violetta Matzoros, https://www.smartfreightcentre.org, violetta.matzoros@smartfreightcentre.org
-Editor: Gabriela Rubio Domingo, https://www.smartfreightcentre.org, gabriela.rubiodomingo@smartfreightcentre.org
 Editor: Martin Pompéry, https://sine.foundation, martin@sine.foundation
 Editor: Raimundo Henriques, https://sine.foundation, raimundo@sine.foundation
+Former Editor: Gabriela Rubio Domingo
 Repository: sine-fdn/ileap-extension
 Abstract: The [iLEAP Technical Specifications](https://sine-fdn.github.io/ileap-extension/specs/) outline the the semantics for logistics emissions data exchange, thereby promoting a seamless exchange of logistics emissions data. They were conceived as an extension to the [PACT Data Model and Data Exchange Protocol](https://wbcsd.github.io/data-exchange-protocol/v2/), thereby levereging its network effects. This document provides answers to frequently asked questions about the iLEAP Technical Specifications, including their integration with the PACT Tech Specs.
 Markup Shorthands: markdown yes

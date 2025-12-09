@@ -7,9 +7,9 @@ ED: https://sine-fdn.github.io/ileap-extension/
 TR: https://sine-fdn.github.io/ileap-extension/TR/2025/ileap-extension-20250527/
 Canonical URL: ED
 Editor: Violetta Matzoros, https://www.smartfreightcentre.org, violetta.matzoros@smartfreightcentre.org
-Editor: Gabriela Rubio Domingo, https://www.smartfreightcentre.org, gabriela.rubiodomingo@smartfreightcentre.org
 Editor: Martin Pompéry, https://sine.foundation, martin@sine.foundation
 Editor: Raimundo Henriques, https://sine.foundation, raimundo@sine.foundation
+Former Editor: Gabriela Rubio Domingo
 Repository: sine-fdn/ileap-extension
 Abstract: The iLEAP Technical Specifications are designed to facilitate the automated, digital flow of accurate logistics emissions data among different parties in the global logistics value chain, following [[!ISO14083|ISO 14083:2023]] and the [[!GLEC|GLEC Framework V3.1]].
 Abstract: They introduce a data model and protocol for the interoperable exchange of emissions, emission intensity, and transport activity data.
@@ -2727,7 +2727,8 @@ are performed accurately in end-to-end scenarios.
         <th style="text-align: left">Conformance
     <tbody >
       <tr>
-        <td style="text-align: left">All [PACT Required Test Cases](https://wbcsd.github.io/pact-conformance-testing/checklist.html#required-tests)
+        <td style="text-align: left">All [PACT Mandatory Test Cases
+V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
         <td rowspan="4"><dfn>iLEAP Emissions Data Conformance</dfn>
 
       <tr>
@@ -2792,6 +2793,16 @@ Summary of changes:
     [[#pcf-mapping-toc]], and [[#pcf-mapping-hoc]]
 - addition on advisment on future methodological updates and their implications to [[#pcf-mapping]]
 - fix typo in <{Location}> properties table
+
+## Version 1.0.1-28072025 (2025-07-28) ## {#version-1.0.1}
+
+Summary of changes:
+- addition of guidance on `secondaryEmissionFactorSources` in [[#pcf-mapping-sf]],
+    [[#pcf-mapping-toc]], and [[#pcf-mapping-hoc]]
+- addition on advisment on future methodological updates and their implications to [[#pcf-mapping]]
+- fix typo in <{Location}> properties table
+- update PACT Test Cases V2 links in [[#conformance]] and fix pact version in
+    [[#pact-conformance-tests]]
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
@@ -3118,9 +3129,9 @@ In order to test the conformance of an iLEAP implementation, the following tests
 ## PACT Conformance Tests ## {#pact-conformance-tests}
 
 Since the iLEAP Technical Specifications were conceived as an extension to the PACT Data Model and
-Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.1.0 or above. For that
-reason, the required tests in the [PACT Conformance Testing
-Checklist](https://wbcsd.github.io/pact-conformance-testing/checklist.html#required-tests) should also be performed.
+Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.2.0. For that reason, the mandatory tests in the [PACT Test Cases
+V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
+should also be performed.
 
 ## iLEAP Specific Conformance Tests ## {#ileap-specific-conformance-tests}
 
