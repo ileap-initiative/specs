@@ -1728,6 +1728,30 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><{ModeSpecificReport}>[]
         <td>O
         <td>The subreport with emissions per modality. This MUST be defined for [[!ISO14083]] conformance.
+      <tr>
+        <td><dfn>modalities</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The non-empty set (without duplicates) of transport modalities included in this [=AggregatedReport=].
+
+            If <{AggregatedReport/perModeEmissions}> is not defined, this property SHOULD be defined to either disclose the modalities
+            or to indicate that the emissions are aggregated across multiple modalities.
+
+            Elements of the array MUST be one of the following:
+
+            : `Road`
+            :: For transport mode road
+            : `Rail`
+            :: For transport mode rail
+            : `Air`
+            :: For transport mode air
+            : `Sea`
+            :: For transport mode sea
+            : `InlandWaterway`
+            :: For transport mode inland waterway.
+            : `MultiModal`
+            :: For transport modes combining two or more of the above transport modes.
     </table>
     <figcaption>Properties of data type [=AggregatedReport=]</figcaption>
 </figure>
