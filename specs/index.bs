@@ -1572,6 +1572,22 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>M
         <td>The non-empty unique ID of this [=AggregatedReport=] relative to the [=host system=].
       <tr>
+        <td><dfn>standardsUsed</dfn>
+        <td>String[]
+        <td>M
+        <td>
+            The non-empty set (without duplicates) of methodological standards used to calculate the aggregated GHG
+            emissions and related variables.
+
+            Elements of the array MUST be one of the following:
+
+            : ISO14083:2023
+            :: Indicates that the calculation methodology has been evaluated as compliant with ISO14083:2023. MUST
+                be included for [[!ISO14083]] conformance.
+
+            Advisement: The enumeration of standards will be evolved in future revisions. Account for this when
+            implementing the validation of this property.
+      <tr>
         <td><dfn>shipmentIds</dfn>
         <td>String[]
         <td>M
