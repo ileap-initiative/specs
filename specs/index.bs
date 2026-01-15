@@ -1572,6 +1572,22 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>M
         <td>The non-empty unique ID of this [=AggregatedReport=] relative to the [=host system=].
       <tr>
+        <td><dfn>standardsUsed</dfn>
+        <td>String[]
+        <td>M
+        <td>
+            The non-empty set (without duplicates) of methodological standards used to calculate the aggregated GHG
+            emissions and related variables.
+
+            Elements of the array MUST be one of the following:
+
+            : ISO14083:2023
+            :: Indicates that the calculation methodology has been evaluated as compliant with ISO14083:2023. MUST
+                be included for [[!ISO14083]] conformance.
+
+            Advisement: The enumeration of standards will be evolved in future revisions. Account for this when
+            implementing the validation of this property.
+      <tr>
         <td><dfn>shipmentIds</dfn>
         <td>String[]
         <td>M
@@ -1712,6 +1728,30 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><{ModeSpecificReport}>[]
         <td>O
         <td>The subreport with emissions per modality. This MUST be defined for [[!ISO14083]] conformance.
+      <tr>
+        <td><dfn>modalities</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The non-empty set (without duplicates) of transport modalities included in this [=AggregatedReport=].
+
+            If <{AggregatedReport/perModeEmissions}> is not defined, this property SHOULD be defined to either disclose the modalities
+            or to indicate that the emissions are aggregated across multiple modalities.
+
+            Elements of the array MUST be one of the following:
+
+            : `Road`
+            :: For transport mode road
+            : `Rail`
+            :: For transport mode rail
+            : `Air`
+            :: For transport mode air
+            : `Sea`
+            :: For transport mode sea
+            : `InlandWaterway`
+            :: For transport mode inland waterway.
+            : `MultiModal`
+            :: For transport modes combining two or more of the above transport modes.
     </table>
     <figcaption>Properties of data type [=AggregatedReport=]</figcaption>
 </figure>
@@ -2117,10 +2157,41 @@ Advisement: The enumeration of packaging or transport equipment units above will
         <th>Specification
     <tbody>
       <tr>
-        <td><dfn>mode</dfn>
+        <td><dfn>transportMode</dfn>
         <td>{{TransportMode}}
-        <td>M
-        <td>The mode of transport.
+        <td>O
+        <td>
+
+            Advisement: Either <{ModeSpecificReport/transportMode}> or <{ModeSpecificReport/hubOperations}> MUST be defined.
+
+            The mode of transport, if the emissions relate to a transport operation.
+      <tr>
+        <td><dfn>hubOperations</dfn>
+        <td>String[]
+        <td>O
+        <td>
+
+            Advisement: Either <{ModeSpecificReport/transportMode}> or <{ModeSpecificReport/hubOperations}> MUST be defined.
+
+            The non-empty set (without duplicates) of hub operations, if the emissions relate to hub operations,
+            optionally disclosing the hub type.
+
+            Elements of the array MUST be one of the following:
+
+            : Transshipment
+            :: Refers to hubs where transshipment is the main service (>80% of goods handled)
+
+            : StorageAndTransshipment
+            :: Refers to hubs where both transshipment and warehousing are relevant services
+
+            : Warehouse
+            :: Refers to hubs where warehousing is the main service (>80% of goods handled)
+
+            : LiquidBulkTerminal
+            :: Refers to terminals equiped to handle cargo in liquid and gaseous forms
+
+            : Hub
+            :: Refers to hub operations in general
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
