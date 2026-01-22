@@ -52,18 +52,21 @@ exchange of standardized activity data and the calculation of emissions.
 
 ## PACT interoperability ## {#pact-interop}
 
+Advisement: DEPRECATED
+
 Following the methodological alignment of the GLEC Framework with the
 [[!PACT-FRAMEWORK|PACT Framework]], the iLEAP Technical Specifications are
 designed to be interoperable with the
 [[!PACTDX|PACT Data Exchange Protocol]] and its PCF data model.
 
-This integration reduces the friction between [=host systems=]
-used by [=Transport Service Organizers=] or [=Transport Operators=] and those used by
-[=Transport Service Users=], enabling a holistic flow and approach to
-the management of carbon emissions.
-
-Implementing PACT is, therefore, a prerequisite for implementing these specifications,
-specifically the authentication flows.
+PACT interoperability is deprecated in v1.1.0 of the iLEAP Technical Specifications, by which it is
+meant that:
+1. PACT support remains mandatory, but will be entirely removed in v2.0.0;
+1. new iLEAP native actions and standalone iLEAP data models have been introduced to replace PACT
+    for new implementations;
+1. implementers are recommended to use the new iLEAP native actions instead of PACT for new
+    implementations;
+1. implementers are recommended to gradually transition to iLEAP's standalone API and data model.
 
 ## Out of Scope ## {#out-of-scope}
 
@@ -660,25 +663,223 @@ Note: The highlighted lines show 2 <{TCE|TCEs}> which `Carrier A` has collected 
 </div>
 
 
-
 # Data Model # {#data-model}
 
-The iLEAP data model of this chapter together with the data transactions ([[#txns]]) are built upon top of the [[!ISO14083|ISO 14083]] concepts of [=TOC=], [=HOC=], [=Transport Chain Element|TCE=], [=TC=].
+The iLEAP data model of this chapter together with the data transactions ([[#txns]]) are built upon
+top of the [[!ISO14083|ISO 14083]] concepts of [=TOC=], [=HOC=], [=Transport Chain Element|TCE=],
+[=TC=].
 
-Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) is added to facilitate reporting in case of missing data or limited emissions calculation capabilities from e.g. [=Transport Operators=].
+Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) is added to facilitate
+reporting in case of missing data or limited emissions calculation capabilities from e.g.
+[=Transport Operators=].
 
-Please, find more details on emissions calculation and the relantionship between the different concepts in the [[!GLEC]] Framework and [[!ISO14083]]).
+The concept of ([[#dt-ar|Aggregated Report]]) is added to facilitate the exchange of aggregated
+emissions data, e.g. for reporting to public authorities and to avoid disclosing sensitive data.
+
+Please, find more details on emissions calculation and the relantionship between the different
+concepts in the [[!GLEC]] Framework and [[!ISO14083]]).
 
 The iLEAP Data Model is composed by five main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
 <{HOC}>, <{TAD}>, and <{AR|AggregatedReport}>.
 
-<{ShipmentFootprint|ShipmentFootprints}> and <{TOC|TOCs}> can be exchanged independently as extensions to the PACT
-Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
+<{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, and <{HOC|HOCs}> can be exchanged independently as extensions to the PACT
+Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`. They can also,
+however, be exchanged through dedicated endpoints.
 
 <{TAD|TADs}> can be exchanged through a dedicated endpoint. This should only be used by [=Transport
 Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, nor <{HOC|HOCs}>.
 
 <{AR|AggregatedReports}> can be exchanged through a dedicated endpoint.
+
+## iLEAP Standalone Data Model Additional Properties ## {#standalone-properties}
+
+When exchanging <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}> or <{HOC|HOCs}> through the
+new iLEAP native actions, the following additional properties should be considered:
+
+Issue: Consider adding
+[declaredUnit](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-declaredunit)
+
+Issue: Links to validityPeriodStart and validityPeriodEnd are still broken.
+
+<figure id="standalone-properties-table" dfn-type="element-attr" dfn-for="iLEAP Standalone Data Model">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Property
+        <th>Type
+        <th>Req
+        <th>Specification
+    <tbody>
+      <tr>
+        <td><dfn>companyName</dfn>
+        <td>String
+        <td>M
+        <td>The name of the company owning the data.
+      <tr>
+        <td><dfn>companyIds</dfn>
+        <td>String[]
+        <td>O
+        <td>An array of unique identifiers of the company owning the data (e.g. GLN, LEI).
+      <tr>
+        <td><dfn>description</dfn>
+        <td>String
+        <td>O
+        <td>
+            Advisement: This property applies to <{ShipmentFootprint}> only, since it is already
+            defined in the PACT Data Model for <{TOC}> and <{HOC}>.
+
+            A description of the Shipment related to the data.
+      <tr>
+        <td><dfn>validityPeriodStart</dfn>
+        <td>String
+        <td>O
+        <td>
+            Timestamp of the start of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            The <dfn>validity period</dfn> is the time interval during which the data is declared as valid for use by a receiving [=data recipient=].
+
+            The validity period is OPTIONAL defined by the properties <{validityPeriodStart}> (including) and <{validityPeriodEnd}> (excluding).
+
+            If no validity period is specified, the data is valid for 3 years starting with <{referencePeriodEnd}>.
+
+            If a validity period is defined, then
+            1. the value of <{validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{referencePeriodEnd}>.
+            1. the value of <{validityPeriodEnd}> MUST be defined with value
+                 1. strictly greater than <{validityPeriodStart}>, and
+                 1. less than or equal to <{referencePeriodEnd}> + 3 years.
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>validityPeriodEnd</dfn>
+        <td>String
+        <td>O
+        <td>
+            Timestamp of the end (excluding) of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            See <{validityPeriodStart}> for further details.
+      <tr>
+        <td><dfn>referencePeriodStart</dfn>
+        <td>String
+        <td>M
+        <td>
+            Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
+
+            The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>referencePeriodEnd</dfn>
+        <td>String
+        <td>M
+        <td>
+            Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
+
+            The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            This end date represents the latest date until which activity data was collected to include in the emissions calculation.
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>dataSchema</dfn>
+        <td>String
+        <td>M
+        <td>
+            MUST be set to one of the following URLs, depending on the data type being exchanged:
+
+            :  `https://api.ileap.sine.dev/shipment-footprint.json`
+            :: The URL of the JSON schema for <{ShipmentFootprint|ShipmentFootprints}>.
+
+            :  `https://api.ileap.sine.dev/toc.json`
+            :: The URL of the JSON schema for <{TOC|TOCs}>.
+
+            :  `https://api.ileap.sine.dev/hoc.json`
+            :: The URL of the JSON schema for <{HOC|HOCs}>.
+
+            Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
+            If so, it should also be included in TAD and AggregatedReport.
+      <tr>
+        <td><dfn>documentation</dfn>
+        <td>String
+        <td>M
+        <td>
+            MUST be `https://sine-fdn.github.io/ileap-extension/`.
+
+            Issue: Probably unnecessary, since it's hardcoded. Yet, it might be good to have the Tech Specs URL in the data.
+      <tr>
+        <td><dfn>crossSectoralStandardsUsed</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The non-empty set of the cross-sectoral standards used for the calculation of the emissions data.
+
+            Elements of the array MUST be one of the following:
+
+            Issue: Unclear whether this is needed and which cross-sectoral standards should be listed here. GHGP? ISO14067? ISO4044? ISO14083?
+      <tr>
+        <td><dfn>ipccCharacterizationFactorsSources</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The characterization factors from one or more IPCC Assessment Reports used in the calculation of the PCF (see Pathfinder Framework Section 3.2.2).
+            It MUST be a non-empty set of strings with the format AR$VERSION$, where $VERSION$ stands for the IPCC report version number and MUST be an integer.
+
+            Advisement: The latest available characterization factor version shall be used, i.e., ["AR6"].
+            In the event this is not possible, include the set of all characterization factors used.
+
+            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+      <tr>
+        <td><dfn>secondaryEmissionFactorSources</dfn>
+        <td>Object[]
+        <td>O
+        <td>
+            The non-empty set of the secondary emission factor sources used for the calculation of the emissions data.
+
+            Each element of the array MUST be an object with the following properties:
+
+            - `name`: String, M, The name of the source.
+            - `version`: String, O, The version of the source.
+
+            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+      <tr>
+        <td><dfn>pactPDS</dfn>: Decimal
+        <td>String
+        <td>O
+        <td>
+            The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive).
+
+            Issue: Unclear whether this is needed. If so, mention the PACT Methodology v3.
+      <tr>
+        <td><dfn>productCategoryCpc</dfn>
+        <td>String
+        <td>M
+        <td>
+            Should be set to `83117` for all logistics emissions data, representing "Freight transport services" in the CPC 2.1 classification.
+
+            Issue: Unclear whether this is needed, because the value is hardcoded.
+      <tr>
+        <td><dfn>assurance</dfn>
+        <td>?
+        <td>O
+        <td>
+            Issue: Not yet specified. PACT definition [here](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#elementdef-assurance).
+            Unclear whether this can be transposed. TBD through the data quality workstream.
+      <tr>
+        <td><dfn>comment</dfn>
+        <td>String
+        <td>O
+        <td>
+            Additional information related to the Shipment, TOC, or HOC.
+
+            SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
+
+            Issue: Unclear whether this is needed.
+    </tbody>
+    </table>
+    <figcaption>iLEAP Standalone Data Model Additional Properties</figcaption>
+</figure>
+
 
 ## ShipmentFootprint ## {#dt-sf}
 
@@ -730,10 +931,10 @@ A <{ShipmentFootprint}> has the following properties:
         <td>M
         <td>The non-empty array of [=TCEs=] relating to this shipment.
 
+    </tbody>
     </table>
     <figcaption>ShipmentFootprint properties</figcaption>
 </figure>
-
 
 ## Transport Chain Element (<dfn element>TCE</dfn>) ## {#dt-tce}
 
@@ -774,9 +975,7 @@ If the property is defined and the array is empty, the current TCE MUST be the f
   <img src="diagrams/tce-ordering.svg" height="80%" width="80%" >
   <figcaption>TCE happened-before relationship graph</figcaption>
 </figure>
-
 </div>
-
 
 ### Data Attributes ### {#tce-attributes}
 
@@ -2248,30 +2447,69 @@ Advisement: The enumeration of packaging or transport equipment units above will
 
 # HTTP REST API # {#http-rest-api}
 
-The iLEAP Technical Specifications are designed to be interoperable with the [[!PACTDX]] Protocol.
+The iLEAP Technical Specifications define two possibile REST HTTP APIs for the exchange of logistics emissions data:
+- the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> relying on the [[!PACTDX]] Protocol (see [[#pcf-mapping]]),
+with two additional endpoints for the exchange of <{Transport Activity Data}> and <{AR|AggregatedReports}>; and
+- a standalone API for the exchange of <{ShipmentFootprint}>, <{TOC}>, <{HOC}>, <{Transport Activity
+  Data}>, and <{AR|AggregatedReports}>, not relying on the [[!PACTDX]] Protocol.
+
+The PACT-based API is now DEPRECATED and will be removed in v2.0.0 of the iLEAP Technical
+Specifications. Yet, for the time being, it is still mandatory to ensure backwards compatibility
+with existing implementations.
+
+We recommend new implementations to use the standalone API as described in [[#standalone-api]].
+Conformance with iLEAP v1.1.0 requires implementing the standalone API.
 
 Therefore, a [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
 1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
-1. the endpoint for the exchange of <{Transport Activity Data=}> (see [[#action-tad]])
-1. the endpoint for the exchange of <{AR|AggregatedReports}> (see [[#action-aed]])
+1. the iLEAP native authentication flow as defined in [[#authentication]]
+1. the iLEAP native endpoint for the exchange of <{ShipmentFootprint}> (see [[#action-sd]])
+1. the iLEAP native endpoint for the exchange of <{TOC}> (see [[#action-tocd]])
+1. the iLEAP native endpoint for the exchange of <{HOC}> (see [[#action-hocd]])
+1. the iLEAP native endpoint for the exchange of <{Transport Activity Data=}> (see [[#action-tad]])
+1. the iLEAP native endpoint for the exchange of <{AR|AggregatedReports}> (see [[#action-aed]])
 
-The endpoints for the exchange of <{Transport Activity Data}> and <{AR|AggregatedReports}> share
-common characteristics regarding
+All endpoints native to iLEAP share common characteristics regarding
 
 1. [[#filtering]] of results
 1. [[#pagination]] of results
 1. request and response syntax
 
-The common characteristics are described in the following sections and referred to from
-[[#action-tad]] and [[#action-aed]].
+The common characteristics are described in the sections below.
 
-## Definitions and Features ## {#definitions-and-features}
+## Authentication ## {#authentication}
 
-Note: The following definitions and features apply to both the [[#action-tad]] and [[#action-aed]] endpoints.
+Note: PACT interoperability is deprecated, but needs to be maintained for backward compatibility.
 
-They do not apply to the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as these rely on
-the [[!PACTDX]] Protocol. See [[#pcf-mapping]] for details.
+With the depecation of PACT interoperability, iLEAP defines its own authentication flow for the
+native endpoints. Both authentication methods MUST allow consumers of the API to access the data
+exposed in the relevant endpoints. In other words, a [=data recipient=] MUST be able to use either
+authentication method to access the same data.
+
+### Authentication Flow ### {#authentication-flow}
+
+Note: The iLEAP authentication flow follows the same structure of that defined in [[!PACTDX]] Section 7.3.
+
+#### Auth Endpoint Discovery #### {#auth-endpoint-discovery}
+
+A [=host system=] MAY use any endpoint for authentication, as long as they make it available through
+an OpenId Configuration Document. In order to discover the authentication endpoint, a [=data recipient=] MUST:
+1. retrieve and validate the [=OpenId Provider Configuration Document=] of the host system (see
+   [[!OPENID-CONNECT]]) from the endpoint
+   `https://`[=Hostname=]`/`[=Subpath=]`/.well-known/openid-configuration`;
+1. use as [=AuthEndpoint=] the value of the `token_endpoint` property of the
+   [=OpenId Provider Configuration Document=].
+
+If the [=host system=] does not provide a valid OpenId Configuration Document at the above endpoint
+or that the `token_endpoint` is not defined, the [=data recipient=] MUST use
+[=Hostname=]`/`[=Subpath=]`/auth/token` as the [=AuthEndpoint=].
+
+Issue: Definitions for [=Hostname=] and [=Subpath=] are missing.
+
+## Filtering and Pagination ## {#filtering-and-pagination}
+
+Note: The following definitions and features apply to all iLEAP native endpoints.
 
 ### Filtering ### {#filtering}
 
@@ -2309,7 +2547,8 @@ Upon a [=host system=] returning a [=pagination link=]:
 1. a data recipient CAN call the pagination link more than once;
 1. upon each call, the host system;
     1. MUST return the same data upon successful authentication (i.e. a Bearer token authentication
-        as defined in [[!PACTDX]] Section 6.3);
+        as defined in [[!PACTDX]] Section 7.3 or [[#authentication]]) as in the previous call to the
+        pagination link;
     1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
     1. MUST return a `Link` header conforming with the previous description in case there is
         additional data  available;
@@ -2330,7 +2569,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 :: The requesting data recipient MUST use the domain name of the host system.
 
 : <dfn>BearerToken</dfn>
-:: See [[!PACTDX]] section 6.3 Authentication Flow.
+:: See [[!PACTDX]] section 7.3 Authentication Flow or [[#authentication]].
 
 : <dfn>Filter</dfn>
 ::
@@ -2374,6 +2613,59 @@ Upon a [=host system=] returning a [=pagination link=]:
 : <dfn>PaginationLink</dfn>
 :: See [=pagination link=] and [[#pagination]].
 
+## Action ShipmentData ## {#action-sd}
+
+Lists the [=data owner=]'s [=Shipment Footprints=] with [[#pagination]] and optional [[#filtering]]
+
+A [=Host system=] MUST implement an access management system to return only the [=shipment footprints=]
+intended for the requesting [=data recipient=].
+
+To retrieve only shipment footprints related to a specific shipment, the [=data recipient=]
+SHOULD use the [=Filter=] parameter with filter pair `shipmentId=$shipmentId`, where `$shipmentId`
+is the identifier of the shipment as defined in <{ShipmentFootprint/shipmentId}>.
+
+Issue: Filtering by TCE properties seems to make sense. This still needs to be specified.
+
+### Request Syntax ### {#action-sd-request}
+
+<pre highlight=http>
+  GET <l>[=Subpath=]</l>/v1/ileap/shipments?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  host: <l>[=Hostname=]</l>
+  authorization: Bearer <l>[=BearerToken=]</l>
+</pre>
+
+#### Examples #### {#action-sd-request-examples}
+
+<div class=example>
+  Get all shipment footprints
+
+  ```http
+  GET /v1/ileap/shipments HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get the footprint relative to one shipment (with <{ShipmentFootprint/shipmentId}> equal to `1`)
+
+  ```http
+  GET /v1/ileap/shipments?shipmentId=1 HTTP/1.1
+  ```
+</div>
+
+<div> class=example>
+  Get filtered shipment footprints with TCEs that have <{TCE/tocId}> equal to `40t-diesel-2023`
+
+  ```http
+  GET /v1/ileap/shipments?tocId=40t-diesel-2023 HTTP/1.1
+  ```
+</div>
+
+Issue: The example above lacks corresponding specifications.
+
+
+## Action TransportOperatorCategoryData ## {#action-tocd}
+
+## Action HubOperatorCategoryData ## {#action-hocd}
 
 ## Action TransportActivityData ## {#action-tad}
 
@@ -2382,10 +2674,19 @@ Lists the [=data owner=]'s [=Transport Activity Data=] with [[#pagination]] and 
 A [=Host system=] SHOULD implement an access management system to return only the [=transport
 activity data=] intended for the requesting [=data recipient=].
 
+To retrieve only transport activity data related to a specific activity, the [=data recipient=]
+SHOULD use the [=Filter=] parameter with filter pair `activityId=$activityId`, where `$activityId`
+is the identifier of the activity as defined in <{TAD/activityId}>.
+
 ### Request Syntax ### {#action-tad-request}
 
+Advisiment: As part of the deprecation of PACT interoperability, the version of the iLEAP native
+endpoints has been changed from `/2/ileap/` to `/v1/ileap/`. However, to maintain backward
+compatibility with existing implementations, a [=host system=] MUST support both versions of the
+endpoint. Below, only the new version is documented.
+
 <pre highlight=http>
-  GET <l>[=Subpath=]</l>/2/ileap/tad?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  GET <l>[=Subpath=]</l>/v1/ileap/tad?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
   host: <l>[=Hostname=]</l>
   authorization: Bearer <l>[=BearerToken=]</l>
 </pre>
@@ -2396,7 +2697,15 @@ activity data=] intended for the requesting [=data recipient=].
   Get all transport activity
 
   ```http
-  GET /2/ileap/tad HTTP/1.1
+  GET /v1/ileap/tad HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get the data relative to one transport activity (with <{TAD/activityId}> equal to `1`)
+
+  ```http
+  GET /v1/ileap/tad?activityId=1 HTTP/1.1
   ```
 </div>
 
@@ -2404,7 +2713,7 @@ activity data=] intended for the requesting [=data recipient=].
   Get filtered transport activity data with [=Feedstock=] `"Fossil"` and <{TAD/packagingOrTrEqType}> `"Pallet"`
 
   ```http
-  GET /2/ileap/tad?feedstock=Fossil&packagingOrTrEqType=pallet HTTP/1.1
+  GET /v1/ileap/tad?feedstock=Fossil&packagingOrTrEqType=pallet HTTP/1.1
   ```
 </div>
 
@@ -2412,7 +2721,7 @@ activity data=] intended for the requesting [=data recipient=].
   Get a limited amount of transport activity data (2)
 
   ```http
-  GET /2/ileap/tad?limit=2 HTTP/1.1
+  GET /v1/ileap/tad?limit=2 HTTP/1.1
   ```
 </div>
 
@@ -2448,7 +2757,7 @@ Paginated response with a `link` header:
   HTTP/1.1 200 OK
   content-type: application/json
   content-length: 1321
-  link: <https://api.ileap.sine.dev/2/ileap/tad?offset=1&limit=1>; rel="next"
+  link: <https://api.ileap.sine.dev/v1/ileap/tad?offset=1&limit=1>; rel="next"
   ```
 
   ```json
@@ -2518,10 +2827,19 @@ Lists the [=data owner=]'s [=AggregatedReports=] with [[#pagination]] and option
 A [=Host system=] SHOULD implement an access management system to return only the
 [=AggregatedReports=] intended for the requesting [=data recipient=].
 
+To retrieve only one <{AggregatedReport}>, the [=data recipient=] SHOULD use the [=Filter=]
+parameter with filter pair `reportId=$reportId`, where `$reportId` is the identifier of the report
+as defined in <{AggregatedReport/reportId}>.
+
 ### Request Syntax ### {#action-aed-request}
 
+Advisiment: As part of the deprecation of PACT interoperability, the version of the iLEAP native
+endpoints has been changed from `/2/ileap/` to `/v1/ileap/`. However, to maintain backward
+compatibility with existing implementations, a [=host system=] MUST support both versions of the
+endpoint. Below, only the new version is documented.
+
 <pre highlight=http>
-  GET <l>[=Subpath=]</l>/2/ileap/aed?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  GET <l>[=Subpath=]</l>/v1/ileap/aed?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
   host: <l>[=Hostname=]</l>
   authorization: Bearer <l>[=BearerToken=]</l>
 </pre>
@@ -2532,7 +2850,15 @@ A [=Host system=] SHOULD implement an access management system to return only th
   Get all `AggregatedReports`
 
   ```http
-  GET /2/ileap/aed HTTP/1.1
+  GET /v1/ileap/aed HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get `AggregatedReport` with `reportId` equal to `report-1`
+
+  ```http
+  GET /v1/ileap/aed?reportId=report-1 HTTP/1.1
   ```
 </div>
 
@@ -2540,7 +2866,7 @@ A [=Host system=] SHOULD implement an access management system to return only th
   Get filtered `AggregatedReports` <{AggregatedReport/reportId}> `"report-1"`
 
   ```http
-  GET /2/ileap/aed?reportId=report-1 HTTP/1.1
+  GET /v1/ileap/aed?reportId=report-1 HTTP/1.1
   ```
 </div>
 
@@ -2548,7 +2874,7 @@ A [=Host system=] SHOULD implement an access management system to return only th
   Get a limited amount of `AggregatedReports` (2)
 
   ```http
-  GET /2/ileap/aed?limit=2 HTTP/1.1
+  GET /v1/ileap/aed?limit=2 HTTP/1.1
   ```
 </div>
 
@@ -2584,7 +2910,7 @@ Paginated response with a `link` header:
   HTTP/1.1 200 OK
   content-type: application/json
   content-length: 1321
-  link: <https://api.ileap.sine.dev/2/ileap/aed?offset=1&limit=1>; rel="next"
+  link: <https://api.ileap.sine.dev/v1/ileap/aed?offset=1&limit=1>; rel="next"
   ```
 
   ```json
