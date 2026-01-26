@@ -699,9 +699,7 @@ new iLEAP native actions, the following additional properties should be consider
 Issue: Consider adding
 [declaredUnit](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-declaredunit)
 
-Issue: Links to validityPeriodStart and validityPeriodEnd are still broken.
-
-<figure id="standalone-properties-table" dfn-type="element-attr" dfn-for="iLEAP Standalone Data Model">
+<figure id="standalone-properties-table" dfn-type="element-attr" dfn-for="standalone">
   <table class="data">
     <thead>
       <tr>
@@ -738,15 +736,15 @@ Issue: Links to validityPeriodStart and validityPeriodEnd are still broken.
 
             The <dfn>validity period</dfn> is the time interval during which the data is declared as valid for use by a receiving [=data recipient=].
 
-            The validity period is OPTIONAL defined by the properties <{validityPeriodStart}> (including) and <{validityPeriodEnd}> (excluding).
+            The validity period is OPTIONAL defined by the properties <{standalone/validityPeriodStart}> (including) and <{standalone/validityPeriodEnd}> (excluding).
 
-            If no validity period is specified, the data is valid for 3 years starting with <{referencePeriodEnd}>.
+            If no validity period is specified, the data is valid for 3 years starting with <{standalone/referencePeriodEnd}>.
 
             If a validity period is defined, then
-            1. the value of <{validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{referencePeriodEnd}>.
-            1. the value of <{validityPeriodEnd}> MUST be defined with value
-                 1. strictly greater than <{validityPeriodStart}>, and
-                 1. less than or equal to <{referencePeriodEnd}> + 3 years.
+            1. the value of <{standalone/validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{standalone/referencePeriodEnd}>.
+            1. the value of <{standalone/validityPeriodEnd}> MUST be defined with value
+                 1. strictly greater than <{standalone/validityPeriodStart}>, and
+                 1. less than or equal to <{standalone/referencePeriodEnd}> + 3 years.
 
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
@@ -756,7 +754,7 @@ Issue: Links to validityPeriodStart and validityPeriodEnd are still broken.
         <td>
             Timestamp of the end (excluding) of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
 
-            See <{validityPeriodStart}> for further details.
+            See <{standalone/validityPeriodStart}> for further details.
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
@@ -863,6 +861,7 @@ Issue: Links to validityPeriodStart and validityPeriodEnd are still broken.
         <td>?
         <td>O
         <td>
+
             Issue: Not yet specified. PACT definition [here](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#elementdef-assurance).
             Unclear whether this can be transposed. TBD through the data quality workstream.
       <tr>
@@ -2449,9 +2448,9 @@ Advisement: The enumeration of packaging or transport equipment units above will
 
 The iLEAP Technical Specifications define two possibile REST HTTP APIs for the exchange of logistics emissions data:
 - the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> relying on the [[!PACTDX]] Protocol (see [[#pcf-mapping]]),
-with two additional endpoints for the exchange of <{Transport Activity Data}> and <{AR|AggregatedReports}>; and
-- a standalone API for the exchange of <{ShipmentFootprint}>, <{TOC}>, <{HOC}>, <{Transport Activity
-  Data}>, and <{AR|AggregatedReports}>, not relying on the [[!PACTDX]] Protocol.
+    with two additional endpoints for the exchange of <{TAD|Transport Activity Data}> and <{AR|Aggregated Reports}>; and
+- a standalone API for the exchange of <{ShipmentFootprint}>, <{TOC}>, <{HOC}>, <{TAD|Transport Activity Data}>, and
+    <{AR|Aggregated Reports}>, not relying on the [[!PACTDX]] Protocol.
 
 The PACT-based API is now DEPRECATED and will be removed in v2.0.0 of the iLEAP Technical
 Specifications. Yet, for the time being, it is still mandatory to ensure backwards compatibility
@@ -2467,8 +2466,8 @@ Therefore, a [=host system=] MUST implement
 1. the iLEAP native endpoint for the exchange of <{ShipmentFootprint}> (see [[#action-sd]])
 1. the iLEAP native endpoint for the exchange of <{TOC}> (see [[#action-tocd]])
 1. the iLEAP native endpoint for the exchange of <{HOC}> (see [[#action-hocd]])
-1. the iLEAP native endpoint for the exchange of <{Transport Activity Data=}> (see [[#action-tad]])
-1. the iLEAP native endpoint for the exchange of <{AR|AggregatedReports}> (see [[#action-aed]])
+1. the iLEAP native endpoint for the exchange of <{TAD|Transport Activity Data}> (see [[#action-tad]])
+1. the iLEAP native endpoint for the exchange of <{AR|Aggregated Reports}> (see [[#action-aed]])
 
 All endpoints native to iLEAP share common characteristics regarding
 
@@ -2496,10 +2495,10 @@ Note: The iLEAP authentication flow follows the same structure of that defined i
 A [=host system=] MAY use any endpoint for authentication, as long as they make it available through
 an OpenId Configuration Document. In order to discover the authentication endpoint, a [=data recipient=] MUST:
 1. retrieve and validate the [=OpenId Provider Configuration Document=] of the host system (see
-   [[!OPENID-CONNECT]]) from the endpoint
-   `https://`[=Hostname=]`/`[=Subpath=]`/.well-known/openid-configuration`;
+    [[!OPENID-CONNECT]]) from the endpoint
+    `https://`[=Hostname=]`/`[=Subpath=]`/.well-known/openid-configuration`;
 1. use as [=AuthEndpoint=] the value of the `token_endpoint` property of the
-   [=OpenId Provider Configuration Document=].
+    [=OpenId Provider Configuration Document=].
 
 If the [=host system=] does not provide a valid OpenId Configuration Document at the above endpoint
 or that the `token_endpoint` is not defined, the [=data recipient=] MUST use
@@ -2980,7 +2979,7 @@ PACT Data Model will be provided.
         <th>Source
     <tbody>
         <tr>
-          <td>`validityPeriodStart` : [DateTime](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#datetime)
+          <td>validityPeriodStart` : [DateTime](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#datetime)
           <td>String
           <td>O
           <td>Determines the start of the validity period, i.e., the time interval during which the ProductFootprint is declared as valid for use by a receiving data recipient.
@@ -4258,6 +4257,13 @@ The test [=target host system=] must respond with a 401 Unauthorized status code
       "title": "Technical Specification for Data Model Extensions",
       "status": "LS",
       "publisher": "WBCSD"
+    },
+    "OPENID-CONNECT": {
+      "authors": [],
+      "title": "OpenID Connect Discovery 1.0 incorporating errata set 2",
+      "href": "https://openid.net/specs/openid-connect-discovery-1_0.html",
+      "status": "Final",
+      "publisher": "OpenID Foundation"
     }
   }
 </pre>
