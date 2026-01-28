@@ -318,8 +318,6 @@ Data Transaction #4 ([[#txn4]]) enables this business case.
 : Forecasting
 :: A [=Transport Service User=] requests their service provider ([=Transport Service Organizer=] or [=Transport Operator=]) to share GHG emissions at the TOC or HOC level. This enables the Transport Service User to forecast emissions related to specific activities or services, before these take place.
 
-
-
 # Data Transactions # {#txns}
 
 Note: Non-normative section
@@ -2450,7 +2448,7 @@ The PACT-based API is now DEPRECATED and will be removed in v2.0.0 of the iLEAP 
 Specifications. Yet, for the time being, it is still mandatory to ensure backwards compatibility
 with existing implementations.
 
-We recommend new implementations to use the standalone API as described in [[#standalone-api]].
+We recommend new implementations to use the standalone API as described in [[#http-rest-api]].
 Conformance with iLEAP v1.1.0 requires implementing the standalone API.
 
 Therefore, a [=host system=] MUST implement
@@ -2572,6 +2570,33 @@ Upon a [=host system=] returning a [=pagination link=]:
     of the field to filter by, and `$value` the (case-insensitive) value to filter for.
     Filter pairs CAN be concatenated with `&`.
 
+    The `$name` of a filter pair CAN use <dfn>dot notation</dfn> to reference nested or embedded
+    properties within a data type. When dot notation is used:
+
+    1. Each segment of the path (separated by `.`) represents a property name;
+    2. For properties that are arrays (e.g., <{ShipmentFootprint/tces}>), the filter matches
+        if **any** element in the array satisfies the filter condition;
+    3. Host systems CAN support any depth of nesting.
+
+    <div class="example">
+        To filter <{ShipmentFootprint|ShipmentFootprints}> by the <{TCE/tocId}> of their embedded TCEs,
+        a data recipient would use:
+        ```
+        tces.tocId=$tocId
+        ```
+        This returns all <{ShipmentFootprint|ShipmentFootprints}> containing at least one <{TCE}>
+        with the specified <{TCE/tocId}>.
+    </div>
+
+    <div class="example">
+        To filter <{ShipmentFootprint|ShipmentFootprints}> by the origin location of their embedded TCEs:
+        ```
+        $filter=tces.origin.city=Rotterdam
+        ```
+        This returns all <{ShipmentFootprint|ShipmentFootprints}> containing at least one <{TCE}>
+        whose <{TCE/origin}> has a matching city.
+    </div>
+
 : <dfn>Limit</dfn>
 ::
     `Limit` is an OPTIONAL request parameter. If defined,
@@ -2613,11 +2638,13 @@ Lists the [=data owner=]'s [=Shipment Footprints=] with [[#pagination]] and opti
 A [=Host system=] MUST implement an access management system to return only the [=shipment footprints=]
 intended for the requesting [=data recipient=].
 
-To retrieve only shipment footprints related to a specific shipment, the [=data recipient=]
+To retrieve only one shipment footprint related to a specific shipment, the [=data recipient=]
 SHOULD use the [=Filter=] parameter with filter pair `shipmentId=$shipmentId`, where `$shipmentId`
 is the identifier of the shipment as defined in <{ShipmentFootprint/shipmentId}>.
 
-Issue: Filtering by TCE properties seems to make sense. This still needs to be specified.
+To retrieve shipment footprints based on embedded properties (regardless of the level of nesting),
+such as those of their embedded [=TCEs=], the [=data recipient=] CAN use [=dot notation=] in the
+[=Filter=] parameter.
 
 ### Request Syntax ### {#action-sd-request}
 
@@ -2630,7 +2657,7 @@ Issue: Filtering by TCE properties seems to make sense. This still needs to be s
 #### Examples #### {#action-sd-request-examples}
 
 <div class=example>
-  Get all shipment footprints
+  Get all `ShipmentFootprints`
 
   ```http
   GET /v1/ileap/shipments HTTP/1.1
@@ -2638,27 +2665,354 @@ Issue: Filtering by TCE properties seems to make sense. This still needs to be s
 </div>
 
 <div class=example>
-  Get the footprint relative to one shipment (with <{ShipmentFootprint/shipmentId}> equal to `1`)
+  Get the `ShipmentFootprint` with <{ShipmentFootprint/shipmentId}> equal to `"shipment-1"`
 
   ```http
-  GET /v1/ileap/shipments?shipmentId=1 HTTP/1.1
+  GET /v1/ileap/shipments?shipmentId=shipment-1 HTTP/1.1
   ```
 </div>
 
-<div> class=example>
-  Get filtered shipment footprints with TCEs that have <{TCE/tocId}> equal to `40t-diesel-2023`
+<div class=example>
+  Get filtered `ShipmentFootprints` where at least one TCE has <{TCE/tceId}> equal to `"40t-diesel-2023"`
 
   ```http
-  GET /v1/ileap/shipments?tocId=40t-diesel-2023 HTTP/1.1
+  GET /v1/ileap/shipments?tces.tceId=40t-diesel-2023 HTTP/1.1
   ```
 </div>
 
-Issue: The example above lacks corresponding specifications.
+<div class=example>
+  Get filtered `ShipmentFootprints` where at least one TCE has the origin <{Location/city}> equal to `"Berlin"`
 
+  ```http
+  GET /v1/ileap/shipments?tces.origin.city=berlin HTTP/1.1
+  ```
+</div>
+
+### Response Syntax ### {#action-sd-response}
+
+Response without a link header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  Content-Type: application/json
+  Content-Length: <l>[=ContentLength=]</l>
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+Paginated response with a link header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  Content-Type: application/json
+  Content-Length: <l>[=ContentLength=]</l>
+  Link: <l>[=PaginationLink=]</l>; rel="next"
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+#### Examples #### {#action-sd-response-examples}
+
+Issue: example needs revision
+
+<div class=example>
+  Example response to request with `limit=1`
+
+  ```http
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+  Content-Length: 512
+  Link: <https://api.ileap.sine.dev/v1/ileap/shipments?limit=1&offset=1>; rel="next"
+
+  {
+    "data": [
+      {
+        "shipmentId": "shipment-1",
+        "companyName": "Acme Logistics",
+        "referencePeriodStart": "2025-01-01T00:00:00Z",
+        "referencePeriodEnd": "2026-01-01T00:00:00Z",
+        "dataSchema": "https://api.ileap.sine.dev/shipment-footprint.json",
+        "documentation": "https://sine-fdn.github.io/ileap-extension/",
+        "productCategoryCpc": "83117",
+        "mass": "1000",
+        "tces": [
+          {
+            "tceId": "40t-diesel-2023",
+            "shipentId": "shipment-1",
+            "tocId": "40t-diesel-2023",
+            "origin": {
+              "country": "NL",
+              "city": "Rotterdam"
+            },
+            "destination": {
+              "country": "DE",
+              "city": "Berlin"
+            },
+            "mass": "1000",
+            "distance": {
+              "actual": "800",
+            },
+            "transportActivity": "800000",
+            "co2eWTW": "200",
+            "co2eTTW": "150",
+          }
+        ]
+      },
+    ]
+  }
+  ```
+</div>
 
 ## Action TransportOperatorCategoryData ## {#action-tocd}
 
+Lists the [=data owner=]'s [=Transport Operator Category Data=] with [[#pagination]] and optional [[#filtering]].
+
+A [=Host system=] MUST implement an access management system to return only the [=TOC=] intended for
+the requesting [=data recipient=].
+
+To retrieve only one TOC, the [=data recipient=] SHOULD use the [=Filter=] parameter with filter
+pair `tocId=$tocId`, where `$tocId` is the identifier of the TOC as defined in <{TOC/tocId}>.
+
+To retrive TOCs based on embedded properties (regardless of the level of nesting), such as those of
+their embedded <{TCE/energyCarriers|energy carrier}>, the [=data recipient=] CAN use [=dot notation=]
+in the [=Filter=] parameter.
+
+### Request Syntax ### {#action-tocd-request}
+
+<pre highlight=http>
+  GET <l>[=Subpath=]</l>/v1/ileap/tocd?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  host: <l>[=Hostname=]</l>
+  authorization: Bearer <l>[=BearerToken=]</l>
+</pre>
+
+#### Examples #### {#action-tocd-request-examples}
+
+<div class=example>
+  Get all `TOCs`
+
+  ```http
+  GET /v1/ileap/tocd HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get the `TOC`, with <{TOC/tocId}> equal to `"40t-diesel-2023"`
+
+  ```http
+  GET /v1/ileap/tocd?tocId=40t-diesel-2023 HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get filtered `TOCs` where the <{TOC/energyCarriers}> include the <{EnergyCarrier/energyCarrier}> `"Diesel"`
+
+  ```http
+  GET /v1/ileap/tocd?energyCarriers.energyCarrier=diesel HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get filtered `TOCs` where the <{TOC/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
+
+  ```http
+  GET /v1/ileap/tocd?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get a limited amount of `TOCs` (2)
+
+  ```http
+  GET /v1/ileap/tocd?limit=2 HTTP/1.1
+  ```
+</div>
+
+### Response Syntax ### {#action-tocd-response}
+
+Response without a link header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  Content-Type: application/json
+  Content-Length: <l>[=ContentLength=]</l>
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+Paginated response with a link header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  Content-Type: application/json
+  Content-Length: <l>[=ContentLength=]</l>
+  Link: <l>[=PaginationLink=]</l>; rel="next"
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+#### Examples #### {#action-tocd-response-examples}
+
+Issue: example needs revision
+
+<div class=example>
+  Example response to request with `limit=1`
+
+  ```http
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+  Content-Length: 512
+  Link: <https://api.ileap.sine.dev/v1/ileap/tocd?limit=1&offset=1>; rel="next"
+
+  {
+    "data": [
+      {
+        "tocId": "40t-diesel-2023",
+        "companyName": "Acme Logistics",
+        "referencePeriodStart": "2025-01-01T00:00:00Z",
+        "referencePeriodEnd": "2026-01-01T00:00:00Z",
+        "dataSchema": "https://api.ileap.sine.dev/shipment-footprint.json",
+        "documentation": "https://sine-fdn.github.io/ileap-extension/",
+        "productCategoryCpc": "83117",
+        "mode": "Road",
+        "energyCarriers": [
+          {
+            "energyCarrier": "Diesel",
+            "relativeShare": "1.0",
+          }
+        ],
+        "co2eIntensityWTW": "0.25",
+        "co2eIntensityTTW": "0.2",
+        "transportActivityUnit": "tkm"
+      }
+    ]
+  }
+  ```
+</div>
+
 ## Action HubOperatorCategoryData ## {#action-hocd}
+
+Lists the [=data owner=]'s [=Hub Operator Category Data=] with [[#pagination]] and optional [[#filtering]].
+
+A [=Host system=] MUST implement an access management system to return only the [=HOC=] intended for
+the requesting [=data recipient=].
+
+To retrieve only one HOC, the [=data recipient=] SHOULD use the [=Filter=] parameter with filter
+pair `hocId=$hocId`, where `$hocId` is the identifier of the HOC as defined in <{HOC/hocId}>.
+
+To retrieve HOCs based on embedded properties (regardless of the level of nesting), such as those of
+their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot notation=] in the [=Filter=] parameter.
+
+### Request Syntax ### {#action-hocd-request}
+
+<pre highlight=http>
+  GET <l>[=Subpath=]</l>/v1/ileap/hocd?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  host: <l>[=Hostname=]</l>
+  authorization: Bearer <l>[=BearerToken=]</l>
+</pre>
+
+#### Examples #### {#action-hocd-request-examples}
+
+<div class=example>
+  Get all `HOCs`
+
+  ```http
+  GET /v1/ileap/hocd HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get the `HOC`, with <{HOC/hocId}> equal to `"hub-rotterdam"`
+
+  ```http
+  GET /v1/ileap/hocd?hocId=hub-rotterdam- HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get filtered `HOCs` where the <{HOC/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
+
+  ```http
+  GET /v1/ileap/hocd?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get filtered `HOCs` where the <{HOC/hubLocation}> has <{Location/city}> equal to `"Hamburg"`
+
+  ```http
+  GET /v1/ileap/hocd?hubLocation.city=hamburg HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get a limited amount of `HOCs` (2)
+
+  ```http
+  GET /v1/ileap/hocd?limit=2 HTTP/1.1
+  ```
+</div>
+
+### Response Syntax ### {#action-hocd-response}
+
+Response without a link header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  Content-Type: application/json
+  Content-Length: <l>[=ContentLength=]</l>
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+Paginated response with a link header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  Content-Type: application/json
+  Content-Length: <l>[=ContentLength=]</l>
+  Link: <l>[=PaginationLink=]</l>; rel="next"
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+#### Examples #### {#action-hocd-response-examples}
+
+Issue: example needs revision
+
+<div class=example>
+  Example response to request with `limit=1`
+
+  ```http
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+  Content-Length: 512
+  Link: <https://api.ileap.sine.dev/v1/ileap/hocd?limit=1&offset=1>; rel="next"
+
+  {
+    "data": [
+      {
+        "hocId": "hub-rotterdam",
+        "companyName": "Acme Logistics",
+        "referencePeriodStart": "2025-01-01T00:00:00Z",
+        "referencePeriodEnd": "2026-01-01T00:00:00Z",
+        "dataSchema": "https://api.ileap.sine.dev/shipment-footprint.json",
+        "documentation": "https://sine-fdn.github.io/ileap-extension/",
+        "productCategoryCpc": "83117",
+        "hubType": "Transshipment",
+        "energyCarriers": [
+          {
+            "energyCarrier": "Electricity",
+            "relativeShare": "1.0",
+          }
+        ],
+        "co2eIntensityWTW": "0.5",
+        "co2eIntensityTTW": "0.1",
+        "hubActivityUnit": "tonnes"
+      }
+    ]
+  }
+  ```
+</div>
 
 ## Action TransportActivityData ## {#action-tad}
 
@@ -2671,9 +3025,12 @@ To retrieve only transport activity data related to a specific activity, the [=d
 SHOULD use the [=Filter=] parameter with filter pair `activityId=$activityId`, where `$activityId`
 is the identifier of the activity as defined in <{TAD/activityId}>.
 
+To retrieve transport activity data based on embedded properties (regardless of the level of
+nesting), such as those of their embedded <{TAD/energyCarriers}>, the [=data recipient=] CAN use [=dot notation=] in the [=Filter=] parameter.
+
 ### Request Syntax ### {#action-tad-request}
 
-Advisiment: As part of the deprecation of PACT interoperability, the version of the iLEAP native
+Advisement: As part of the deprecation of PACT interoperability, the version of the iLEAP native
 endpoints has been changed from `/2/ileap/` to `/v1/ileap/`. However, to maintain backward
 compatibility with existing implementations, a [=host system=] MUST support both versions of the
 endpoint. Below, only the new version is documented.
@@ -2687,7 +3044,7 @@ endpoint. Below, only the new version is documented.
 #### Examples #### {#action-tad-request-examples}
 
 <div class=example>
-  Get all transport activity
+  Get all `TransportActivityData`
 
   ```http
   GET /v1/ileap/tad HTTP/1.1
@@ -2695,7 +3052,7 @@ endpoint. Below, only the new version is documented.
 </div>
 
 <div class=example>
-  Get the data relative to one transport activity (with <{TAD/activityId}> equal to `1`)
+  Get the `TransportActivity` with <{TAD/activityId}> equal to `"1"`
 
   ```http
   GET /v1/ileap/tad?activityId=1 HTTP/1.1
@@ -2703,7 +3060,15 @@ endpoint. Below, only the new version is documented.
 </div>
 
 <div class=example>
-  Get filtered transport activity data with [=Feedstock=] `"Fossil"` and <{TAD/packagingOrTrEqType}> `"Pallet"`
+  Get filtered `TransportActivityData` where the <{TAD/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
+
+  ```http
+  GET /v1/ileap/tad?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get filtered `TransportActivityData` with [=Feedstock=] `"Fossil"` and <{TAD/packagingOrTrEqType}> `"Pallet"`
 
   ```http
   GET /v1/ileap/tad?feedstock=Fossil&packagingOrTrEqType=pallet HTTP/1.1
@@ -2711,7 +3076,7 @@ endpoint. Below, only the new version is documented.
 </div>
 
 <div class=example>
-  Get a limited amount of transport activity data (2)
+  Get a limited amount of `TransportActivityData` (2)
 
   ```http
   GET /v1/ileap/tad?limit=2 HTTP/1.1
@@ -2824,6 +3189,10 @@ To retrieve only one <{AggregatedReport}>, the [=data recipient=] SHOULD use the
 parameter with filter pair `reportId=$reportId`, where `$reportId` is the identifier of the report
 as defined in <{AggregatedReport/reportId}>.
 
+To retrieve <{AggregatedReport|AggregatedReports}> based on embedded properties (regardless of the
+level of nesting), such as those of their embedded <{ModeSpecificReport|ModeSpecificReports}>, the
+[=data recipient=] CAN use [=dot notation=] in the [=Filter=] parameter.
+
 ### Request Syntax ### {#action-aed-request}
 
 Advisiment: As part of the deprecation of PACT interoperability, the version of the iLEAP native
@@ -2848,7 +3217,7 @@ endpoint. Below, only the new version is documented.
 </div>
 
 <div class=example>
-  Get `AggregatedReport` with `reportId` equal to `report-1`
+  Get the `AggregatedReport` with <{AggregatedReport/reportId}> equal to `"report-1"`
 
   ```http
   GET /v1/ileap/aed?reportId=report-1 HTTP/1.1
@@ -2860,6 +3229,14 @@ endpoint. Below, only the new version is documented.
 
   ```http
   GET /v1/ileap/aed?reportId=report-1 HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get filtered `AggregatedReports` with <{AggregatedReport/perModeEmissions}> with <{ModeSpecificReport/transportMode}> equal to `"Rail"`
+
+  ```http
+  GET /v1/ileap/aed?perModeEmissions.mode=rail HTTP/1.1
   ```
 </div>
 
@@ -2966,7 +3343,7 @@ Note: The extensions of one `ProductFootprint` CANNOT contain more than one iLEA
         <th>Source
     <tbody>
         <tr>
-          <td>validityPeriodStart` : [DateTime](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#datetime)
+          <td>`validityPeriodStart` : [DateTime](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#datetime)
           <td>String
           <td>O
           <td>Determines the start of the validity period, i.e., the time interval during which the ProductFootprint is declared as valid for use by a receiving data recipient.
