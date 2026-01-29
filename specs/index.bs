@@ -224,7 +224,7 @@ The authors would like to thank the many individuals and organizations for their
 Issue: update definitions to remove PACT references
 
 : <dfn>Access Token</dfn>
-:: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#access-token) for the definition.
+:: Credential to provide access to protected resources, as defined in [[!rfc6749]] Section 1.4 (see also Section 5.1 and Appendix A.12).
 
 : <dfn>Data Owner</dfn>
 :: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#data-owner) for the definition.
@@ -2493,7 +2493,7 @@ authentication method to access the same data.
 
 Note: The iLEAP authentication flow follows the same structure of that defined in [[!PACTDX]] Section 7.3.
 
-#### Auth Endpoint Discovery #### {#auth-endpoint-discovery}
+#### AuthEndpoint Discovery #### {#auth-endpoint-discovery}
 
 A [=host system=] MAY use any endpoint for authentication, as long as they make it available through
 an OpenId Configuration Document. In order to discover the authentication endpoint, a [=data recipient=] MUST:
@@ -2507,7 +2507,94 @@ If the [=host system=] does not provide a valid OpenId Configuration Document at
 or that the `token_endpoint` is not defined, the [=data recipient=] MUST use
 [=Hostname=]`/`[=Subpath=]`/auth/token` as the [=AuthEndpoint=].
 
-Issue: Definitions for [=Hostname=] and [=Subpath=] are missing.
+### Action Authenticate ### {#action-authenticate}
+
+Request an access token using client credentials.
+
+[=Host systems=] MUST implement this action in conformance with [[!rfc6749]] Section 4.4 (OAuth2 Client Credentials).
+
+[=Host systems=] MAY offer this action under any [=AuthEndpoint=], discoverable as per [[#auth-endpoint-discovery]].
+Accordingly, if no discovery method through an OpenId Configuration Document is implemented, the [=host system=] MUST
+offer this action under the endpoint [=Hostname=]`/`[=Subpath=]`/auth/token`.
+
+#### Request Syntax #### {#action-authenticate-request}
+
+<pre highlight=http>
+POST <l>[=AuthEndpoint=]</l> HTTP/1.1
+accept: application/json
+content-type: application/x-www-form-urlencoded
+authorization: Basic <l>[=BasicAuth=]</l>
+content-length: <l>[=ContentLength=]</l>
+
+<l>[=AuthBody=]</l>
+</pre>
+
+With Request parameters:
+
+: <dfn>AuthEndpoint</dfn>
+:: The endpoint to request an [=access token=] after discovering the value by performing the [=authentication flow=].
+
+: <dfn>BasicAuth</dfn>
+:: See [[!rfc6749]] Section 4.4.2
+
+: <dfn>AuthBody</dfn>
+:: See [[!rfc6749]] Section 4.4
+
+: <dfn>ContentLength</dfn>
+:: The length of the Body. See [[!rfc9112]].
+
+##### Example ##### {#example-authenticate-request}
+
+<div class=example>
+  Request an access token using client credentials:
+
+  ```http
+  POST https://api.ileap.sine.dev/auth/token HTTP/1.1
+  accept: application/json
+  content-type: application/x-www-form-urlencoded
+  authorization: Basic Q2xpZW50SUQ6Q2xpZW50U2VjcmV0
+  content-length: 29
+  grant_type=client_credentials
+  ```
+</div>
+
+#### Response Syntax #### {#action-authenticate-response}
+
+<pre highlight=http>
+HTTP/1.1 <l>[=AuthStatusCode=]</l> OK
+content-type: application/json
+content-length: <l>[=ContentLength=]</l>
+
+<l>[=AuthResponseBody=]</l>
+</pre>
+
+With action-specific response parameters
+
+: <dfn>AuthStatusCode</dfn>
+:: A HTTP response code conforming to [[!rfc6749]] Section 4.4 and Section 5.
+
+: <dfn>AuthResponseBody</dfn>
+:: A JSON Object conforming to either [[!rfc6749]] Section 4.4 in case
+    of successful authentication (containing an [=access token=]), or [[!rfc6749]] Section 5.2
+    otherwise.
+
+##### Example ##### {#example-authenticate-response}
+
+<div class=example>
+  Example of a successful response containing an access token:
+
+  ```http
+  HTTP/1.1 200 OK
+  content-type: application/json
+  content-length: 123
+
+  {
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "token_type": "Bearer",
+    "expires_in": 3600
+  }
+  ```
+</div>
 
 ## Filtering and Pagination ## {#filtering-and-pagination}
 
@@ -2636,7 +2723,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 
     In all other cases, for instance in case of a malformed value of the header authorization, the body SHOULD be an error response with code [BadRequest](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#badrequest).
 
-: <dfn>ContentLength</dfn>
+: [=ContentLength=]
 :: The length of the Body. See [[!rfc9112]].
 
 : <dfn>PaginationLink</dfn>
