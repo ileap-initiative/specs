@@ -137,6 +137,10 @@ The authors would like to thank the many individuals and organizations for their
     identified as a single unit. It is transported from a sender or consignor to a
     receiver or consignee, irrespective of the mode of transportation employed. See [[!ISO14083]], Section 3.1.4.
 
+: <dfn>Consignment id</dfn>
+::
+    A digital identifier which uniquely identifies a [=Consignment=] relative to the [=Host system=] and to the [=Data recipient=].
+
 : <dfn>Distance</dfn>
 :: See [=Transport Distance=] and [=Actual Distance=]
 
@@ -149,6 +153,10 @@ The authors would like to thank the many individuals and organizations for their
 
 : <dfn data-lt="Hub Operation Category|HOC">Hub Operation Category (HOC)</dfn>
 :: Represents a grouping of hub operations sharing similar characteristics.  [[!GLEC]] Framework.
+
+: <dfn data-noexport>Hub Operator</dfn>
+:: A party that is offering hub services, including warehousing and transshipment center services.
+
 
 : <dfn>Primary Data</dfn>
 ::
@@ -163,6 +171,17 @@ The authors would like to thank the many individuals and organizations for their
     A shipment refers to the goods in a commercial transaction between a seller and a buyer.
     Refers to the consignments transported as part of this transaction via a transport
     chain from the consignor to the consignee. See [[!ISO14083]], Section 3.1.20.
+
+
+: <dfn data-noexport>ShipmentFootprint</dfn>
+:: See [[#dt-sf]] for the definition.
+
+: <dfn>Shipment id</dfn>
+::
+    A digital identifier which uniquely identifies a [=Shipment=] relative to the [=Host system=] and to the [=Data recipient=].
+
+: <dfn>Shipper</dfn>
+:: An entity which sends goods for transport; e.g. buying transport services from [=Transport Service Organizers=] or [=Transport Operators=]. See [[!GLEC]] Framework.
 
 : <dfn>Shortest Feasible Distance</dfn> (SFD)
 ::
@@ -194,14 +213,18 @@ The authors would like to thank the many individuals and organizations for their
 : <dfn>Transport Service User</dfn>
 :: Refers to the party that purchases and/or utilizes a transport service. It could be a [=shipper=] or a [=Transport Service Organizer=]. See [[!ISO14083]], Section 3.1.33.
 
+: <dfn>Tool Provider</dfn>
+::
+    Provider of software, tools, services, or programs that support companies in
+    calculating and reporting logistics GHG emissions conforming to these technical specifications.
+
+
 ## Auxiliary Definitions ## {#auxiliary-definitions}
+
+Issue: update definitions to remove PACT references
 
 : <dfn>Access Token</dfn>
 :: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#access-token) for the definition.
-
-: <dfn>Consignment id</dfn>
-::
-    A digital identifier which uniquely identifies a [=Consignment=] relative to the [=Host system=] and to the [=Data recipient=].
 
 : <dfn>Data Owner</dfn>
 :: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#data-owner) for the definition.
@@ -213,30 +236,12 @@ The authors would like to thank the many individuals and organizations for their
 :: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#host-system) for the definition.
     Here, a host system additionally implements support for 1 or more data transactions ([[#txns]]).
 
-: <dfn data-noexport>Hub Operator</dfn>
-:: A party that is offering hub services, including warehousing and transshipment center services.
-
 : <dfn>PCF</dfn>
 ::
     Product Carbon Footprint. See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#dt-carbonfootprint) for further details.
 
-: <dfn data-noexport>ShipmentFootprint</dfn>
-:: See [[#dt-sf]] for the definition.
-
-: <dfn>Shipment id</dfn>
-::
-    A digital identifier which uniquely identifies a [=Shipment=] relative to the [=Host system=] and to the [=Data recipient=].
-
-: <dfn>Shipper</dfn>
-:: An entity which sends goods for transport; e.g. buying transport services from [=Transport Service Organizers=] or [=Transport Operators=]. See [[!GLEC]] Framework.
-
 : <dfn data-lt="Smart Freight Center|SFC" data-noexport>Smart Freight Centre (SFC)</dfn>
 :: The [Smart Freight Centre](https://www.smartfreightcentre.org) Organization.
-
-: <dfn>Tool Provider</dfn>
-::
-    Provider of software, tools, services, or programs that support companies in
-    calculating and reporting logistics GHG emissions conforming to these technical specifications.
 
 
 # Business Cases # {#business-cases}
@@ -4327,14 +4332,19 @@ In order to test the conformance of an iLEAP implementation, the following tests
 
 ## PACT Conformance Tests ## {#pact-conformance-tests}
 
-Since the iLEAP Technical Specifications were conceived as an extension to the PACT Data Model and
-Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.1.0 or above. For that
-reason, the required tests in the [PACT Conformance Testing
-Checklist](https://wbcsd.github.io/pact-conformance-testing/checklist.html#required-tests) should also be performed.
+With the deprecation of PACT v2.2.0 interoperability, we have introduced new iLEAP-native actions
+and endpoints. Yet, for backwards compatility reasons, [[!PACTDX]] v2.2.0 implementation will remain
+mandatory until the release of iLEAP v2.0.0. Accordingly, the mandatory tests documented in [PACT
+Tech Specs Test
+Cases](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
+should also be performed.
 
 ## iLEAP Specific Conformance Tests ## {#ileap-specific-conformance-tests}
 
-The following tests are specific to the iLEAP Technical Specifications:
+The following tests are specific to the iLEAP Technical Specifications, including coverage of the
+new iLEAP-native actions and endpoints:
+
+Issue: Missing tests for ShipmentFootprints, TOC and HOC, and AED.
 
 ### Test Case 001: Get ProductFootprint with ShipmentFootprint ### {#test-case-001}
 
