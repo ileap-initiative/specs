@@ -236,6 +236,10 @@ Issue: update definitions to remove PACT references
 :: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#host-system) for the definition.
     Here, a host system additionally implements support for 1 or more data transactions ([[#txns]]).
 
+: <dfn>iLEAP standalone protocol</dfn>
+:: The iLEAP native API and data model, introduced in v1.1.0 of these technical specifications, which enables the exchange
+    of logistics emissions data without relying on PACT.
+
 : <dfn>PCF</dfn>
 ::
     Product Carbon Footprint. See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#dt-carbonfootprint) for further details.
@@ -669,7 +673,7 @@ Note: The highlighted lines show 2 <{TCE|TCEs}> which `Carrier A` has collected 
 # Data Model # {#data-model}
 
 The iLEAP data model of this chapter together with the data transactions ([[#txns]]) are built upon
-top of the [[!ISO14083|ISO 14083]] concepts of [=TOC=], [=HOC=], [=Transport Chain Element|TCE=],
+the [[!ISO14083|ISO 14083]] concepts of [=TOC=], [=HOC=], [=Transport Chain Element|TCE=],
 [=TC=].
 
 Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) is added to facilitate
@@ -682,27 +686,44 @@ emissions data, e.g. for reporting to public authorities and to avoid disclosing
 Please, find more details on emissions calculation and the relantionship between the different
 concepts in the [[!GLEC]] Framework and [[!ISO14083]]).
 
-The iLEAP Data Model is composed by five main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
+The iLEAP Data Model is composed by six main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
 <{HOC}>, <{TAD}>, and <{AR|AggregatedReport}>.
 
-<{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, and <{HOC|HOCs}> can be exchanged independently as extensions to the PACT
-Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`. They can also,
-however, be exchanged through dedicated endpoints.
+When using the [=iLEAP standalone protocol=], all data types are exchanged through dedicated endpoints.
 
-<{TAD|TADs}> can be exchanged through a dedicated endpoint. This should only be used by [=Transport
-Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, nor <{HOC|HOCs}>.
+<{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, and <{HOC|HOCs}> can be also exchanged as extensions to the PACT
+Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
 
-<{AR|AggregatedReports}> can be exchanged through a dedicated endpoint.
+<{TAD|TADs}> should only be used by [=Transport Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>,
+<{TOC|TOCs}>, nor <{HOC|HOCs}>.
 
-## iLEAP Standalone Data Model Additional Properties ## {#standalone-properties}
+Properties marked with `O*` are mandatory when using the [=iLEAP standalone protocol=], but optional
+when using iLEAP as a PACT Data Model Extension, as they are already mandatory in the PACT Data
+Model (see [[#pcf-mapping]]).
 
-When exchanging <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}> or <{HOC|HOCs}> through the
-new iLEAP native actions, the following additional properties should be considered:
+## ShipmentFootprint ## {#dt-sf}
+
+<dfn element>ShipmentFootprint</dfn> is a collection of 1
+or more [=Transport Chain Elements=] (encoded as <{TCE|TCEs}>)
+for a single [=shipment=], from a single entity (a [=Transport Operator=] or a [=Transport Service Organizer=]).
+
+By collecting 1 or more <{TCE|TCEs}> for a shipment from [=Transport Operators=] and [=Transport Service Organizers=],
+a [=Transport Service User=] can build the <{ShipmentFootprint}>. The <{ShipmentFootprint}> corresponds to the logistics emissions related to a full Transport Chain ([=TC=]).
+
+To calculate a ShipmentFootprint, the [=Transport Service User=] MUST
+
+- first receive <{TCE|TCEs}>  from [=Transport Operators=] and [=Transport Service Organizers=], linked to the shipment id for a single shipment in accordance with [[#dt-tce]],
+    OR calculate <{TCE|TCEs}> from <{TOC|TOCs}>, <{HOC|HOCs}> or <{TAD}> from [=Transport Operators=] and [=Transport Service Organizers=].
+- and then add up all <{TCE|TCEs}> that compose the full Transport Chain ([=TC=]) to derive the <{ShipmentFootprint}>.
+
+### Data Attributes ### {#sf-attributes}
+
+A <{ShipmentFootprint}> has the following properties:
 
 Issue: Consider adding
 [declaredUnit](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-declaredunit)
 
-<figure id="standalone-properties-table" dfn-type="element-attr" dfn-for="standalone">
+<figure id="sf-properties-table" dfn-type="element-attr" dfn-for="ShipmentFootprint">
   <table class="data">
     <thead>
       <tr>
@@ -714,22 +735,23 @@ Issue: Consider adding
       <tr>
         <td><dfn>companyName</dfn>
         <td>String
-        <td>M
-        <td>The name of the company owning the data.
+        <td>O*
+        <td>
+            The name of the company owning the data.
+
+            Advisement: MUST be defined if using the iLEAP standalone protocol.
       <tr>
         <td><dfn>companyIds</dfn>
         <td>String[]
         <td>O
-        <td>An array of unique identifiers of the company owning the data (e.g. GLN, LEI).
+        <td>
+            An array of unique identifiers of the company owning the data (e.g. GLN, LEI).
       <tr>
         <td><dfn>description</dfn>
         <td>String
         <td>O
         <td>
-            Advisement: This property applies to <{ShipmentFootprint}> only, since it is already
-            defined in the PACT Data Model for <{TOC}> and <{HOC}>.
-
-            A description of the Shipment related to the data.
+            A description of the Shipment.
       <tr>
         <td><dfn>validityPeriodStart</dfn>
         <td>String
@@ -739,15 +761,15 @@ Issue: Consider adding
 
             The <dfn>validity period</dfn> is the time interval during which the data is declared as valid for use by a receiving [=data recipient=].
 
-            The validity period is OPTIONAL defined by the properties <{standalone/validityPeriodStart}> (including) and <{standalone/validityPeriodEnd}> (excluding).
+            The validity period is OPTIONAL, defined by the properties <{ShipmentFootprint/validityPeriodStart}> (including) and <{ShipmentFootprint/validityPeriodEnd}> (excluding).
 
-            If no validity period is specified, the data is valid for 3 years starting with <{standalone/referencePeriodEnd}>.
+            If no validity period is specified, the data is valid for 3 years starting with <{ShipmentFootprint/referencePeriodEnd}>.
 
             If a validity period is defined, then
-            1. the value of <{standalone/validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{standalone/referencePeriodEnd}>.
-            1. the value of <{standalone/validityPeriodEnd}> MUST be defined with value
-                 1. strictly greater than <{standalone/validityPeriodStart}>, and
-                 1. less than or equal to <{standalone/referencePeriodEnd}> + 3 years.
+            1. the value of <{ShipmentFootprint/validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{ShipmentFootprint/referencePeriodEnd}>.
+            1. the value of <{ShipmentFootprint/validityPeriodEnd}> MUST be defined with value
+                 1. strictly greater than <{ShipmentFootprint/validityPeriodStart}>, and
+                 1. less than or equal to <{ShipmentFootprint/referencePeriodEnd}> + 3 years.
 
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
@@ -757,11 +779,11 @@ Issue: Consider adding
         <td>
             Timestamp of the end (excluding) of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
 
-            See <{standalone/validityPeriodStart}> for further details.
+            See <{ShipmentFootprint/validityPeriodStart}> for further details.
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
-        <td>M
+        <td>O*
         <td>
             Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
 
@@ -769,11 +791,13 @@ Issue: Consider adding
 
             This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
 
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
-        <td>M
+        <td>O*
         <td>
             Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
 
@@ -781,31 +805,31 @@ Issue: Consider adding
 
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
 
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
         <td><dfn>dataSchema</dfn>
         <td>String
-        <td>M
+        <td>O*
         <td>
-            MUST be set to one of the following URLs, depending on the data type being exchanged:
+            MUST be set to
 
             :  `https://api.ileap.sine.dev/shipment-footprint.json`
             :: The URL of the JSON schema for <{ShipmentFootprint|ShipmentFootprints}>.
 
-            :  `https://api.ileap.sine.dev/toc.json`
-            :: The URL of the JSON schema for <{TOC|TOCs}>.
-
-            :  `https://api.ileap.sine.dev/hoc.json`
-            :: The URL of the JSON schema for <{HOC|HOCs}>.
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
 
             Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
             If so, it should also be included in TAD and AggregatedReport.
       <tr>
         <td><dfn>documentation</dfn>
         <td>String
-        <td>M
+        <td>O*
         <td>
-            MUST be `https://sine-fdn.github.io/ileap-extension/`.
+            MUST be set to `https://sine-fdn.github.io/ileap-extension/`.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
 
             Issue: Probably unnecessary, since it's hardcoded. Yet, it might be good to have the Tech Specs URL in the data.
       <tr>
@@ -848,9 +872,9 @@ Issue: Consider adding
         <td>String
         <td>O
         <td>
-            The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive).
+            The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
 
-            Issue: Unclear whether this is needed. If so, mention the PACT Methodology v3.
+            Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
       <tr>
         <td><dfn>productCategoryCpc</dfn>
         <td>String
@@ -872,46 +896,11 @@ Issue: Consider adding
         <td>String
         <td>O
         <td>
-            Additional information related to the Shipment, TOC, or HOC.
+            Additional information related to the Shipment.
 
             SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
 
             Issue: Unclear whether this is needed.
-    </tbody>
-    </table>
-    <figcaption>iLEAP Standalone Data Model Additional Properties</figcaption>
-</figure>
-
-
-## ShipmentFootprint ## {#dt-sf}
-
-<dfn element>ShipmentFootprint</dfn> is a collection of 1
-or more [=Transport Chain Elements=] (encoded as <{TCE|TCEs}>)
-for a single [=shipment=], from a single entity (a [=Transport Operator=] or a [=Transport Service Organizer=]).
-
-By collecting 1 or more <{TCE|TCEs}> for a shipment from [=Transport Operators=] and [=Transport Service Organizers=],
-a [=Transport Service User=] can build the <{ShipmentFootprint}>. The <{ShipmentFootprint}> corresponds to the logistics emissions related to a full Transport Chain ([=TC=]).
-
-To calculate a ShipmentFootprint, the [=Transport Service User=] MUST
-
-- first receive <{TCE|TCEs}>  from [=Transport Operators=] and [=Transport Service Organizers=], linked to the shipment id for a single shipment in accordance with [[#dt-tce]],
-    OR calculate <{TCE|TCEs}> from <{TOC|TOCs}>, <{HOC|HOCs}> or <{TAD}> from [=Transport Operators=] and [=Transport Service Organizers=].
-- and then add up all <{TCE|TCEs}> that compose the full Transport Chain ([=TC=]) to derive the <{ShipmentFootprint}>.
-
-
-### Data Attributes ### {#sf-attributes}
-
-A <{ShipmentFootprint}> has the following properties:
-
-<figure id="sf-properties-table" dfn-type="element-attr" dfn-for="ShipmentFootprint">
-  <table class="data">
-    <thead>
-      <tr>
-        <th>Property
-        <th>Type
-        <th>Req
-        <th>Specification
-    <tbody>
       <tr>
         <td><dfn>mass</dfn> : [=Decimal=]
         <td>String
@@ -1239,6 +1228,9 @@ or default values.
 
 The Data Type <{TOC}> has the following properties:
 
+Issue: Consider adding
+[declaredUnit](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-declaredunit)
+
 <figure id="toc-properties-table" dfn-type="element-attr" dfn-for="TOC">
   <table class="data">
     <thead>
@@ -1248,6 +1240,166 @@ The Data Type <{TOC}> has the following properties:
         <th>Req
         <th>Specification
     <tbody>
+      <tr>
+        <td><dfn>companyName</dfn>
+        <td>String
+        <td>O*
+        <td>
+            The name of the company owning the data.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+      <tr>
+        <td><dfn>companyIds</dfn>
+        <td>String[]
+        <td>O
+        <td>An array of unique identifiers of the company owning the data (e.g. GLN, LEI).
+      <tr>
+        <td><dfn>validityPeriodStart</dfn>
+        <td>String
+        <td>O
+        <td>
+            Timestamp of the start of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            The <dfn>validity period</dfn> is the time interval during which the data is declared as valid for use by a receiving [=data recipient=].
+
+            The validity period is OPTIONAL defined by the properties <{TOC/validityPeriodStart}> (including) and <{TOC/validityPeriodEnd}> (excluding).
+
+            If no validity period is specified, the data is valid for 3 years starting with <{TOC/referencePeriodEnd}>.
+
+            If a validity period is defined, then
+            1. the value of <{TOC/validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{TOC/referencePeriodEnd}>.
+            1. the value of <{TOC/validityPeriodEnd}> MUST be defined with value
+                 1. strictly greater than <{TOC/validityPeriodStart}>, and
+                 1. less than or equal to <{TOC/referencePeriodEnd}> + 3 years.
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>validityPeriodEnd</dfn>
+        <td>String
+        <td>O
+        <td>
+            Timestamp of the end (excluding) of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            See <{TOC/validityPeriodStart}> for further details.
+      <tr>
+        <td><dfn>referencePeriodStart</dfn>
+        <td>String
+        <td>O*
+        <td>
+            Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
+
+            The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>referencePeriodEnd</dfn>
+        <td>String
+        <td>O*
+        <td>
+            Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
+
+            The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            This end date represents the latest date until which activity data was collected to include in the emissions calculation.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>dataSchema</dfn>
+        <td>String
+        <td>O*
+        <td>
+            MUST be set to
+
+            :  `https://api.ileap.sine.dev/toc.json`
+            :: The URL of the JSON schema for <{TOC|TOCs}>.
+
+            Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
+            If so, it should also be included in TAD and AggregatedReport.
+      <tr>
+        <td><dfn>documentation</dfn>
+        <td>String
+        <td>O*
+        <td>
+            MUST be `https://sine-fdn.github.io/ileap-extension/`.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+
+            Issue: Probably unnecessary, since it's hardcoded. Yet, it might be good to have the Tech Specs URL in the data.
+      <tr>
+        <td><dfn>crossSectoralStandardsUsed</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The non-empty set of the cross-sectoral standards used for the calculation of the emissions data.
+
+            Elements of the array MUST be one of the following:
+
+            Issue: Unclear whether this is needed and which cross-sectoral standards should be listed here. GHGP? ISO14067? ISO4044? ISO14083?
+      <tr>
+        <td><dfn>ipccCharacterizationFactorsSources</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The characterization factors from one or more IPCC Assessment Reports used in the calculation of the PCF (see Pathfinder Framework Section 3.2.2).
+            It MUST be a non-empty set of strings with the format AR$VERSION$, where $VERSION$ stands for the IPCC report version number and MUST be an integer.
+
+            Advisement: The latest available characterization factor version shall be used, i.e., ["AR6"].
+            In the event this is not possible, include the set of all characterization factors used.
+
+            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+      <tr>
+        <td><dfn>secondaryEmissionFactorSources</dfn>
+        <td>Object[]
+        <td>O
+        <td>
+            The non-empty set of the secondary emission factor sources used for the calculation of the emissions data.
+
+            Each element of the array MUST be an object with the following properties:
+
+            - `name`: String, M, The name of the source.
+            - `version`: String, O, The version of the source.
+
+            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+      <tr>
+        <td><dfn>pactPDS</dfn>: Decimal
+        <td>String
+        <td>O
+        <td>
+            The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
+
+            Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
+      <tr>
+        <td><dfn>productCategoryCpc</dfn>
+        <td>String
+        <td>M
+        <td>
+            Should be set to `83117` for all logistics emissions data, representing "Freight transport services" in the CPC 2.1 classification.
+
+            Issue: Unclear whether this is needed, because the value is hardcoded.
+      <tr>
+        <td><dfn>assurance</dfn>
+        <td>?
+        <td>O
+        <td>
+
+            Issue: Not yet specified. PACT definition [here](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#elementdef-assurance).
+            Unclear whether this can be transposed. TBD through the data quality workstream.
+      <tr>
+        <td><dfn>comment</dfn>
+        <td>String
+        <td>O
+        <td>
+            Additional information related to the TOC.
+
+            SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
+
+            Issue: Unclear whether this is needed.
       <tr>
         <td><dfn>tocId</dfn>
         <td>String
@@ -1441,6 +1593,9 @@ The Data Type <{HOC}> contains [=HOC=] data. It is referenced in a [=Transport C
 ### Data Attributes ### {#hoc-attributes}
 The Data Type <{HOC}> has the following properties:
 
+Issue: Consider adding
+[declaredUnit](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-declaredunit)
+
 <figure id="hoc-properties-table" dfn-type="element-attr" dfn-for="HOC">
   <table class="data">
     <thead>
@@ -1450,6 +1605,166 @@ The Data Type <{HOC}> has the following properties:
         <th>Req
         <th>Specification
     <tbody>
+          <tr>
+        <td><dfn>companyName</dfn>
+        <td>String
+        <td>O*
+        <td>
+            The name of the company owning the data.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+      <tr>
+        <td><dfn>companyIds</dfn>
+        <td>String[]
+        <td>O
+        <td>An array of unique identifiers of the company owning the data (e.g. GLN, LEI).
+      <tr>
+        <td><dfn>validityPeriodStart</dfn>
+        <td>String
+        <td>O
+        <td>
+            Timestamp of the start of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            The <dfn>validity period</dfn> is the time interval during which the data is declared as valid for use by a receiving [=data recipient=].
+
+            The validity period is OPTIONAL defined by the properties <{HOC/validityPeriodStart}> (including) and <{HOC/validityPeriodEnd}> (excluding).
+
+            If no validity period is specified, the data is valid for 3 years starting with <{HOC/referencePeriodEnd}>.
+
+            If a validity period is defined, then
+            1. the value of <{HOC/validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{HOC/referencePeriodEnd}>.
+            1. the value of <{HOC/validityPeriodEnd}> MUST be defined with value
+                 1. strictly greater than <{HOC/validityPeriodStart}>, and
+                 1. less than or equal to <{HOC/referencePeriodEnd}> + 3 years.
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>validityPeriodEnd</dfn>
+        <td>String
+        <td>O
+        <td>
+            Timestamp of the end (excluding) of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            See <{HOC/validityPeriodStart}> for further details.
+      <tr>
+        <td><dfn>referencePeriodStart</dfn>
+        <td>String
+        <td>O*
+        <td>
+            Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
+
+            The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>referencePeriodEnd</dfn>
+        <td>String
+        <td>O*
+        <td>
+            Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
+
+            The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+
+            This end date represents the latest date until which activity data was collected to include in the emissions calculation.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+
+            Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>dataSchema</dfn>
+        <td>String
+        <td>O*
+        <td>
+            MUST be set to
+
+            :  `https://api.ileap.sine.dev/hoc.json`
+            :: The URL of the JSON schema for <{HOC|HOCs}>.
+
+            Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
+            If so, it should also be included in TAD and AggregatedReport.
+      <tr>
+        <td><dfn>documentation</dfn>
+        <td>String
+        <td>O*
+        <td>
+            MUST be `https://sine-fdn.github.io/ileap-extension/`.
+
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
+
+            Issue: Probably unnecessary, since it's hardcoded. Yet, it might be good to have the Tech Specs URL in the data.
+      <tr>
+        <td><dfn>crossSectoralStandardsUsed</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The non-empty set of the cross-sectoral standards used for the calculation of the emissions data.
+
+            Elements of the array MUST be one of the following:
+
+            Issue: Unclear whether this is needed and which cross-sectoral standards should be listed here. GHGP? ISO14067? ISO4044? ISO14083?
+      <tr>
+        <td><dfn>ipccCharacterizationFactorsSources</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The characterization factors from one or more IPCC Assessment Reports used in the calculation of the PCF (see Pathfinder Framework Section 3.2.2).
+            It MUST be a non-empty set of strings with the format AR$VERSION$, where $VERSION$ stands for the IPCC report version number and MUST be an integer.
+
+            Advisement: The latest available characterization factor version shall be used, i.e., ["AR6"].
+            In the event this is not possible, include the set of all characterization factors used.
+
+            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+      <tr>
+        <td><dfn>secondaryEmissionFactorSources</dfn>
+        <td>Object[]
+        <td>O
+        <td>
+            The non-empty set of the secondary emission factor sources used for the calculation of the emissions data.
+
+            Each element of the array MUST be an object with the following properties:
+
+            - `name`: String, M, The name of the source.
+            - `version`: String, O, The version of the source.
+
+            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+      <tr>
+        <td><dfn>pactPDS</dfn>: Decimal
+        <td>String
+        <td>O
+        <td>
+            The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
+
+            Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
+      <tr>
+        <td><dfn>productCategoryCpc</dfn>
+        <td>String
+        <td>M
+        <td>
+            Should be set to `83117` for all logistics emissions data, representing "Freight transport services" in the CPC 2.1 classification.
+
+            Issue: Unclear whether this is needed, because the value is hardcoded.
+      <tr>
+        <td><dfn>assurance</dfn>
+        <td>?
+        <td>O
+        <td>
+
+            Issue: Not yet specified. PACT definition [here](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#elementdef-assurance).
+            Unclear whether this can be transposed. TBD through the data quality workstream.
+      <tr>
+        <td><dfn>comment</dfn>
+        <td>String
+        <td>O
+        <td>
+            Additional information related to the TOC.
+
+            SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
+
+            Issue: Unclear whether this is needed.
       <tr>
         <td><dfn>hocId</dfn>
         <td>String
@@ -3424,38 +3739,6 @@ The list below contains the properties that were omitted for this reason.
 
 Note: The extensions of one `ProductFootprint` CANNOT contain more than one iLEAP Data Type.
 
-<figure id="ileap-pact-properties-mapping">
-  <table class="data">
-    <thead>
-      <tr>
-        <th>Attribute Id
-        <th>Type
-        <th>Req
-        <th>Description
-        <th>Source
-    <tbody>
-        <tr>
-          <td>`validityPeriodStart` : [DateTime](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#datetime)
-          <td>String
-          <td>O
-          <td>Determines the start of the validity period, i.e., the time interval during which the ProductFootprint is declared as valid for use by a receiving data recipient.
-          <td>[ProductFootprint/validityPeriodStart](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-validityperiodstart)
-
-        <tr>
-          <td>`validityPeriodEnd` : [DateTime](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#datetime)
-          <td>String
-          <td>O
-          <td>Determines the end (excluding) of the validity period, i.e., the time interval during which the ProductFootprint is declared as valid for use by a receiving data recipient.
-          <td>[ProductFootprint/validityPeriodEnd](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-validityperiodend)
-        <tr>
-          <td>`assurance` : [Assurance](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#dt-assurance)
-          <td>Object
-          <td>O
-          <td>If present, the Assurance information in accordance with the [[!PACT-FRAMEWORK]].
-          <td>[CarbonFootprint/assurance](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-assurance)
-    </table>
-</figure>
-
 ### ShipmentFootprint ### {#pcf-mapping-sf}
 
 Note: This chapter refers to the PACT Data Model. See [[!PACTDX]] Chapter 4 for further details.
@@ -3476,6 +3759,23 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
     <tbody>
       <tr>
         <td>ProductFootprint
+        <td>`specVersion`
+        <td>
+              MUST be set to `2.2.0`, referring to the version of [[!PACTDX]].
+      <tr>
+        <td>ProductFootprint
+        <td>`companyName`
+        <td>
+            MUST be set to the value of <{ShipmentFootprint/companyName}>. If undefined there,
+            the value cannot be derived from the <{ShipmentFootprint}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>ProductFootprint
+        <td>`companyIds`
+        <td>
+              MUST contain the value of <{ShipmentFootprint/companyIds}>. If undefined there,
+              the value cannot be derived from the <{ShipmentFootprint}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>ProductFootprint
         <td>`productIds`
         <td>
               MUST contain the shipment ID <{ShipmentFootprint/shipmentId}>, encoded as
@@ -3493,7 +3793,30 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>`productCategoryCpc`
         <td>
               MUST be equal to `83117`, the CPC code of logistics services.
-
+      <tr>
+        <td>CarbonFootprint
+        <td>`ipccCharacterizationFactorsSources`
+        <td>
+            MUST be set to the value of <{ShipmentFootprint/ipccCharacterizationFactorsSources}>. If undefined there,
+            the value cannot be derived from the <{ShipmentFootprint}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`crossSectoralStandardsUsed`
+        <td>
+              MUST be set to the value of <{ShipmentFootprint/crossSectoralStandardsUsed}>. If undefined there,
+              the value cannot be derived from the <{ShipmentFootprint}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`referencePeriodStart`
+        <td>
+              MUST be set to the value of <{ShipmentFootprint/referencePeriodStart}>. If undefined there,
+              the value cannot be derived from the <{ShipmentFootprint}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`referencePeriodEnd`
+        <td>
+              MUST be set to the value of <{ShipmentFootprint/referencePeriodEnd}>. If undefined there,
+              the value cannot be derived from the <{ShipmentFootprint}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
       <tr>
         <td>CarbonFootprint
         <td>`declaredUnit`
@@ -3602,29 +3925,21 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
 </figure>
 
 The `ProductFootprint` mandatory properties
-[id](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-id),
-[specVersion](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-specversion),
-[version](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-version),
-[status](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-status),
-[companyName](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-companyname),
-[companyIds](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-companyids),
-[productDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-productdescription),
+[id](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-id),
+[version](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-version),
+[status](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-status),
+[productDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-productdescription),
 and
-[productNameCompany](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-productnamecompany)
+[productNameCompany](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-productnamecompany)
 cannot be derived from the `ShipmentFootprint` and MUST be provided by the data owner. Please follow
 the links above for further details.
 
 The `CarbonFootprint` mandatory properties
-[characterizationFactors](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-characterizationfactors),
-[ipccCharacterizationFactorsSources](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-ipcccharacterizationfactorssources),
-[crossSectoralStandardsUsed](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-crosssectoralstandardsused),
-[crossSectoralStandars](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-crosssectoralstandards),
-[boundaryProcessesDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
-[referencePeriodStart](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-referenceperiodstart),
-[referencePeriodEnd](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-referenceperiodend),
-[exemptedEmissionsPercent](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-exemptedemissionspercent),
+[characterizationFactors](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-characterizationfactors),
+[boundaryProcessesDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
+[exemptedEmissionsPercent](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionspercent),
 and
-[exemptedEmissionsDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-exemptedemissionsdescription)
+[exemptedEmissionsDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionsdescription)
 cannot be derived from the `ShipmentFootprint` and MUST be provided by the data owner. Please follow
 the links above for further details.
 
@@ -3653,6 +3968,23 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
     <tbody>
       <tr>
         <td>ProductFootprint
+        <td>`specVersion`
+        <td>
+              MUST be set to `2.2.0`, referring to the version of [[!PACTDX]].
+      <tr>
+        <td>ProductFootprint
+        <td>`companyName`
+        <td>
+            MUST be set to the value of <{TOC/companyName}>. If undefined there,
+            the value cannot be derived from the <{TOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>ProductFootprint
+        <td>`companyIds`
+        <td>
+              MUST contain the value of <{TOC/companyIds}>. If undefined there,
+              the value cannot be derived from the <{TOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>ProductFootprint
         <td>`productIds`
         <td>
               MUST contain the TOC ID <{TOC/tocId}>, encoded as
@@ -3669,7 +4001,30 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>`productCategoryCpc`
         <td>
               MUST be equal to `83117`, the CPC code of logistics services.
-
+      <tr>
+        <td>CarbonFootprint
+        <td>`ipccCharacterizationFactorsSources`
+        <td>
+            MUST be set to the value of <{TOC/ipccCharacterizationFactorsSources}>. If undefined there,
+            the value cannot be derived from the <{TOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`crossSectoralStandardsUsed`
+        <td>
+              MUST be set to the value of <{TOC/crossSectoralStandardsUsed}>. If undefined there,
+              the value cannot be derived from the <{TOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`referencePeriodStart`
+        <td>
+              MUST be set to the value of <{TOC/referencePeriodStart}>. If undefined there,
+              the value cannot be derived from the <{TOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`referencePeriodEnd`
+        <td>
+              MUST be set to the value of <{TOC/referencePeriodEnd}>. If undefined there,
+              the value cannot be derived from the <{TOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
       <tr>
         <td>CarbonFootprint
         <td>`declaredUnit`
@@ -3780,29 +4135,21 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
 
 
 The `ProductFootprint` mandatory properties
-[id](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-id),
-[specVersion](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-specversion),
-[version](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-version),
-[status](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-status),
-[companyName](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-companyname),
-[companyIds](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-companyids),
-[productDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-productdescription),
+[id](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-id),
+[version](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-version),
+[status](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-status),
+[productDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-productdescription),
 and
-[productNameCompany](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-productnamecompany)
+[productNameCompany](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-productnamecompany)
 cannot be derived from the `TOC` and MUST be provided by the data owner. Please follow the links
 above for further details.
 
 The `CarbonFootprint` mandatory properties
-[characterizationFactors](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-characterizationfactors),
-[ipccCharacterizationFactorsSources](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-ipcccharacterizationfactorssources),
-[crossSectoralStandardsUsed](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-crosssectoralstandardsused),
-[crossSectoralStandars](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-crosssectoralstandards),
-[boundaryProcessesDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
-[referencePeriodStart](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-referenceperiodstart),
-[referencePeriodEnd](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-referenceperiodend),
-[exemptedEmissionsPercent](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-exemptedemissionspercent),
+[characterizationFactors](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-characterizationfactors),
+[boundaryProcessesDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
+[exemptedEmissionsPercent](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionspercent),
 and
-[exemptedEmissionsDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-exemptedemissionsdescription)
+[exemptedEmissionsDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionsdescription)
 cannot be derived from the `TOC` and MUST be provided by the data owner. Please follow
 the links above for further details.
 
@@ -3831,6 +4178,23 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
     <tbody>
       <tr>
         <td>ProductFootprint
+        <td>`specVersion`
+        <td>
+              MUST be set to `2.2.0`, referring to the version of [[!PACTDX]].
+      <tr>
+        <td>ProductFootprint
+        <td>`companyName`
+        <td>
+            MUST be set to the value of <{HOC/companyName}>. If undefined there,
+            the value cannot be derived from the <{HOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>ProductFootprint
+        <td>`companyIds`
+        <td>
+              MUST contain the value of <{HOC/companyIds}>. If undefined there,
+              the value cannot be derived from the <{HOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>ProductFootprint
         <td>`productIds`
         <td>
               MUST contain the HOC ID <{HOC/hocId}>, encoded as
@@ -3847,7 +4211,30 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>`productCategoryCpc`
         <td>
               MUST be equal to `83117`, the CPC code of logistics services.
-
+      <tr>
+        <td>CarbonFootprint
+        <td>`ipccCharacterizationFactorsSources`
+        <td>
+            MUST be set to the value of <{HOC/ipccCharacterizationFactorsSources}>. If undefined there,
+            the value cannot be derived from the <{HOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`crossSectoralStandardsUsed`
+        <td>
+              MUST be set to the value of <{HOC/crossSectoralStandardsUsed}>. If undefined there,
+              the value cannot be derived from the <{HOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`referencePeriodStart`
+        <td>
+              MUST be set to the value of <{HOC/referencePeriodStart}>. If undefined there,
+              the value cannot be derived from the <{HOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`referencePeriodEnd`
+        <td>
+              MUST be set to the value of <{HOC/referencePeriodEnd}>. If undefined there,
+              the value cannot be derived from the <{HOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
       <tr>
         <td>CarbonFootprint
         <td>`declaredUnit`
@@ -3962,29 +4349,21 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
 
 
 The `ProductFootprint` mandatory properties
-[id](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-id),
-[specVersion](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-specversion),
-[version](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-version),
-[status](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-status),
-[companyName](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-companyname),
-[companyIds](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-companyids),
-[productDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-productdescription),
+[id](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-id),
+[version](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-version),
+[status](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-status),
+[productDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-productdescription),
 and
-[productNameCompany](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-productfootprint-productnamecompany)
+[productNameCompany](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-productfootprint-productnamecompany)
 cannot be derived from the `HOC` and MUST be provided by the data owner. Please follow
 the links above for further details.
 
 The `CarbonFootprint` mandatory properties
-[characterizationFactors](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-characterizationfactors),
-[ipccCharacterizationFactorsSources](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-ipcccharacterizationfactorssources),
-[crossSectoralStandardsUsed](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-crosssectoralstandardsused),
-[crossSectoralStandars](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-crosssectoralstandards),
-[boundaryProcessesDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
-[referencePeriodStart](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-referenceperiodstart),
-[referencePeriodEnd](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-referenceperiodend),
-[exemptedEmissionsPercent](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-exemptedemissionspercent),
+[characterizationFactors](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-characterizationfactors),
+[boundaryProcessesDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
+[exemptedEmissionsPercent](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionspercent),
 and
-[exemptedEmissionsDescription](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-exemptedemissionsdescription)
+[exemptedEmissionsDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionsdescription)
 cannot be derived from the `HOC` and MUST be provided by the data owner. Please follow
 the links above for further details.
 
