@@ -62,11 +62,10 @@ designed to be interoperable with the
 PACT interoperability is deprecated in v1.1.0 of the iLEAP Technical Specifications, by which it is
 meant that:
 1. PACT support remains mandatory, but will be entirely removed in v2.0.0;
-1. new iLEAP native actions and standalone iLEAP data models have been introduced to replace PACT
-    for new implementations;
-1. implementers are recommended to use the new iLEAP native actions instead of PACT for new
-    implementations;
-1. implementers are recommended to gradually transition to iLEAP's standalone API and data model.
+1. a new [=iLEAP standalone protocol=] is introduced, enabling the exchange of logistics emissions data
+    without relying on PACT;
+1. implementers are recommended to use the new iLEAP standalone protocol, while keeping PACT support for
+    backward compatibility.
 
 ## Out of Scope ## {#out-of-scope}
 
@@ -221,20 +220,21 @@ The authors would like to thank the many individuals and organizations for their
 
 ## Auxiliary Definitions ## {#auxiliary-definitions}
 
-Issue: update definitions to remove PACT references
+Issue: Definition need to be reviewed
 
 : <dfn>Access Token</dfn>
 :: Credential to provide access to protected resources, as defined in [[!rfc6749]] Section 1.4 (see also Section 5.1 and Appendix A.12).
 
 : <dfn>Data Owner</dfn>
-:: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#data-owner) for the definition.
+:: The party in the logistics value chain that owns the data being exchanged.
 
 : <dfn>Data Recipient</dfn>
-:: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#data-recipient) for the definition.
+:: The party in the logistics value chain requesting and/or receiving the data being exchanged.
 
 : <dfn>Host System</dfn>
-:: See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#host-system) for the definition.
-    Here, a host system additionally implements support for 1 or more data transactions ([[#txns]]).
+:: A host system serves the needs of a single or multiple [=data owner=].
+    Additionally, it can also serve the needs of a [=data recipient=], by callind the HTTP REST API defined in [[#http-rest-api]].
+    A host system implements support for the data transactions defined in [[#txns]].
 
 : <dfn>iLEAP standalone protocol</dfn>
 :: The iLEAP native API and data model, introduced in v1.1.0 of these technical specifications, which enables the exchange
@@ -355,8 +355,8 @@ This data transaction enables a [=Transport Service User=] (for example, a [=shi
 To execute this transaction, the [=Transport Operator=] or the [=Transport Service Organizer=] MUST
 
 1. calculate 1 or more TCEs' emissions data in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
-2. make the resulting <{ShipmentFootprint}> available to the [=Transport Service User=] through the PACT
-    Network API (see [[#pcf-mapping-sf]]).
+2. make the resulting <{ShipmentFootprint}> available to the [=Transport Service User=] either
+    through the [=iLEAP standalone protocol=] ([[#action-sd]]) or through the PACT Network API (see [[#pcf-mapping-sf]]).
 
 The [=Transport Service User=] CAN then derive the Transport Chain ([=TC=]) using the [=shipment id=], by
 1. collecting the <{TCE|TCEs}> from all the [=Transport Operators=] and the [=Transport Service Organizers=] involved in the shipment;
@@ -376,7 +376,8 @@ It can also facilitate the inclusion of emission intensity in procurement proces
 To execute this transaction the [=Transport Operator=] or [=Transport Service Organizer=] MUST
 
 1. calculate 1 or more TOC or HOC emission profiles in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
-2. make the resulting <{TOC|TOCs}> or <{HOC|HOCs}> available through the PACT Network API (see [[#pcf-mapping]]).
+2. make the resulting <{TOC|TOCs}> or <{HOC|HOCs}> available either through the [=iLEAP standalone protocol=] ([[#action-tocd]] and
+    [[#action-hocd]]) or through the PACT Network API (see [[#pcf-mapping]]).
 
 Note:
     Details on the definition and calculation of [=TOCs=] and [=HOCs=] are specified in [[!ISO14083]]
@@ -483,7 +484,7 @@ enable logistics emissions transparency for a single shipment.
     This Operator has a [=host system=] which is capable of calculating <{TCE}> and <{TOC}> data.
 
     Through this, `Carrier A` can make [=Transport Chain Element=]-level data available to the
-    [=Transport Service Organizer=] `LSP`, which `LSP` can fetch using[[#txn1]].
+    [=Transport Service Organizer=] `LSP`, which `LSP` can fetch using [[#txn1]].
 
 : Transport Operator `Carrier B`
 ::
@@ -502,8 +503,10 @@ Note: The call to `/footprints` can return several footprints, one for each ship
 
 The highlighted lines show the data exchanged according to the <{ShipmentFootprint}> data model.
 
+Issue: Consider having an example with the iLEAP standalone protocol instead, moving this to the examples section.
+
 <div class=example>
-  Example HTTP Request (cURL) to collect TCE Data from Transport Operator A (please note that an actual API call would require authentication):
+  Example HTTP Request (cURL) to collect TCE Data from Transport Operator A, using the PACT Network API (please note that an actual API call would require authentication):
   <pre highlight='sh'>
       curl -X 'GET' \
       'https://api.transport-operator-a.com/2/footprints' \
@@ -583,8 +586,10 @@ To collect the TCE data related to the shipment, `LSP` performs the following HT
 
 Note: The highlighted lines show 2 <{TCE|TCEs}> which `Carrier A` has collected and calculated for `LSP`.
 
+Issue: Consider having an example with the iLEAP standalone protocol instead, moving this to the examples section.
+
 <div class=example>
-  Example HTTP Request (cURL) to collect TCE Data (please note that an actual API call would require authentication):
+  Example HTTP Request (cURL) to collect TCE Data using the PACT Network API (please note that an actual API call would require authentication):
   <pre highlight='sh'>
       curl -X 'GET' \
       'https://api.transport-organizer.com/2/footprints' \
@@ -697,9 +702,9 @@ Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint
 <{TAD|TADs}> should only be used by [=Transport Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>,
 <{TOC|TOCs}>, nor <{HOC|HOCs}>.
 
-Properties marked with `O*` are mandatory when using the [=iLEAP standalone protocol=], but optional
-when using iLEAP as a PACT Data Model Extension, as they are already mandatory in the PACT Data
-Model (see [[#pcf-mapping]]).
+Properties marked with `O*` are mandatory when using theå [=iLEAP standalone protocol=], but
+optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already mandatory in
+the PACT Data Model (see [[#pcf-mapping]]).
 
 ## ShipmentFootprint ## {#dt-sf}
 
@@ -739,7 +744,7 @@ Issue: Consider adding
         <td>
             The name of the company owning the data.
 
-            Advisement: MUST be defined if using the iLEAP standalone protocol.
+            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
       <tr>
         <td><dfn>companyIds</dfn>
         <td>String[]
@@ -868,7 +873,7 @@ Issue: Consider adding
 
             Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
       <tr>
-        <td><dfn>pactPDS</dfn>: Decimal
+        <td><dfn>pactPds</dfn>: Decimal
         <td>String
         <td>O
         <td>
@@ -934,8 +939,8 @@ The Data Type <{TCE}> models information related to a single [=Transport Chain E
 The data related to TCEs can be obtained from direct measurement (see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
 
 <{TCE|TCEs}> are typically calculated by [=Transport Operators=] and [=Transport Service Organizers=]. They are made available to [=Transport Service Users=] through
-the <{ShipmentFootprint}> data type and the PACT Data Exchange Protocol. See [[#dt-sf]] and [[#pcf-mapping]] for details.
-
+the <{ShipmentFootprint}> data type (see [[#dt-sf]]), using either the [=iLEAP standalone protocol=] (see [[#action-sd]]) or the PACT Data
+Exchange Protocol (see [[#pcf-mapping]]).
 
 ### Ordering of TCEs ### {#tce-ordering}
 
@@ -1367,7 +1372,7 @@ Issue: Consider adding
 
             Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
       <tr>
-        <td><dfn>pactPDS</dfn>: Decimal
+        <td><dfn>pactPds</dfn>: Decimal
         <td>String
         <td>O
         <td>
@@ -1732,7 +1737,7 @@ Issue: Consider adding
 
             Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
       <tr>
-        <td><dfn>pactPDS</dfn>: Decimal
+        <td><dfn>pactPds</dfn>: Decimal
         <td>String
         <td>O
         <td>
@@ -2787,16 +2792,17 @@ All endpoints native to iLEAP share common characteristics regarding
 1. [[#pagination]] of results
 1. request and response syntax
 
-The common characteristics are described in the sections below.
-
 ## Authentication ## {#authentication}
 
-Note: PACT interoperability is deprecated, but needs to be maintained for backward compatibility.
+Note: PACT interoperability is deprecated, but needs to be maintained for backwards compatibility.
+
+Issue: needs revision
 
 With the depecation of PACT interoperability, iLEAP defines its own authentication flow for the
-native endpoints. Both authentication methods MUST allow consumers of the API to access the data
-exposed in the relevant endpoints. In other words, a [=data recipient=] MUST be able to use either
-authentication method to access the same data.
+native endpoints. Both authentication methods MUST allow [=data recipients=] to access the data
+exposed in the relevant endpoints. In other words, a data recipient MUST be able to use either
+authentication method to access the same data, i.e., an [=access token=] obtained through either
+authentication method MUST be valid for accessing the same data.
 
 ### Authentication Flow ### {#authentication-flow}
 
@@ -2920,10 +2926,8 @@ If a [=host system=] does not implement filtering, it MUST process the request a
 If a [=host system=] implements filtering, it CAN process the filter statement on a best-effort basis:
 
 1. it CAN ignore the filter statement or parts of the filter statement, or
-1. it CAN return an error response as defined in the [PACT Technical
-    Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responses).
-    For instance, a host system CAN return an error with code `NotImplemented` if it does not
-    support a specific filter pair;
+1. it CAN return an error response as defined in the. For instance, a host system CAN return an HTTP
+    error code `400` and a body with error `NotImplemented` if it does not support a specific filter pair;
 1. it CAN treat concatenated filters disjunctively, i.e., returning the union of the results of the individual filters.
 
 ### Pagination ### {#pagination}
@@ -3032,7 +3036,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 
     In all other cases, for instance in case of a malformed value of the header authorization, the body SHOULD be an error response with code [BadRequest](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#badrequest).
 
-: [=ContentLength=]
+: ContentLength
 :: The length of the Body. See [[!rfc9112]].
 
 : <dfn>PaginationLink</dfn>
@@ -3602,11 +3606,6 @@ level of nesting), such as those of their embedded <{ModeSpecificReport|ModeSpec
 
 ### Request Syntax ### {#action-aed-request}
 
-Advisiment: As part of the deprecation of PACT interoperability, the version of the iLEAP native
-endpoints has been changed from `/2/ileap/` to `/v1/ileap/`. However, to maintain backward
-compatibility with existing implementations, a [=host system=] MUST support both versions of the
-endpoint. Below, only the new version is documented.
-
 <pre highlight=http>
   GET <l>[=Subpath=]</l>/v1/ileap/aed?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
   host: <l>[=Hostname=]</l>
@@ -3730,9 +3729,15 @@ Paginated response with a `link` header:
 
 ## PACT Integration ## {#pcf-mapping}
 
+As stated in [[#pact-interop]], PACT interoperability is deprecated. However, to ensure backward
+compatibility until the release of iLEAP v2.0.0, [=host systems=] MUST support the integration of
+the iLEAP data types into the PACT Data Model ([[!PACTDX]] Chapter 5) as specified in this section.
+The resulting `ProductFootprints` MUST be exchanged throuhg the PACT Data Exchange Protocol
+([[!PACTDX]] Chapter 7).
+
 The Data types defined in [[#data-model]] are specific to [[!ISO14083]] and the [[!GLEC]] Framework.
 
-This section specifies the integration of the data types <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> into the PACT Data Model ([[!PACTDX]] Chapter 4).
+This section specifies the integration of the data types <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> into the PACT Data Model ([[!PACTDX]] Chapter 5).
 The integration of the data types <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> is achieved by storing them as extensions to the PACT Data Model (see [[!DATA-MODEL-EXTENSIONS]]).
 Therefore, all properties defined in the latter are also properties of the former. As a result, some properties relevant to logistics do not need to be defined in the [[#data-model]].
 The list below contains the properties that were omitted for this reason.
@@ -3741,11 +3746,14 @@ Note: The extensions of one `ProductFootprint` CANNOT contain more than one iLEA
 
 ### ShipmentFootprint ### {#pcf-mapping-sf}
 
-Note: This chapter refers to the PACT Data Model. See [[!PACTDX]] Chapter 4 for further details.
+Note: This chapter refers to the PACT Data Model. See [[!PACTDX]] Chapter 5 for further details.
 
-A ShipmentFootprint CAN be integrated into the PACT Data Model ([[!PACTDX]]) by storing a <{ShipmentFootprint}> as an extension (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
+A ShipmentFootprint CAN be integrated into the PACT Data Model ([[!PACTDX]]) by storing a
+<{ShipmentFootprint}> as an extension (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
 
-For interoperability reasons, [[!PACTDX]]-related attributes MUST be derived from the <{ShipmentFootprint}> where possible. Details are specified in the [table](#pact-sf-mapping-table) below.
+For interoperability reasons, [[!PACTDX]]-related attributes MUST be derived from the
+<{ShipmentFootprint}> where possible. Details are specified in the [table](#pact-sf-mapping-table)
+below.
 
 Note: Section [[#appendix-b-sf-example]] contains an example.
 
@@ -3823,7 +3831,7 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>
               MUST be set to `ton kilometer` conforming to the PACT PACT Technical Specifications.
 
-              See [[!PACTDX]] Chapter 4 for further details.
+              See [[!PACTDX]] Chapter 5 for further details.
 
       <tr>
         <td>CarbonFootprint
@@ -3948,7 +3956,7 @@ properties that cannot be derived from `ShipmentFootprint` CAN be populated in a
 
 ### TOC ### {#pcf-mapping-toc}
 
-Note: This chapter refers to the PACT Data Model. See [[!PACTDX]] Chapter 4 for further details.
+Note: This chapter refers to the PACT Data Model. See [[!PACTDX]] Chapter 5 for further details.
 
 A TOC CAN be integrated into the PACT Data Model ([[!PACTDX]]) by storing a <{TOC}> as an
 extension (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
@@ -4031,7 +4039,7 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>
               MUST be set to `ton kilometer` conforming to the PACT PACT Technical Specifications.
 
-              See [[!PACTDX]] Chapter 4 for further details.
+              See [[!PACTDX]] Chapter 5 for further details.
 
       <tr>
         <td>CarbonFootprint
@@ -4158,7 +4166,7 @@ properties that cannot be derived from `TOC` CAN be populated in a best-effort m
 
 ### HOC ### {#pcf-mapping-hoc}
 
-Note: This chapter refers to the PACT Data Model. See [[!PACTDX]] Chapter 4 for further details.
+Note: This chapter refers to the PACT Data Model. See [[!PACTDX]] Chapter 5 for further details.
 
 An HOC CAN be integrated into the PACT Data Model ([[!PACTDX]]) by storing an <{HOC}> as an
 extension (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
@@ -4241,7 +4249,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>
               MUST be set to `kilogram` conforming to the PACT PACT Technical Specifications.
 
-              See [[!PACTDX]] Chapter 4 for further details.
+              See [[!PACTDX]] Chapter 5 for further details.
 
       <tr>
         <td>CarbonFootprint
