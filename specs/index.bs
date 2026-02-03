@@ -4505,6 +4505,8 @@ are performed accurately in end-to-end scenarios.
 
 ## Conformance Matrix ## {#ileap-conformance-matrix}
 
+Issue: does this matrix still make sense with so many test cases?
+
 <figure>
   <table class="complex data">
     <thead>
@@ -4513,9 +4515,8 @@ are performed accurately in end-to-end scenarios.
         <th style="text-align: left">Conformance
     <tbody >
       <tr>
-        <td style="text-align: left">All [PACT Mandatory Test Cases
-V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
-        <td rowspan="4"><dfn>iLEAP Emissions Data Conformance</dfn>
+        <td style="text-align: left">All [PACT v2.2 Mandatory Test Cases](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
+        <td rowspan="24"><dfn>iLEAP Emissions Data Conformance</dfn>
 
       <tr>
         <td style="text-align: left">[[#test-case-001]]
@@ -4528,7 +4529,6 @@ V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-
 
       <tr>
         <td style="text-align: left">[[#test-case-004]]
-        <td rowspan="5"><dfn>iLEAP Activity Data Conformance</dfn>
 
       <tr>
         <td style="text-align: left">[[#test-case-005]]
@@ -4541,6 +4541,67 @@ V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-
 
       <tr>
         <td style="text-align: left">[[#test-case-008]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-009]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-010]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-011]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-012]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-013]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-014]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-015]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-016]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-017]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-018]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-019]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-020]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-021]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-022]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-023]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-024]]
+        <td rowspan="5"><dfn>iLEAP Activity Data Conformance</dfn>
+
+      <tr>
+        <td style="text-align: left">[[#test-case-025]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-026]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-027]]
+
+      <tr>
+        <td style="text-align: left">[[#test-case-028]]
 
   </table>
   <figcaption>iLEAP Conformance Matrix</figcaption>
@@ -4994,28 +5055,67 @@ HOCs](#pcf-mapping-hoc) must be conformante with the Data Model specified in [[#
 relevant properties of the `ProductFootprint` must also be confomant with the guidance provided in
 [[#pcf-mapping-hoc]].
 
-### Test Case 004: Get All TransportActivityData ### {#test-case-004}
+### Test Case 004: Get All ShipmentData ### {#test-case-004}
 
+### Test Case 005: Get Filtered List of ShipmentData ### {#test-case-005}
+
+### Test Case 006: Get Limited List of ShipmentData ### {#test-case-006}
+
+### Test Case 007: Attempt ShipmentData with Invalid Token ### {#test-case-007}
+
+### Test Case 008: Attempt ShipmentData with Expired Token ### {#test-case-008}
+
+### Test Case 009: Get All TransportOperatorCategoryData ### {#test-case-009}
+
+### Test Case 010: Get Filtered List of TransportOperatorCategoryData ### {#test-case-010}
+
+### Test Case 011: Get Limited List of TransportOperatorCategoryData ### {#test-case-011}
+
+### Test Case 012: Attempt TransportOperatorCategoryData with Invalid Token ### {#test-case-012}
+
+### Test Case 013: Attempt TransportOperatorCategoryData with Expired Token ### {#test-case-013}
+
+### Test Case 014: Get All HubOperationCategoryData ### {#test-case-014}
+
+### Test Case 015: Get Filtered List of HubOperationCategoryData ### {#test-case-015}
+
+### Test Case 016: Get Limited List of HubOperationCategoryData ### {#test-case-016}
+
+### Test Case 017: Attempt HubOperationCategoryData with Invalid Token ### {#test-case-017}
+
+### Test Case 018: Attempt HubOperationCategoryData with Expired Token ### {#test-case-018}
+
+### Test Case 019: Get All AggregatedEmissionsData ### {#test-case-019}
+
+### Test Case 020: Get Filtered List of AggregatedEmissionsData ### {#test-case-020}
+
+### Test Case 021: Get Limited List of AggregatedEmissionsData ### {#test-case-021}
+
+### Test Case 022: Attempt AggregatedEmissionsData with Invalid Token ### {#test-case-022}
+
+### Test Case 023: Attempt AggregatedEmissionsData with Expired Token ### {#test-case-023}
+
+### Test Case 024: Get All TransportActivityData ### {#test-case-024}
 Tests the [=target host system=]'s ability to return all `TransportActivityData`.
 
-#### Request #### {#test-case-004-request}
+#### Request #### {#test-case-024-request}
 
 A `TransportActivityData` GET request must be sent to the `/2/ileap/tad` endpoint of the test [=target
 host system=] with a valid [=access token=] and the syntax specified in [[#action-tad-request]].
 
 The access token must be obtained through the [PACT's Authentication Flow](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-auth). This can be tested through PACT's Test Cases [001](https://wbcsd.github.io/pact-conformance-testing/checklist.html#tc001) and [002](https://wbcsd.github.io/pact-conformance-testing/checklist.html#tc002).
 
-#### Expected Response #### {#test-case-004-response}
+#### Expected Response #### {#test-case-024-response}
 
 The test [=target host system=] must respond with 200 OK and a JSON body containing a list of
 `TransportActivityData`, in conformance with [[#action-tad-response]] and following the data model
 specified at [[#dt-tad]].
 
-### Test Case 005: Get Filtered List of TransportActivityData ### {#test-case-005}
+### Test Case 025: Get Filtered List of TransportActivityData ### {#test-case-025}
 
 Tests the [=target host system=]'s ability to return a filtered list of `TransportActivityData`.
 
-#### Request #### {#test-case-005-request}
+#### Request #### {#test-case-025-request}
 
 A `TransportActivityData` GET request must be sent to the `/2/ileap/tad` endpoint of the test [=target
 host system=] with a valid [=access token=] and the syntax specified in [[#action-tad-request]].
@@ -5031,17 +5131,17 @@ recomend using {{TransportMode}}, iterating over all possible values:
 
 The access token must be obtained through the [PACT's Authentication Flow](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-auth). This can be tested through PACT's Test Cases [001](https://wbcsd.github.io/pact-conformance-testing/checklist.html#tc001) and [002](https://wbcsd.github.io/pact-conformance-testing/checklist.html#tc002).
 
-#### Expected Response #### {#test-case-005-response}
+#### Expected Response #### {#test-case-025-response}
 
 For at least one filter, the test [=target host system=] must respond with 200 OK and a JSON body
 containing a list of `TransportActivityData` matching the filter, in conformance with
 [[#action-tad-response]] and following the data model specified at [[#dt-tad]].
 
-### Test Case 006: Get Limited List of TransportActivityData ### {#test-case-006}
+### Test Case 026: Get Limited List of TransportActivityData ### {#test-case-026}
 
 Tests the [=target host system=]'s ability to return a limited list of `TransportActivityData`.
 
-#### Request #### {#test-case-006-request}
+#### Request #### {#test-case-026-request}
 
 A `TransportActivityData` GET request must be sent to the `/2/ileap/tad` endpoint of the test
 [=target host system=] with a valid [=access token=] and the syntax specified in
@@ -5053,7 +5153,7 @@ through PACT's Test Cases
 [001](https://wbcsd.github.io/pact-conformance-testing/checklist.html#tc001) and
 [002](https://wbcsd.github.io/pact-conformance-testing/checklist.html#tc002).
 
-#### Expected Response #### {#test-case-006-response}
+#### Expected Response #### {#test-case-026-response}
 
 The test [=target host system=] must respond with 200 OK and a JSON body containing one or less
 `TransportActivityData`, in conformance with [[#action-tad-response]] and following the data model
@@ -5068,27 +5168,26 @@ If no [=pagination link=] is returned, a GET request sent to `/2/ileap/tad` (wit
 `TransportActivityData` as that returned in the first request (including the query parameter
 [=Limit=] with value `1`).
 
-### Test Case 007: Attempt TransportActivityData with Invalid Token ### {#test-case-007}
+### Test Case 027: Attempt TransportActivityData with Invalid Token ### {#test-case-027}
 
 Tests the [=target host system=]'s ability to handle a `TransportActivityData` request with an invalid
 access token.
 
-#### Request #### {#test-case-007-request}
-
+#### Request #### {#test-case-027-request}
 A `TransportActivityData` GET request must be sent to the `/2/ileap/tad` endpoint of the test [=target
 host system=] with an invalid access token and the syntax specified in [[#action-tad-request]].
 
-#### Expected Response #### {#test-case-007-response}
+#### Expected Response #### {#test-case-027-response}
 
 The test [=target host system=] must respond with a 403 Forbidden status code and an `AccessDenied`
 error response code, as specified in [=ResponseBody=].
 
-### Test Case 008: Attempt TransportActivityData with Expired Token ### {#test-case-008}
+### Test Case 028: Attempt TransportActivityData with Expired Token ### {#test-case-028}
 
 Tests the [=target host system=]'s ability to handle a `TransportActivityData` request with an expired
 access token.
 
-#### Request #### {#test-case-008-request}
+#### Request #### {#test-case-028-request}
 
 A `TransportActivityData` GET request must be sent to the `/2/ileap/tad` endpoint of the test [=target
 host system=] with an expired access token and the syntax specified in [[#action-tad-request]].
@@ -5099,7 +5198,7 @@ through PACT's Test Cases
 [001](https://wbcsd.github.io/pact-conformance-testing/checklist.html#tc001) and
 [002](https://wbcsd.github.io/pact-conformance-testing/checklist.html#tc002).
 
-#### Expected Response #### {#test-case-008-response}
+#### Expected Response #### {#test-case-028-response}
 
 The test [=target host system=] must respond with a 401 Unauthorized status code and an
 `ExpiredToken` error response code, as specified in [=ResponseBody=].
