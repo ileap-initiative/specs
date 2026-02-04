@@ -67,6 +67,15 @@ meant that:
 1. implementers are recommended to use the new iLEAP standalone protocol, while keeping PACT support for
     backward compatibility.
 
+### Migration from PACT-based to iLEAP standalone protocol ### {#migration-pact-ileap}
+
+We recommend implementers to migrate from PACT-based implementations to the new [=iLEAP standalone
+protocol=] with the following phased approach:
+
+1. Upon the release of v1.1.0, implement the iLEAP standalone protocol alongside existing PACT support.
+1. Maintain both PACT and iLEAP standalone protocol support for a transitional period.
+1. Upon the release of v2.0.0, remove PACT support entirely and fully transition to the iLEAP standalone protocol.
+
 ## Out of Scope ## {#out-of-scope}
 
 Note: Non-normative section
@@ -2792,6 +2801,46 @@ Therefore, a [=host system=] MUST implement
 1. the iLEAP native endpoint for the exchange of <{TAD|Transport Activity Data}> (see [[#action-tad]])
 1. the iLEAP native endpoint for the exchange of <{AR|Aggregated Reports}> (see [[#action-aed]])
 
+<figure id="api-endpoint-mapping">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>PACT-based Endpoint
+        <th>iLEAP-native Endpoint
+        <th>Notes
+    <tbody>
+      <tr>
+        <td>`POST` [=AuthEndpoint=] or `/auth/token`
+        <td>`POST` [=AuthEndpoint=] or `/auth/token`
+        <td>Authentication flow kept
+      <tr>
+        <td rowspan="3">`GET` `/2/footprints`
+        <td>`GET` `/v1/ileap/shipments`
+        <td rowspan="3"> <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> now have separate endpoints
+      <tr>
+        <td>`GET` `/v1/ileap/tocs`
+      <tr>
+        <td>`GET` `/v1/ileap/hocs`
+      <tr>
+        <td rowspan="3">`GET` `/2/footprints/$GetPfId$`
+        <td>`GET` `/v1/ileap/shipments?shipmentId=$shipmentId$`
+        <td rowspan="3">Requesting one single <{ShipmentFootprint}>, <{TOC}>, or <{HOC}> is now done by filtering on the respective identifier
+      <tr>
+        <td>`GET` `/v1/ileap/tocs?tocId=$tocId$`
+      <tr>
+        <td>`GET` `/v1/ileap/hocs?hocId=$hocId$`
+      <tr>
+        <td>
+        <td>`GET` `/v1/ileap/tad`
+        <td>New endpoint for the exchange of <{TAD|Transport Activity Data}> (previously `/2/ileap/tad`)
+      <tr>
+        <td>
+        <td>`GET` `/v1/ileap/aed`
+        <td>New endpoint for the exchange of <{AR|Aggregated Reports}>
+  </table>
+<figcaption>Mapping PACT-based to iLEAP native endpoints</figcaption>
+</figure>
+
 All endpoints native to iLEAP share common characteristics regarding
 
 1. [[#filtering]] of results
@@ -3197,7 +3246,7 @@ in the [=Filter=] parameter.
 ### Request Syntax ### {#action-tocd-request}
 
 <pre highlight=http>
-  GET <l>[=Subpath=]</l>/v1/ileap/tocd?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  GET <l>[=Subpath=]</l>/v1/ileap/tocs?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
   host: <l>[=Hostname=]</l>
   authorization: Bearer <l>[=BearerToken=]</l>
 </pre>
@@ -3208,7 +3257,7 @@ in the [=Filter=] parameter.
   Get all `TOCs`
 
   ```http
-  GET /v1/ileap/tocd HTTP/1.1
+  GET /v1/ileap/tocs HTTP/1.1
   ```
 </div>
 
@@ -3216,7 +3265,7 @@ in the [=Filter=] parameter.
   Get the `TOC`, with <{TOC/tocId}> equal to `"40t-diesel-2023"`
 
   ```http
-  GET /v1/ileap/tocd?tocId=40t-diesel-2023 HTTP/1.1
+  GET /v1/ileap/tocs?tocId=40t-diesel-2023 HTTP/1.1
   ```
 </div>
 
@@ -3224,7 +3273,7 @@ in the [=Filter=] parameter.
   Get filtered `TOCs` where the <{TOC/energyCarriers}> include the <{EnergyCarrier/energyCarrier}> `"Diesel"`
 
   ```http
-  GET /v1/ileap/tocd?energyCarriers.energyCarrier=diesel HTTP/1.1
+  GET /v1/ileap/tocs?energyCarriers.energyCarrier=diesel HTTP/1.1
   ```
 </div>
 
@@ -3232,7 +3281,7 @@ in the [=Filter=] parameter.
   Get filtered `TOCs` where the <{TOC/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
 
   ```http
-  GET /v1/ileap/tocd?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
+  GET /v1/ileap/tocs?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
   ```
 </div>
 
@@ -3240,7 +3289,7 @@ in the [=Filter=] parameter.
   Get a limited amount of `TOCs` (2)
 
   ```http
-  GET /v1/ileap/tocd?limit=2 HTTP/1.1
+  GET /v1/ileap/tocs?limit=2 HTTP/1.1
   ```
 </div>
 
@@ -3278,7 +3327,7 @@ Issue: example needs revision
   HTTP/1.1 200 OK
   Content-Type: application/json
   Content-Length: 512
-  Link: <https://api.ileap.sine.dev/v1/ileap/tocd?limit=1&offset=1>; rel="next"
+  Link: <https://api.ileap.sine.dev/v1/ileap/tocs?limit=1&offset=1>; rel="next"
 
   {
     "data": [
@@ -3322,7 +3371,7 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
 ### Request Syntax ### {#action-hocd-request}
 
 <pre highlight=http>
-  GET <l>[=Subpath=]</l>/v1/ileap/hocd?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  GET <l>[=Subpath=]</l>/v1/ileap/hocs?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
   host: <l>[=Hostname=]</l>
   authorization: Bearer <l>[=BearerToken=]</l>
 </pre>
@@ -3333,7 +3382,7 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
   Get all `HOCs`
 
   ```http
-  GET /v1/ileap/hocd HTTP/1.1
+  GET /v1/ileap/hocs HTTP/1.1
   ```
 </div>
 
@@ -3341,7 +3390,7 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
   Get the `HOC`, with <{HOC/hocId}> equal to `"hub-rotterdam"`
 
   ```http
-  GET /v1/ileap/hocd?hocId=hub-rotterdam- HTTP/1.1
+  GET /v1/ileap/hocs?hocId=hub-rotterdam- HTTP/1.1
   ```
 </div>
 
@@ -3349,7 +3398,7 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
   Get filtered `HOCs` where the <{HOC/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
 
   ```http
-  GET /v1/ileap/hocd?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
+  GET /v1/ileap/hocs?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
   ```
 </div>
 
@@ -3357,7 +3406,7 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
   Get filtered `HOCs` where the <{HOC/hubLocation}> has <{Location/city}> equal to `"Hamburg"`
 
   ```http
-  GET /v1/ileap/hocd?hubLocation.city=hamburg HTTP/1.1
+  GET /v1/ileap/hocs?hubLocation.city=hamburg HTTP/1.1
   ```
 </div>
 
@@ -3365,7 +3414,7 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
   Get a limited amount of `HOCs` (2)
 
   ```http
-  GET /v1/ileap/hocd?limit=2 HTTP/1.1
+  GET /v1/ileap/hocs?limit=2 HTTP/1.1
   ```
 </div>
 
@@ -3403,7 +3452,7 @@ Issue: example needs revision
   HTTP/1.1 200 OK
   Content-Type: application/json
   Content-Length: 512
-  Link: <https://api.ileap.sine.dev/v1/ileap/hocd?limit=1&offset=1>; rel="next"
+  Link: <https://api.ileap.sine.dev/v1/ileap/hocs?limit=1&offset=1>; rel="next"
 
   {
     "data": [
