@@ -495,6 +495,8 @@ aggregated, in order to share less granular data with a Transport Service User.
 
 Note: Non-normative section
 
+Issue: Missing example with Data Transaction 4.
+
 ## Example Case with 2 Carriers and 1 LSP ## {#example-case-1}
 
 This section provides an end-to-end example of how the ([[#txns]])
