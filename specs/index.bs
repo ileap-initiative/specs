@@ -295,7 +295,22 @@ Data Transaction #3 ([[#txn3]]) enables this business case.
 
 ## Aggregated Emissions Reporting ## {#business-case-4}
 
-Issue: WIP
+Consider the following scenarios:
+    1. A [=Transport Operator=] or a [=Transport Service Organizer=] needs to disclose emissions data to a
+        [=Transport Service Organizer=] or a [=Transport Service User=] for commercial or regulatory purposes, but is not
+        able or not willing (for privacy or competitive reasons) to share TCE-level data. Instead, they want to share emissions
+        aggregated per transport mode over a shipment or a period of time.
+    1. A [=Transport Service User=] or a [=Transport Service Organizer=] requests emissions data from a [=Transport Operator=],
+        a [=Transport Service Organizer=]. They do not need TCE-level data, but rather emissions aggregated per transport mode
+        over a shipment or a period of time.
+    1. A [=Transport Service User=], a [=Transport Service Organizer=], or a [=Transport Operator=] needs to disclose an
+        emissions data to a public body, for regulatory purposes, but only aggregated data is required. (This could take
+        place simultaneously with 1. The data disclosed to the public body could be a subset of the data exchanged B2B
+        (e.g., customer identification could be redacted).)
+
+iLEAP generally simplifies data collection efforts for the parties involved in this business case,
+lowering the barrier for sharing emissions data, while still enabling the use of primary data for
+the calculation of emissions.
 
 Data Transaction #4 ([[#txn4]]) enables this business case.
 
@@ -430,6 +445,8 @@ aggregated, in order to share less granular data with a Transport Service User.
 # End-to-End Example # {#example}
 
 Note: Non-normative section
+
+Issue: Missing example with Data Transaction 4.
 
 ## Example Case with 2 Carriers and 1 LSP ## {#example-case-1}
 
@@ -2192,6 +2209,24 @@ Advisement: The enumeration of packaging or transport equipment units above will
 
             : Hub
             :: Refers to hub operations in general
+      <tr>
+        <td><dfn>distanceTypes</dfn> : [=Decimal=]
+        <td>String[]
+        <td>O
+        <td>
+              The non-empty set (without duplicates) of the GLEC distance types used to calculate the emissions for this mode of transport or hub operations.
+
+              Elements of the array MUST be one of the following:
+
+              : `actual`
+              :: For actual distance
+
+              : `gcd`
+              :: For [=Great Circle Distance=]
+
+              : `sfd`
+              :: For [=Shortest Feasible Distance=]
+
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
