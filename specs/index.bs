@@ -2597,7 +2597,7 @@ Advisement: The enumeration of packaging or transport equipment units above will
             : Hub
             :: Refers to hub operations in general
       <tr>
-        <td><dfn>distanceTypes</dfn> : [=Decimal=]
+        <td><dfn>distanceTypes</dfn>
         <td>String[]
         <td>O
         <td>
