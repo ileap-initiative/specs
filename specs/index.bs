@@ -710,12 +710,12 @@ The iLEAP Data Model is composed by six main data types: <{ShipmentFootprint}>, 
 When using the [=iLEAP standalone protocol=], all data types are exchanged through dedicated endpoints.
 
 <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, and <{HOC|HOCs}> can be also exchanged as extensions to the PACT
-Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
+Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]] and [[#pcf-mapping]]) in a `ProductFootprint`.
 
 <{TAD|TADs}> should only be used by [=Transport Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>,
 <{TOC|TOCs}>, nor <{HOC|HOCs}>.
 
-Properties marked with `O*` are mandatory when using theå [=iLEAP standalone protocol=], but
+Advisement: Properties marked with `O*` are mandatory when using the [=iLEAP standalone protocol=], but
 optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already mandatory in
 the PACT Data Model (see [[#pcf-mapping]]).
 
@@ -2849,7 +2849,8 @@ All endpoints native to iLEAP share common characteristics regarding
 
 Note: PACT interoperability is deprecated, but needs to be maintained for backwards compatibility.
 
-Issue: needs revision
+Issue: Needs revision. In particular, we need to consider not demanding BasicAuth implementation with client credentials.
+Oscar (Way) has made a concrete proposal on how to keep OAuth2 and make the protocol more flexible regarding the details.
 
 With the deprecation of PACT interoperability, iLEAP defines its own authentication flow for the
 native endpoints. An [=access token=] obtained through either authentication method (PACT or iLEAP native)
