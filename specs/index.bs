@@ -249,6 +249,9 @@ Issue: Definition need to be reviewed
 :: The iLEAP native API and data model, introduced in v1.1.0 of these technical specifications, which enables the exchange
     of logistics emissions data without relying on PACT.
 
+: <dfn>OpenId Provider Configuration Document</dfn>
+:: An OpenId Provider Configuration Document in accordance with [[!OPENID-CONNECT]] section 4.
+
 : <dfn>PCF</dfn>
 ::
     Product Carbon Footprint. See [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#dt-carbonfootprint) for further details.
@@ -2084,9 +2087,9 @@ encoded as a JSON object.
     <figcaption><{TAD}> properties</figcaption>
 </figure>
 
-## Aggregated Report (<dfn element data-lt="AR|AggregatedReports">AR</dfn>) ## {#dt-ar}
+## Aggregated Report (<dfn element data-lt="AR|AggregatedReport|AggregatedReports">AR</dfn>) ## {#dt-ar}
 
-The <dfn>AggregatedReport</dfn> (<{AR}>) data type contains aggregated emissions data for one or more shipments,
+The <{AR|AggregatedReport}> data type contains aggregated emissions data for one or more shipments,
 disclosing total emissions, without disclosing TCE-level data. An AggregatedReport MAY disclose
 emissions aggregated per transport mode and  an aggregation of all hub TCEs (see ISO 14083 Chapter
 13.3).
@@ -2106,7 +2109,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><dfn>reportId</dfn>
         <td>String
         <td>M
-        <td>The non-empty unique ID of this [=AggregatedReport=] relative to the [=host system=].
+        <td>The non-empty unique ID of this <{AggregatedReport}> relative to the [=host system=].
       <tr>
         <td><dfn>standardsUsed</dfn>
         <td>String[]
@@ -2128,7 +2131,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>String[]
         <td>M
         <td>
-            The shipment ids of the shipment(s) related to this [=AggregatedReport=].
+            The shipment ids of the shipment(s) related to this <{AggregatedReport}>.
             In case the report covers multiple shipments, these MUST all belong to the same transport contract,
             hence having the same Transport Service User (see <{AggregatedReport/transportServiceUserId}>).
       <tr>
@@ -2140,12 +2143,12 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><dfn>tocIds</dfn>
         <td>String[]
         <td>O
-        <td>The ids of the TOCs used for the calculation of this [=AggregatedReport=].
+        <td>The ids of the TOCs used for the calculation of this <{AggregatedReport}>.
       <tr>
         <td><dfn>hocIds</dfn>
         <td>String[]
         <td>O
-        <td>The ids of the HOCs used for the calculation of this [=AggregatedReport=].
+        <td>The ids of the HOCs used for the calculation of this <{AggregatedReport}>.
       <tr>
         <td><dfn>reportPeriodStart</dfn>
         <td>String
@@ -2167,7 +2170,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>String
         <td>M
         <td>
-            Each [=AggregatedReport=] MUST include the property `status` with value one of the following
+            Each <{AggregatedReport}> MUST include the property `status` with value one of the following
             values:
 
             : `Active`
@@ -2193,7 +2196,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td><dfn>consignmentIds</dfn>
         <td>String[]
         <td>O
-        <td>The ids of the consignments corresponding to this [=AggregatedReport=].
+        <td>The ids of the consignments corresponding to this <{AggregatedReport}>.
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
         <td><{PackagingOrTrEqType}>
@@ -2269,7 +2272,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>String[]
         <td>O
         <td>
-            The non-empty set (without duplicates) of transport modalities included in this [=AggregatedReport=].
+            The non-empty set (without duplicates) of transport modalities included in this <{AggregatedReport}>.
 
             If <{AggregatedReport/perModeEmissions}> is not defined, this property SHOULD be defined to either disclose the modalities
             or to indicate that the emissions are aggregated across multiple modalities.
@@ -2289,7 +2292,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             : `MultiModal`
             :: For transport modes combining two or more of the above transport modes.
     </table>
-    <figcaption>Properties of data type [=AggregatedReport=]</figcaption>
+    <figcaption>Properties of data type <{AggregatedReport}></figcaption>
 </figure>
 
 ## Additional Utility Data Types ## {#dt-utility-section}
@@ -2782,7 +2785,7 @@ The iLEAP Technical Specifications define two possibile REST HTTP APIs for the e
 - the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> relying on the [[!PACTDX]] Protocol (see [[#pcf-mapping]]),
     with two additional endpoints for the exchange of <{TAD|Transport Activity Data}> and <{AR|Aggregated Reports}>; and
 - a standalone API for the exchange of <{ShipmentFootprint}>, <{TOC}>, <{HOC}>, <{TAD|Transport Activity Data}>, and
-    <{AR|Aggregated Reports}>, not relying on the [[!PACTDX]] Protocol.
+    <{AggregatedReport|Aggregated Reports}>, not relying on the [[!PACTDX]] Protocol.
 
 The PACT-based API is now DEPRECATED and will be removed in v2.0.0 of the iLEAP Technical
 Specifications. Yet, for the time being, it is still mandatory to ensure backwards compatibility
@@ -2853,15 +2856,13 @@ Note: PACT interoperability is deprecated, but needs to be maintained for backwa
 
 Issue: needs revision
 
-With the depecation of PACT interoperability, iLEAP defines its own authentication flow for the
-native endpoints. Both authentication methods MUST allow [=data recipients=] to access the data
-exposed in the relevant endpoints. In other words, a data recipient MUST be able to use either
-authentication method to access the same data, i.e., an [=access token=] obtained through either
-authentication method MUST be valid for accessing the same data.
+With the deprecation of PACT interoperability, iLEAP defines its own authentication flow for the
+native endpoints. An [=access token=] obtained through either authentication method (PACT or iLEAP native)
+MUST be valid for accessing the same data.
 
 ### Authentication Flow ### {#authentication-flow}
 
-Note: The iLEAP authentication flow follows the same structure of that defined in [[!PACTDX]] Section 7.3.
+Note: The iLEAP <dfn id="dfn-authentication-flow">authentication flow</dfn> follows the same structure of that defined in [[!PACTDX]] Section 7.3.
 
 #### AuthEndpoint Discovery #### {#auth-endpoint-discovery}
 
@@ -3082,7 +3083,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 : <dfn>ResponseBody</dfn>
 ::
     If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the
-    list of the relevant data (either [=Transport Activity Data=] or [=AggregatedReports=]). The list MUST be encoded as
+    list of the relevant data (either [=Transport Activity Data=] or <{AggregatedReports}>). The list MUST be encoded as
     a JSON array.
 
     If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
@@ -3099,9 +3100,9 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 ## Action ShipmentData ## {#action-sd}
 
-Lists the [=data owner=]'s [=Shipment Footprints=] with [[#pagination]] and optional [[#filtering]]
+Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with [[#pagination]] and optional [[#filtering]]
 
-A [=Host system=] MUST implement an access management system to return only the [=shipment footprints=]
+A [=Host system=] MUST implement an access management system to return only the <{ShipmentFootprint|ShipmentFootprints}>
 intended for the requesting [=data recipient=].
 
 To retrieve only one shipment footprint related to a specific shipment, the [=data recipient=]
@@ -3231,7 +3232,7 @@ Issue: example needs revision
 
 ## Action TransportOperatorCategoryData ## {#action-tocd}
 
-Lists the [=data owner=]'s [=Transport Operator Category Data=] with [[#pagination]] and optional [[#filtering]].
+Lists the [=data owner=]'s <{TOC|TOCs}> with [[#pagination]] and optional [[#filtering]].
 
 A [=Host system=] MUST implement an access management system to return only the [=TOC=] intended for
 the requesting [=data recipient=].
@@ -3240,7 +3241,7 @@ To retrieve only one TOC, the [=data recipient=] SHOULD use the [=Filter=] param
 pair `tocId=$tocId`, where `$tocId` is the identifier of the TOC as defined in <{TOC/tocId}>.
 
 To retrive TOCs based on embedded properties (regardless of the level of nesting), such as those of
-their embedded <{TCE/energyCarriers|energy carrier}>, the [=data recipient=] CAN use [=dot notation=]
+their embedded <{TOC/energyCarriers}>, the [=data recipient=] CAN use [=dot notation=]
 in the [=Filter=] parameter.
 
 ### Request Syntax ### {#action-tocd-request}
@@ -3357,7 +3358,7 @@ Issue: example needs revision
 
 ## Action HubOperatorCategoryData ## {#action-hocd}
 
-Lists the [=data owner=]'s [=Hub Operator Category Data=] with [[#pagination]] and optional [[#filtering]].
+Lists the [=data owner=]'s <{HOC|HOCs} with [[#pagination]] and optional [[#filtering]].
 
 A [=Host system=] MUST implement an access management system to return only the [=HOC=] intended for
 the requesting [=data recipient=].
@@ -3646,10 +3647,10 @@ Paginated response with a `link` header:
 
 ## Action AggregatedEmissionsData ## {#action-aed}
 
-Lists the [=data owner=]'s [=AggregatedReports=] with [[#pagination]] and optional [[#filtering]]
+Lists the [=data owner=]'s <{AggregatedReports}> with [[#pagination]] and optional [[#filtering]]
 
 A [=Host system=] SHOULD implement an access management system to return only the
-[=AggregatedReports=] intended for the requesting [=data recipient=].
+<{AggregatedReports}> intended for the requesting [=data recipient=].
 
 To retrieve only one <{AggregatedReport}>, the [=data recipient=] SHOULD use the [=Filter=]
 parameter with filter pair `reportId=$reportId`, where `$reportId` is the identifier of the report
