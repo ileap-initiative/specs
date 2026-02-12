@@ -55,11 +55,12 @@ exchange of standardized activity data and the calculation of emissions.
 Advisement: DEPRECATED
 
 Following the methodological alignment of the GLEC Framework with the
-[[!PACT-FRAMEWORK|PACT Framework]], the iLEAP Technical Specifications are
+[[!PACT-FRAMEWORK|PACT Framework]], the iLEAP Technical Specifications were
 designed to be interoperable with the
 [[!PACTDX|PACT Data Exchange Protocol]] and its PCF data model.
 
-PACT interoperability is deprecated in v1.1.0 of the iLEAP Technical Specifications, by which it is
+However, technical interoperability with PACT in these terms is deprecated in v1.1.0 of the iLEAP
+Technical Specifications, by which it is
 meant that:
 1. PACT support remains mandatory, but will be entirely removed in v2.0.0;
 1. a new [=iLEAP standalone protocol=] is introduced, enabling the exchange of logistics emissions data
@@ -3352,7 +3353,7 @@ Issue: example needs revision
 
 ## Action HubOperatorCategoryData ## {#action-hocd}
 
-Lists the [=data owner=]'s <{HOC|HOCs} with [[#pagination]] and optional [[#filtering]].
+Lists the [=data owner=]'s <{HOC|HOCs}> with [[#pagination]] and optional [[#filtering]].
 
 A [=Host system=] MUST implement an access management system to return only the [=HOC=] intended for
 the requesting [=data recipient=].
