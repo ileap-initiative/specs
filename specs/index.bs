@@ -1249,6 +1249,11 @@ The Data Type <{HOC}> has the following properties:
         <td>String
         <td>O
         <td>
+
+            Issue: unless we add some clarification, I am afraid this is a breaking change, because we did not include
+            an advisement saying that the enum would be evolved in future revisions. We can always add a new optional
+            property with the new enum variants, but maybe there is some other way.
+
             Temperature control status of the hub.
 
             If defined, the value of this property MUST be set to one of the following:
@@ -1258,8 +1263,15 @@ The Data Type <{HOC}> has the following properties:
             : `refrigerated`
             :: For HOCs comprising the handling of refrigerated freight only.
 
-            : `mixed`
-            :: For HOCs comprising the handling of both ambient and refrigerated freight.
+            : `frozen` ((NEW))
+            :: For HOCs comprising the handling of frozen freight only.
+
+            : `heated` ((NEW))
+            :: For HOCs comprising the handling of heated freight only.
+
+            : `mixed` [IMPROVED DEF]
+            :: For HOCs comprising the handling of both ambient and refrigerated freight of at least two different
+                temperature-levels (i.e., ambient, refrigerated/chilled, frozen, heated).
 
        <tr>
         <td><dfn>hubLocation</dfn>
@@ -1270,12 +1282,32 @@ The Data Type <{HOC}> has the following properties:
         <td><dfn>inboundTransportMode</dfn>: {{TransportMode}}
         <td>{{TransportMode}}
         <td>O
-        <td>Indicates the transport mode upstream the hub for this HOC.
+        <td>
+
+            Advisement: This property is **deprecated** in v1.1.0 but kept for backwards compatibility. It will be
+            removed in v2.0.0. Use <{HOC/inboundTransportModes}> instead.
+
+            Indicates the transport mode upstream the hub for this HOC.
+      <tr>
+        <td><dfn>inboundTransportModes</dfn>
+        <td>{{TransportMode}}[]
+        <td>O
+        <td>Indicates the transport modes upstream the hub for this HOC.
       <tr>
         <td><dfn>outboundTransportMode</dfn>: {{TransportMode}}
         <td>{{TransportMode}}
         <td>O
-        <td>Indicates the transport mode downstream the hub for this HOC.
+        <td>
+
+            Advisement: This property is **deprecated** in v1.1.0 but kept for backwards compatibility. It will be
+            removed in v2.0.0. Use <{HOC/outboundTransportModes}> instead.
+
+            Indicates the transport mode downstream the hub for this HOC.
+      <tr>
+        <td><dfn>outboundTransportModes</dfn>
+        <td>{{TransportMode}}[]
+        <td>O
+        <td>Indicates the transport modes downstream the hub for this HOC.
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
         <td>String
@@ -1295,11 +1327,10 @@ The Data Type <{HOC}> has the following properties:
         <td>
             The non-empty array of [=EnergyCarriers=] used to generate mechanical movement or heat and to generate chemical or physical processes, as defined in the [[!GLEC]] Framework.
 
-            The sum of the relative shares of the energy carriers used in the HOC MUST equal `1`. The relative share of each energy carrier MUST be computed relative to (total) transport activity (with unit at the denominator of <{HOC/hubActivityUnit}>) of the HOC.
+            The sum of the relative shares of the energy carriers used in the HOC MUST equal `1`. The relative share of each energy carrier MUST be computed relative to (total) hub activity (with unit at the denominator of <{HOC/hubActivityUnit}>) of the HOC.
 
             <div class=example>
               Assuming the HOC represents terminal where 75% of the (representative) hub activity uses `diesel` and the remaining 25% uses electricity (grid) to generate movements, the value of <{HOC/energyCarriers}> would be:
-
 
               ```json
               [
@@ -1326,17 +1357,28 @@ The Data Type <{HOC}> has the following properties:
               ```
             </div>
       <tr>
+        <td><dfn>refrigerantLeakage</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+
+            Issue: Just for refrigerated? Is this definition enough?
+
+            Advisement: This propoerty MUST be defined for [[!ISO14083]] compliance.
+
+            Emissions caused by refrigerant leakage related to the hub operations, with unit `kg`.
+      <tr>
         <td><dfn>co2eIntensityWTW</dfn> : [=Decimal=]
         <td>String
         <td>M
         <td>
-             The Coefficient relating specified transport activity and WTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
- <tr>
+             The Coefficient relating specified hub activity and WTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+      <tr>
         <td><dfn>co2eIntensityTTW</dfn> : [=Decimal=]
         <td>String
         <td>M
         <td>
-              The Coefficient relating specified transport activity and TTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+              The Coefficient relating specified hub activity and TTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
 
       <tr>
         <td><dfn>hubActivityUnit</dfn>
@@ -1346,12 +1388,26 @@ The Data Type <{HOC}> has the following properties:
             Indicates the freight hub activity unit at the denominator of the <{HOC/co2eIntensityWTW}> and at the denominator of the <{HOC/co2eIntensityTTW}>. At the HOC level, the possible values are
 
             : `TEU`
-            :: Leaving the hub for sea and inland waterways as outbound transport mode.
+            :: Leaving the hub for on-carriage as outbound transport mode.
 
             : `tonnes`
             :: Leaving the hub.
 
             Advisement: The enumeration of denominators will be evolved in future revisions. Account for this when implementing the validation of this property.
+      <tr>
+        <td><dfn>resourceIntensity</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+
+            Issue: Is the definition good enough (I followed what was proposed)? What `energyConsumption`are we
+            referring to? HOC doesn't have such a property.
+            Is the limitation that it must be between 0 and 1 necessary or correct?
+
+            The coefficient relating specified hub activity and `energyConsumption` or <{HOC/refrigerantLeakage}>
+            per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+
+            The value of this property must be between `0` (excluding) and `1` (including).
 
   </table>
   <figcaption>Properties of data type `HOC`</figcaption>
@@ -1641,9 +1697,10 @@ It MUST be encoded as a String using one of the following values:
 
 </dl>
 
-NOTE: These transport modes are defined for TOC only. HOC transport modes are defined seperately.
-
 ### Data Type <dfn enum>HubType</dfn> ### {#dt-hub-type}
+
+Issue: Since we didn't specify that the enum would be evolved in future revisions, this is a breaking change. We can
+always add a new optional property with the new enum variants, but maybe there is some other way.
 
 The Data Type {{HubType}} is an enumeration of the main hub types as defined in the [[!GLEC]] Framework.
 
@@ -1652,19 +1709,34 @@ It MUST be encoded as a String using one of the following values:
 <dl dfn-type="enum-value" dfn-for="HubType">
 
 : <dfn>Transshipment</dfn>
-:: Refers to hubs where transshipment is the main service (>80% of goods handled)
+:: Refers to logistics real estates where transshipment is the main service (>80% of goods handled)
 
 : <dfn>StorageAndTransshipment</dfn>
-:: Refers to hubs where both transshipment and warehousing are relevant services
+:: Refers to logistics real estates where both transshipment and warehousing are relevant services
 
 : <dfn>Warehouse</dfn>
-:: Refers to hubs where warehousing is the main service (>80% of goods handled)
+:: Refers to logistics real estates where warehousing is the main service (>80% of goods handled)
 
 : <dfn>LiquidBulkTerminal</dfn>
 :: Refers to terminals equiped to handle cargo in liquid and gaseous forms
 
 : <dfn>MaritimeContainerTerminal</dfn>
 :: Refers to hubs where maritime containers are handled
+
+: <dfn>MaritimeIntermodalTerminal</dfn> ((NEW))
+:: Refers to terminals located at a sea port where goods for intermodal transport are handled in load units such as containers, reefers, trailers, swap bodies
+
+: <dfn>InlandIntermodalTerminal</dfn> ((NEW))
+:: Refers to terminals located at an inland port or in the hinterland where goods for intermodal transport are handled in load units such as containers, reefers, trailers, swap bodies
+
+: <dfn>BreakBulkTerminal</dfn> ((NEW))
+:: Refers to terminals equipped to handle break bulk cargo
+
+: <dfn>DryBulkTerminal</dfn> ((NEW))
+:: Refers to terminals equipped to handle dry bulk cargo
+
+: <dfn>RoRoTerminal</dfn> ((NEW))
+:: Refers to terminals equipped to handle self-driving goods such as vehicles, trucks (RoRo stands for roll-on roll-off)
 
 </dl>
 
@@ -1734,7 +1806,7 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>String
         <td>O
         <td>
-            Amount of energy carrier consumed per transport activity, as defined for the TOC or HOC. If defined, <{EnergyCarrier/energyConsumptionUnit}>
+            Amount of energy carrier consumed per transport or hub activity, as defined for the TOC or HOC. If defined, <{EnergyCarrier/energyConsumptionUnit}>
             MUST be defined as well.
       <tr>
         <td><dfn>energyConsumptionUnit</dfn>
@@ -1812,6 +1884,24 @@ Account for this when implementing the validation of this property.
 :: Refers to methanol
 : Electric
 :: Refers to electricity
+: Biodiesel ((NEW))
+:: Refers to biodiesel
+: Propane ((NEW))
+:: Refers to propane
+: Natural Gas ((NEW))
+:: Refers to natural gas
+: Biogas ((NEW))
+:: Refers to biogas
+: District heating ((NEW))
+:: Refers to district heating
+: Heating oil ((NEW))
+:: Refers to heating oil
+: Wood pellets ((NEW))
+:: Refers to wood pellets
+: Wood chips ((NEW))
+:: Refers to wood chips
+: Geothermal energy ((NEW))
+:: Refers to geothermal energy
 
 
 
