@@ -1076,7 +1076,7 @@ The Data Type <{TOC}> has the following properties:
         <td>
             The non-empty set (without duplicates) of certifications of the calculation methodology used to calculate the GHG emissions value and related variables.
 
-            Elements of the array MUST be one of the following:
+            Each element of the array MUST be one of the following:
 
             : ISO14083:2023
             :: Indicates that the calculation methodology has been evaluated as compliant with [[!ISO14083]]:2023, as declared in a certification certificate.
@@ -1283,7 +1283,7 @@ The Data Type <{HOC}> has the following properties:
         <td>
             The non-empty set (without duplicates) of certifications of the calculation methodology used to calculate the GHG emissions value and related variables.
 
-            Elements of the array MUST be one of the following:
+            Each element of the array MUST be one of the following:
 
             : ISO14083:2023
             :: Indicates that the calculation methodology has been evaluated as compliant with [[!ISO14083]]:2023, as declared in a certification certificate.
@@ -1596,7 +1596,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             The non-empty set (without duplicates) of methodological standards used to calculate the aggregated GHG
             emissions and related variables.
 
-            Elements of the array MUST be one of the following:
+            Each element of the array MUST be one of the following:
 
             : ISO14083:2023
             :: Indicates that the calculation methodology has been evaluated as compliant with ISO14083:2023. MUST
@@ -1755,7 +1755,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             If <{AggregatedReport/perModeEmissions}> is not defined, this property SHOULD be defined to either disclose the modalities
             or to indicate that the emissions are aggregated across multiple modalities.
 
-            Elements of the array MUST be one of the following:
+            Each element of the array MUST be one of the following:
 
             : `Road`
             :: For transport mode road
@@ -2193,7 +2193,7 @@ Advisement: The enumeration of packaging or transport equipment units above will
             The non-empty set (without duplicates) of hub operations, if the emissions relate to hub operations,
             optionally disclosing the hub type.
 
-            Elements of the array MUST be one of the following:
+            Each element of the array MUST be one of the following:
 
             : Transshipment
             :: Refers to hubs where transshipment is the main service (>80% of goods handled)
@@ -2216,7 +2216,7 @@ Advisement: The enumeration of packaging or transport equipment units above will
         <td>
               The non-empty set (without duplicates) of the GLEC distance types used to calculate the emissions for this mode of transport or hub operations.
 
-              Elements of the array MUST be one of the following:
+              Each element of the array MUST be one of the following:
 
               : `actual`
               :: For actual distance
