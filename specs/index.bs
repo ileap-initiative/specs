@@ -1362,11 +1362,12 @@ The Data Type <{HOC}> has the following properties:
         <td>O
         <td>
 
-            Issue: Just for refrigerated? Is this definition enough?
+            Issue: Does ISO indeed require to **report** refrigerant leakage emissions or is it only required to account for them in the calculation of the GHG emissions?
+            Is it enough to report refrigerant leakage emissions (for the year) or do we need to indicate the kg of the leakage and also the refrigerant type (so that the emissions can be calculated)?
 
             Advisement: This propoerty MUST be defined for [[!ISO14083]] compliance.
 
-            Emissions caused by refrigerant leakage related to the hub operations, with unit `kg`.
+            Emissions caused by refrigerant leakage related to the hub operations, with unit `kgCO2e`.
       <tr>
         <td><dfn>co2eIntensityWTW</dfn> : [=Decimal=]
         <td>String
