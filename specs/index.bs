@@ -1701,9 +1701,10 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>String
         <td>O
         <td>
+
             Issue: Unclear whether this is needed. If so, it's unclear how the aggregation should be done. Also, missing CountEmissionsEU in the references.
 
-            Advisement: This property must be defined for complianece with CountEmissionsEU 9.3.
+            Advisement: This property must be defined for compliance with CountEmissionsEU 9.3.
 
             The aggregated coefficient relating specified transport and/or hub activity with WTW GHG emissions with unit kgCO2e per
             `ton kilometer` and/or `tonne`.
