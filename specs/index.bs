@@ -1893,9 +1893,6 @@ implementing the validation of this property.
 Note: The use of value `Container` is discouraged, as it does not provide any information about the
 container equivalent unit.
 
-Advisement: The enumeration of packaging or transport equipment units above will be evolved in
-  future revisions.
-
 # HTTP REST API # {#http-rest-api}
 
 The iLEAP Technical Specifications are designed to be interoperable with the [[!PACTDX]] Protocol.
@@ -2795,6 +2792,7 @@ Summary of changes:
 - fix typo in <{Location}> properties table
 - update PACT Test Cases V2 links in [[#conformance]] and fix PACT version in
     [[#pact-conformance-tests]]
+- removal of duplicated advisement in [[#dt-packaging-or-tr-eq-type]]
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
