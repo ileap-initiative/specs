@@ -808,8 +808,8 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>Category of relevant packaging or transport equipment units utilized for the transport of the consignment. See data type <{PackagingOrTrEqType}> for further information.
 
       <tr>
-        <td><dfn>packagingOrTrEqAmount</dfn>
-        <td>Decimal
+        <td><dfn>packagingOrTrEqAmount</dfn>: [=Decimal=]
+        <td>String
         <td>O
         <td>Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
         <div class=example>
@@ -1039,8 +1039,8 @@ The Data Type <{TOC}> has the following properties:
         <td>Text description of the applicable TOC. Including mode of transport, contract type, equipment type, vehicle type, freight temperature, LTL/FTL etc
 
       <tr>
-        <td><dfn>mode</dfn> : {{TransportMode}}
-        <td>String
+        <td><dfn>mode</dfn>
+        <td>{{TransportMode}}
         <td>M
         <td>Mode of transport.
 
@@ -1267,18 +1267,18 @@ The Data Type <{HOC}> has the following properties:
         <td>O
         <td>The address of the hub.
       <tr>
-        <td><dfn>inboundTransportMode</dfn>: {{TransportMode}}
+        <td><dfn>inboundTransportMode</dfn>
         <td>{{TransportMode}}
         <td>O
         <td>Indicates the transport mode upstream the hub for this HOC.
       <tr>
-        <td><dfn>outboundTransportMode</dfn>: {{TransportMode}}
+        <td><dfn>outboundTransportMode</dfn>
         <td>{{TransportMode}}
         <td>O
         <td>Indicates the transport mode downstream the hub for this HOC.
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
-        <td>String
+        <td><{PackagingOrTrEqType}>
         <td>O
         <td>Category of relevant packaging or transport equipment units utilized for the transport of the consignment. See data type <{PackagingOrTrEqType}> for further information.
 
@@ -2793,6 +2793,7 @@ Summary of changes:
 - update PACT Test Cases V2 links in [[#conformance]] and fix PACT version in
     [[#pact-conformance-tests]]
 - removal of duplicated advisement in [[#dt-packaging-or-tr-eq-type]]
+- improve consistency of data type presentation in tables
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
