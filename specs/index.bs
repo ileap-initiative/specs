@@ -1697,6 +1697,18 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             The sum total of the transport activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
             (SI derived Unit `ton kilometers`).
       <tr>
+        <td><dfn>aggregateCo2eIntensityWTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+
+            Issue: Unclear whether this is needed. If so, it's unclear how the aggregation should be done. Also, missing CountEmissionsEU in the references.
+
+            Advisement: This property must be defined for compliance with CountEmissionsEU 9.3.
+
+            The aggregated coefficient relating specified transport and/or hub activity with WTW GHG emissions with unit kgCO2e per
+            `ton kilometer` and/or `tonne`.
+      <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
         <td>M
@@ -2227,6 +2239,16 @@ Advisement: The enumeration of packaging or transport equipment units above will
               : `sfd`
               :: For [=Shortest Feasible Distance=]
 
+      <tr>
+        <td><dfn>aggregatedCo2eIntensityWTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+
+            Issue: Unclear whether this is needed. If so, it's unclear how the aggregation should be done. Also, missing CountEmissionsEU in the references. Should an advisement related to CountEmissionsEU be added here as well?
+
+            The aggregated coefficient relating specified transport and/or hub activity with WTW GHG emissions with unit kgCO2e per
+            `ton kilometer` and/or `tonne`.
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
