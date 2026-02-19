@@ -1389,7 +1389,7 @@ The Data Type <{HOC}> has the following properties:
             Indicates the freight hub activity unit at the denominator of the <{HOC/co2eIntensityWTW}> and at the denominator of the <{HOC/co2eIntensityTTW}>. At the HOC level, the possible values are
 
             : `TEU`
-            :: Leaving the hub for on-carriage as outbound transport mode.
+            :: Leaving the hub for on-carriage transport mode.
 
             : `tonnes`
             :: Leaving the hub.
