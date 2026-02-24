@@ -148,7 +148,7 @@ The authors would like to thank the many individuals and organizations for their
 
 : <dfn>Consignment id</dfn>
 ::
-    A digital identifier which uniquely identifies a [=Consignment=] relative to the [=Host system=] and to the [=Data recipient=].
+    A digital identifier which uniquely identifies a [=Consignment=] between [=Host systems=] of [=data owner=] and [=data recipient=].
 
 : <dfn>Distance</dfn>
 :: See [=Transport Distance=] and [=Actual Distance=]
@@ -243,12 +243,12 @@ Issue: Definition need to be reviewed
 
 : <dfn>Host System</dfn>
 :: A host system serves the needs of a single or multiple [=data owner=].
-    Additionally, it can also serve the needs of a [=data recipient=], by callind the HTTP REST API defined in [[#http-rest-api]].
+    Additionally, it can also serve the needs of a [=data recipient=], by calling the HTTP REST API defined in [[#http-rest-api]].
     A host system implements support for the data transactions defined in [[#txns]].
 
 : <dfn>iLEAP standalone protocol</dfn>
-:: The iLEAP native API and data model, introduced in v1.1.0 of these technical specifications, which enables the exchange
-
+:: The HTTP REST API and data model, introduced in v1.1.0 of these technical specifications, which enables the exchange
+    of logistics emissions. See [[#http-rest-api]] for details.
 
 : <dfn>OpenId Provider Configuration Document</dfn>
 :: An OpenId Provider Configuration Document in accordance with [[!OPENID-CONNECT]] section 4.
@@ -306,7 +306,7 @@ In each case, the party can collect [=Transport Activity Data=], that is, data r
 single shipment including mass, distance, and energy carriers used, but excluding emissions data.
 
 After collecting Transport Activity Data, the party can calculate TOC and HOC level data from its
-Transport Activity Data, either inhouse or by contracting a third party (such as a Tool Provider).
+Transport Activity Data, either inhouse or by contracting a third party (such as a [=Tool Provider=]).
 
 This business case is particularly relevant for SMEs to reduce the entry barrier for logistics
 emissions reporting.
@@ -348,8 +348,9 @@ A data transaction is an abstraction for the exchange of data between two partie
 
 It facilitates interoperability between different parties by explaining the context and their intention(s).
 
-Each transaction combines the iLEAP data model ([[#data-model]]) with the PACT
-Data Exchange Protocol ([[#pcf-mapping]]), enabling interoperability between [=host systems=].
+Each transaction enables interoperability between [=host systems=], exchanging data in the format
+defined by the iLEAP data model ([[#data-model]]) through the protocol defined in
+[[#http-rest-api]] or the PACT Data Exchange Protocol ([[#pcf-mapping]]).
 
 The following diagram shows how the three data transactions (defined below) are related:
 
@@ -401,6 +402,9 @@ Note:
 
 This data transaction enables a [=Transport Service Organizer=] or a [=Transport Service User=] to
 receive [=Transport Activity Data=] from a [=Transport Operator=], as described in [[#business-case-3]].
+
+<{TAD|TADs}> should only be used by [=Transport Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>,
+<{TOC|TOCs}>, nor <{HOC|HOCs}>.
 
 To execute this transaction, the [=Transport Operator=] MUST
 
@@ -690,9 +694,11 @@ Issue: Consider having an example with the iLEAP standalone protocol instead, mo
 
 # Data Model # {#data-model}
 
-The iLEAP data model of this chapter together with the data transactions ([[#txns]]) are built upon
-the [[!ISO14083|ISO 14083]] concepts of [=TOC=], [=HOC=], [=Transport Chain Element|TCE=],
-[=TC=].
+The iLEAP data model of this chapter together with the data transactions ([[#txns]]) build upon the
+[[!ISO14083|ISO 14083]] concepts of [=TOC=], [=HOC=], [=Transport Chain Element|TCE=], [=TC=]. The
+purpose of the data model is to define the syntax and semantics with the goal of enabling the
+interoperable exchange of data between a [=data owner=] and a [=data recipient=] using the HTTP REST
+API ([[#http-rest-api]]).
 
 Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) enables
 reporting in case of missing data or limited emissions calculation capabilities from e.g.
@@ -712,9 +718,6 @@ When using the [=iLEAP standalone protocol=], all data types are exchanged throu
 <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, and <{HOC|HOCs}> can be also exchanged as extensions to the PACT
 Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]] and [[#pcf-mapping]]) in a `ProductFootprint`.
 
-<{TAD|TADs}> should only be used by [=Transport Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>,
-<{TOC|TOCs}>, nor <{HOC|HOCs}>.
-
 Advisement: Properties marked with `O*` are mandatory when using the [=iLEAP standalone protocol=], but
 optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already mandatory in
 the PACT Data Model (see [[#pcf-mapping]]).
@@ -723,7 +726,7 @@ the PACT Data Model (see [[#pcf-mapping]]).
 
 <dfn element>ShipmentFootprint</dfn> is a collection of 1
 or more [=Transport Chain Elements=] (encoded as <{TCE|TCEs}>)
-for a single [=shipment=]. 
+for a single [=shipment=].
 
 Note: a ShipmentFootprint CAN include TCEs that the [=data owner=] collected from other parties.
 
@@ -758,14 +761,16 @@ Issue: Consider adding
         <td>O*
         <td>
             The name of the company owning the data.
-
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
       <tr>
         <td><dfn>companyIds</dfn>
         <td>String[]
         <td>O
         <td>
-            An array of unique identifiers of the company owning the data (e.g. GLN, LEI).
+
+            The non-empty set of strings where each value uniquely identifies the [=data owner=].
+
+            Issue: add coding examples, possibly including URN-based encodings aligning with PACT's or other approaches.
+            Community input needed on the preferred approach to encoding company identifiers: URN vs UUID, e.g.
       <tr>
         <td><dfn>description</dfn>
         <td>String
@@ -811,8 +816,6 @@ Issue: Consider adding
 
             This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
 
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
-
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
@@ -825,8 +828,6 @@ Issue: Consider adding
 
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
 
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
-
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
         <td><dfn>dataSchema</dfn>
@@ -838,20 +839,8 @@ Issue: Consider adding
             :  `https://api.ileap.sine.dev/shipment-footprint.json`
             :: The URL of the JSON schema for <{ShipmentFootprint|ShipmentFootprints}>.
 
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
-
             Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
             If so, it should also be included in TAD and AggregatedReport.
-      <tr>
-        <td><dfn>documentation</dfn>
-        <td>String
-        <td>O*
-        <td>
-            MUST be set to `https://sine-fdn.github.io/ileap-extension/`.
-
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
-
-            Issue: Probably unnecessary, since it's hardcoded. Yet, it might be good to have the Tech Specs URL in the data.
       <tr>
         <td><dfn>crossSectoralStandardsUsed</dfn>
         <td>String[]
@@ -1266,13 +1255,16 @@ Issue: Consider adding
         <td>O*
         <td>
             The name of the company owning the data.
-
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
       <tr>
         <td><dfn>companyIds</dfn>
         <td>String[]
         <td>O
-        <td>An array of unique identifiers of the company owning the data (e.g. GLN, LEI).
+        <td>
+
+            The non-empty set of strings where each value uniquely identifies the [=data owner=].
+
+            Issue: add coding examples, possibly including URN-based encodings aligning with PACT's or other approaches.
+            Community input needed on the preferred approach to encoding company identifiers: URN vs UUID, e.g.
       <tr>
         <td><dfn>validityPeriodStart</dfn>
         <td>String
@@ -1312,8 +1304,6 @@ Issue: Consider adding
 
             This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
 
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
-
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
@@ -1325,8 +1315,6 @@ Issue: Consider adding
             The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
 
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
-
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
 
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
@@ -1341,16 +1329,6 @@ Issue: Consider adding
 
             Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
             If so, it should also be included in TAD and AggregatedReport.
-      <tr>
-        <td><dfn>documentation</dfn>
-        <td>String
-        <td>O*
-        <td>
-            MUST be `https://sine-fdn.github.io/ileap-extension/`.
-
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
-
-            Issue: Probably unnecessary, since it's hardcoded. Yet, it might be good to have the Tech Specs URL in the data.
       <tr>
         <td><dfn>crossSectoralStandardsUsed</dfn>
         <td>String[]
@@ -1631,13 +1609,16 @@ Issue: Consider adding
         <td>O*
         <td>
             The name of the company owning the data.
-
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
       <tr>
         <td><dfn>companyIds</dfn>
         <td>String[]
         <td>O
-        <td>An array of unique identifiers of the company owning the data (e.g. GLN, LEI).
+        <td>
+
+            The non-empty set of strings where each value uniquely identifies the [=data owner=].
+
+            Issue: add coding examples, possibly including URN-based encodings aligning with PACT's or other approaches.
+            Community input needed on the preferred approach to encoding company identifiers: URN vs UUID, e.g.
       <tr>
         <td><dfn>validityPeriodStart</dfn>
         <td>String
@@ -1677,8 +1658,6 @@ Issue: Consider adding
 
             This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
 
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
-
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
@@ -1690,8 +1669,6 @@ Issue: Consider adding
             The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
 
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
-
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
 
             Issue: Transposed from PACT and only slightly adapted. Needs review.
       <tr>
@@ -1706,16 +1683,6 @@ Issue: Consider adding
 
             Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
             If so, it should also be included in TAD and AggregatedReport.
-      <tr>
-        <td><dfn>documentation</dfn>
-        <td>String
-        <td>O*
-        <td>
-            MUST be `https://sine-fdn.github.io/ileap-extension/`.
-
-            Advisement: MUST be defined if using the [=iLEAP standalone protocol=].
-
-            Issue: Probably unnecessary, since it's hardcoded. Yet, it might be good to have the Tech Specs URL in the data.
       <tr>
         <td><dfn>crossSectoralStandardsUsed</dfn>
         <td>String[]
