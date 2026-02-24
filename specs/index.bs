@@ -49,33 +49,51 @@ This document also introduces the interoperable flow of activity data,
 defined in [[#txn3]], to support the
 exchange of standardized activity data and the calculation of emissions.
 
+## Technical and Methodological Interoperability ## {#interop}
 
-## PACT interoperability ## {#pact-interop}
+Issue: If we want to have a more general section on this topic, I believe the text needs to be enriched.
+
+The iLEAP Technical Specifications are based on and methodologically aligned with the [[!ISO14083|ISO14083:2023]]
+and the [[!GLEC|GLEC Framework V3.1]].
+
+They are also methodologically interoperable with the [[!PACT-FRAMEWORK|PACT Framework]] and its PCF data model.
+
+The iLEAP Technical Specifications were also technically interoperable with the [[!PACTDX|PACT Data Exchange Protocol]].
+This is now deprecated, but maintained for backwards compatibility (see
+[[#pact-interop]]).
+
+### Technical Interoperability with PACT ### {#pact-interop}
 
 Advisement: DEPRECATED
 
-Following the methodological alignment of the GLEC Framework with the
-[[!PACT-FRAMEWORK|PACT Framework]], the iLEAP Technical Specifications were
-designed to be interoperable with the
-[[!PACTDX|PACT Data Exchange Protocol]] and its PCF data model.
+Up to v1.0.0 of the iLEAP Technical Specifications, technical interoperability with the
+[[!PACTDX|PACT Data Exchange Protocol]] was a key design principle. Specifically, the iLEAP data
+model was designed as an extension of the PACT PCF data model and iLEAP data transactions were
+executed through a PACT Conformant API.
 
 However, technical interoperability with PACT in these terms is deprecated in v1.1.0 of the iLEAP
-Technical Specifications, by which it is
-meant that:
-1. PACT support remains mandatory, but will be entirely removed in v2.0.0;
-1. a new [=iLEAP standalone protocol=] is introduced, enabling the exchange of logistics emissions data
-    without relying on PACT;
-1. implementers are recommended to use the new iLEAP standalone protocol, while keeping PACT support for
-    backward compatibility.
+Technical Specifications, by which it is meant that:
+1. PACT support remains MANDATORY, but will be entirely removed in v2.0.0;
+1. a new OPTIONAL [=iLEAP standalone protocol=] is introduced, enabling the exchange of logistics
+    emissions data without relying on PACT;
+1. implementers are STRONGLY RECOMMENDED to use the new iLEAP standalone protocol, while keeping
+    PACT support for backward compatibility.
 
-### Migration from PACT-based to iLEAP standalone protocol ### {#migration-pact-ileap}
+The iLEAP Technical Specifications strive to remain semantical interoperable with the PACT
+Methodology and data model, ensuring an easy integration of logistics emissions into PCFs.
+
+#### Migration from PACT-based to iLEAP standalone protocol #### {#migration-pact-ileap}
 
 We recommend implementers to migrate from PACT-based implementations to the new [=iLEAP standalone
 protocol=] with the following phased approach:
 
-1. Upon the release of v1.1.0, implement the iLEAP standalone protocol alongside existing PACT support.
-1. Maintain both PACT and iLEAP standalone protocol support for a transitional period.
-1. Upon the release of v2.0.0, remove PACT support entirely and fully transition to the iLEAP standalone protocol.
+1. Upon the release of v1.1.0, implement the new iLEAP standalone
+    protocol alongside the existing PACT-based API, enabling the exchange of logistics emissions data
+    through both protocols.
+1. Maintain both PACT-based and iLEAP standalone APIs support for a transitional period, privileging
+    the use of the iLEAP standalone protocol.
+1. Upon the release of v2.0.0, remove PACT support entirely and fully transition to the iLEAP
+    standalone protocol.
 
 ## Out of Scope ## {#out-of-scope}
 
@@ -5119,6 +5137,8 @@ through PACT's Test Cases
 
 The test [=target host system=] must respond with a 401 Unauthorized status code and an
 `ExpiredToken` error response code, as specified in [=ResponseBody=].
+
+Issue: We're still refering to PACT Framework v2. We should move to v3, but make sure that this is sound.
 
 <pre class=biblio>
  {
