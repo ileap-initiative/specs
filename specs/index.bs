@@ -2783,7 +2783,7 @@ With action-specific response parameters
 
 ## Common HTTP Endpoint Behaviors ## {#filtering-and-pagination}
 
-Note: The following definitions and features apply to all iLEAP native endpoints.
+The specifications, behaviors, and considerations of this subchapter apply to all iLEAP HTTP Actions.
 
 ### Filtering ### {#filtering}
 
