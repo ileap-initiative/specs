@@ -796,33 +796,23 @@ Issue: Consider adding
         <td>
             A description of the Shipment.
       <tr>
-        <td><dfn>validityPeriodStart</dfn>
+        <td><dfn>createdAt</dfn>
         <td>String
-        <td>O
+        <td>O*
         <td>
-            Timestamp of the start of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
-
-            The <dfn>validity period</dfn> is the time interval during which the data is declared as valid for use by a receiving [=data recipient=].
-
-            The validity period is OPTIONAL, defined by the properties <{ShipmentFootprint/validityPeriodStart}> (including) and <{ShipmentFootprint/validityPeriodEnd}> (excluding).
-
-            If no validity period is specified, the data is valid for 3 years starting with <{ShipmentFootprint/referencePeriodEnd}>.
-
-            If a validity period is defined, then
-            1. the value of <{ShipmentFootprint/validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{ShipmentFootprint/referencePeriodEnd}>.
-            1. the value of <{ShipmentFootprint/validityPeriodEnd}> MUST be defined with value
-                 1. strictly greater than <{ShipmentFootprint/validityPeriodStart}>, and
-                 1. less than or equal to <{ShipmentFootprint/referencePeriodEnd}> + 3 years.
-
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
+            Timestamp of the creation of the <{ShipmentFootprint}>.
       <tr>
-        <td><dfn>validityPeriodEnd</dfn>
+        <td><dfn>status</dfn>
         <td>String
-        <td>O
+        <td>M
         <td>
-            Timestamp of the end (excluding) of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+            Each <{ShipmentFootprint}> MUST include the property `status` with value one of the following
+            values:
 
-            See <{ShipmentFootprint/validityPeriodStart}> for further details.
+            : `Active`
+            :: The default `status` of a <{ShipmentFootprint}> is `Active`. A <{ShipmentFootprint}> with status Active CAN be used by data recipients for logistics emissions calculations.
+            : `Deprecated`
+            :: The <{ShipmentFootprint}> is deprecated and SHOULD NOT be used for logistics emissions calculations by data recipients.
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
@@ -860,28 +850,6 @@ Issue: Consider adding
             Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
             If so, it should also be included in TAD and AggregatedReport.
       <tr>
-        <td><dfn>crossSectoralStandardsUsed</dfn>
-        <td>String[]
-        <td>O
-        <td>
-            The non-empty set of the cross-sectoral standards used for the calculation of the emissions data.
-
-            Elements of the array MUST be one of the following:
-
-            Issue: Unclear whether this is needed and which cross-sectoral standards should be listed here. GHGP? ISO14067? ISO4044? ISO14083?
-      <tr>
-        <td><dfn>ipccCharacterizationFactorsSources</dfn>
-        <td>String[]
-        <td>O
-        <td>
-            The characterization factors from one or more IPCC Assessment Reports used in the calculation of the PCF (see Pathfinder Framework Section 3.2.2).
-            It MUST be a non-empty set of strings with the format AR$VERSION$, where $VERSION$ stands for the IPCC report version number and MUST be an integer.
-
-            Advisement: The latest available characterization factor version shall be used, i.e., ["AR6"].
-            In the event this is not possible, include the set of all characterization factors used.
-
-            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
-      <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
         <td>O
@@ -902,14 +870,6 @@ Issue: Consider adding
             The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
 
             Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
-      <tr>
-        <td><dfn>productCategoryCpc</dfn>
-        <td>String
-        <td>M
-        <td>
-            Should be set to `83117` for all logistics emissions data, representing "Freight transport services" in the CPC 2.1 classification.
-
-            Issue: Unclear whether this is needed, because the value is hardcoded.
       <tr>
         <td><dfn>assurance</dfn>
         <td>?
@@ -1284,34 +1244,24 @@ Issue: Consider adding
             Issue: add coding examples, possibly including URN-based encodings aligning with PACT's or other approaches.
             Community input needed on the preferred approach to encoding company identifiers: URN vs UUID, e.g.
       <tr>
-        <td><dfn>validityPeriodStart</dfn>
+        <td><dfn>createdAt</dfn>
         <td>String
-        <td>O
+        <td>O*
         <td>
-            Timestamp of the start of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
-
-            The <dfn>validity period</dfn> is the time interval during which the data is declared as valid for use by a receiving [=data recipient=].
-
-            The validity period is OPTIONAL defined by the properties <{TOC/validityPeriodStart}> (including) and <{TOC/validityPeriodEnd}> (excluding).
-
-            If no validity period is specified, the data is valid for 3 years starting with <{TOC/referencePeriodEnd}>.
-
-            If a validity period is defined, then
-            1. the value of <{TOC/validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{TOC/referencePeriodEnd}>.
-            1. the value of <{TOC/validityPeriodEnd}> MUST be defined with value
-                 1. strictly greater than <{TOC/validityPeriodStart}>, and
-                 1. less than or equal to <{TOC/referencePeriodEnd}> + 3 years.
-
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
+            Timestamp of the creation of the <{TOC}>.
       <tr>
-        <td><dfn>validityPeriodEnd</dfn>
+        <td><dfn>status</dfn>
         <td>String
-        <td>O
+        <td>M
         <td>
-            Timestamp of the end (excluding) of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+            Each <{TOC}> MUST include the property `status` with value one of the following
+            values:
 
-            See <{TOC/validityPeriodStart}> for further details.
-      <tr>
+            : `Active`
+            :: The default `status` of a <{TOC}> is `Active`. A <{TOC}> with status Active CAN be used by data recipients for logistics emissions calculations.
+            : `Deprecated`
+            :: The <{TOC}> is deprecated and SHOULD NOT be used for logistics emissions calculations by data recipients.
+     <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
         <td>O*
@@ -1348,28 +1298,6 @@ Issue: Consider adding
             Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
             If so, it should also be included in TAD and AggregatedReport.
       <tr>
-        <td><dfn>crossSectoralStandardsUsed</dfn>
-        <td>String[]
-        <td>O
-        <td>
-            The non-empty set of the cross-sectoral standards used for the calculation of the emissions data.
-
-            Elements of the array MUST be one of the following:
-
-            Issue: Unclear whether this is needed and which cross-sectoral standards should be listed here. GHGP? ISO14067? ISO4044? ISO14083?
-      <tr>
-        <td><dfn>ipccCharacterizationFactorsSources</dfn>
-        <td>String[]
-        <td>O
-        <td>
-            The characterization factors from one or more IPCC Assessment Reports used in the calculation of the PCF (see Pathfinder Framework Section 3.2.2).
-            It MUST be a non-empty set of strings with the format AR$VERSION$, where $VERSION$ stands for the IPCC report version number and MUST be an integer.
-
-            Advisement: The latest available characterization factor version shall be used, i.e., ["AR6"].
-            In the event this is not possible, include the set of all characterization factors used.
-
-            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
-      <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
         <td>O
@@ -1390,14 +1318,6 @@ Issue: Consider adding
             The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
 
             Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
-      <tr>
-        <td><dfn>productCategoryCpc</dfn>
-        <td>String
-        <td>M
-        <td>
-            Should be set to `83117` for all logistics emissions data, representing "Freight transport services" in the CPC 2.1 classification.
-
-            Issue: Unclear whether this is needed, because the value is hardcoded.
       <tr>
         <td><dfn>assurance</dfn>
         <td>?
@@ -1638,34 +1558,6 @@ Issue: Consider adding
             Issue: add coding examples, possibly including URN-based encodings aligning with PACT's or other approaches.
             Community input needed on the preferred approach to encoding company identifiers: URN vs UUID, e.g.
       <tr>
-        <td><dfn>validityPeriodStart</dfn>
-        <td>String
-        <td>O
-        <td>
-            Timestamp of the start of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
-
-            The <dfn>validity period</dfn> is the time interval during which the data is declared as valid for use by a receiving [=data recipient=].
-
-            The validity period is OPTIONAL defined by the properties <{HOC/validityPeriodStart}> (including) and <{HOC/validityPeriodEnd}> (excluding).
-
-            If no validity period is specified, the data is valid for 3 years starting with <{HOC/referencePeriodEnd}>.
-
-            If a validity period is defined, then
-            1. the value of <{HOC/validityPeriodStart}> MUST be defined with value greater than or equal to the value of <{HOC/referencePeriodEnd}>.
-            1. the value of <{HOC/validityPeriodEnd}> MUST be defined with value
-                 1. strictly greater than <{HOC/validityPeriodStart}>, and
-                 1. less than or equal to <{HOC/referencePeriodEnd}> + 3 years.
-
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
-      <tr>
-        <td><dfn>validityPeriodEnd</dfn>
-        <td>String
-        <td>O
-        <td>
-            Timestamp of the end (excluding) of the validity period. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
-
-            See <{HOC/validityPeriodStart}> for further details.
-      <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
         <td>O*
@@ -1677,6 +1569,24 @@ Issue: Consider adding
             This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
 
             Issue: Transposed from PACT and only slightly adapted. Needs review.
+      <tr>
+        <td><dfn>createdAt</dfn>
+        <td>String
+        <td>O*
+        <td>
+            Timestamp of the creation of the <{HOC}>.
+      <tr>
+        <td><dfn>status</dfn>
+        <td>String
+        <td>M
+        <td>
+            Each <{HOC}> MUST include the property `status` with value one of the following
+            values:
+
+            : `Active`
+            :: The default `status` of a <{HOC}> is `Active`. A <{HOC}> with status Active CAN be used by data recipients for logistics emissions calculations.
+            : `Deprecated`
+            :: The <{HOC}> is deprecated and SHOULD NOT be used for logistics emissions calculations by data recipients.
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
@@ -1702,28 +1612,6 @@ Issue: Consider adding
             Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
             If so, it should also be included in TAD and AggregatedReport.
       <tr>
-        <td><dfn>crossSectoralStandardsUsed</dfn>
-        <td>String[]
-        <td>O
-        <td>
-            The non-empty set of the cross-sectoral standards used for the calculation of the emissions data.
-
-            Elements of the array MUST be one of the following:
-
-            Issue: Unclear whether this is needed and which cross-sectoral standards should be listed here. GHGP? ISO14067? ISO4044? ISO14083?
-      <tr>
-        <td><dfn>ipccCharacterizationFactorsSources</dfn>
-        <td>String[]
-        <td>O
-        <td>
-            The characterization factors from one or more IPCC Assessment Reports used in the calculation of the PCF (see Pathfinder Framework Section 3.2.2).
-            It MUST be a non-empty set of strings with the format AR$VERSION$, where $VERSION$ stands for the IPCC report version number and MUST be an integer.
-
-            Advisement: The latest available characterization factor version shall be used, i.e., ["AR6"].
-            In the event this is not possible, include the set of all characterization factors used.
-
-            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
-      <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
         <td>O
@@ -1744,14 +1632,6 @@ Issue: Consider adding
             The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
 
             Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
-      <tr>
-        <td><dfn>productCategoryCpc</dfn>
-        <td>String
-        <td>M
-        <td>
-            Should be set to `83117` for all logistics emissions data, representing "Freight transport services" in the CPC 2.1 classification.
-
-            Issue: Unclear whether this is needed, because the value is hardcoded.
       <tr>
         <td><dfn>assurance</dfn>
         <td>?
@@ -2153,6 +2033,12 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             If this AggregatedReport is based on a specific report period, then this MUST be defined, encoding the
             “end” (exclusive) of the report’s period. The value MUST be a date and time string conforming to ISO 8601
             with timezone UTC.
+      <tr>
+        <td><dfn>createdAt</dfn>
+        <td>String
+        <td>M
+        <td>
+            Timestamp of the creation of the <{AggregatedReport}>.
       <tr>
         <td><dfn>status</dfn>
         <td>String
@@ -3884,18 +3770,6 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
               MUST be equal to `83117`, the CPC code of logistics services.
       <tr>
         <td>CarbonFootprint
-        <td>`ipccCharacterizationFactorsSources`
-        <td>
-            MUST be set to the value of <{ShipmentFootprint/ipccCharacterizationFactorsSources}>. If undefined there,
-            the value cannot be derived from the <{ShipmentFootprint}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
-      <tr>
-        <td>CarbonFootprint
-        <td>`crossSectoralStandardsUsed`
-        <td>
-              MUST be set to the value of <{ShipmentFootprint/crossSectoralStandardsUsed}>. If undefined there,
-              the value cannot be derived from the <{ShipmentFootprint}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
-      <tr>
-        <td>CarbonFootprint
         <td>`referencePeriodStart`
         <td>
               MUST be set to the value of <{ShipmentFootprint/referencePeriodStart}>. If undefined there,
@@ -4041,6 +3915,8 @@ the links above for further details.
 
 The `CarbonFootprint` mandatory properties
 [characterizationFactors](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-characterizationfactors),
+[ipccCharacterizationFactorsSources](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-ipcccharacterizationfactorssources),
+[crossSectoralStandardsUsed](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-crosssectoralstandardsused),
 [boundaryProcessesDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
 [exemptedEmissionsPercent](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionspercent),
 and
@@ -4106,18 +3982,6 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>`productCategoryCpc`
         <td>
               MUST be equal to `83117`, the CPC code of logistics services.
-      <tr>
-        <td>CarbonFootprint
-        <td>`ipccCharacterizationFactorsSources`
-        <td>
-            MUST be set to the value of <{TOC/ipccCharacterizationFactorsSources}>. If undefined there,
-            the value cannot be derived from the <{TOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
-      <tr>
-        <td>CarbonFootprint
-        <td>`crossSectoralStandardsUsed`
-        <td>
-              MUST be set to the value of <{TOC/crossSectoralStandardsUsed}>. If undefined there,
-              the value cannot be derived from the <{TOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
       <tr>
         <td>CarbonFootprint
         <td>`referencePeriodStart`
@@ -4267,6 +4131,8 @@ above for further details.
 
 The `CarbonFootprint` mandatory properties
 [characterizationFactors](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-characterizationfactors),
+[ipccCharacterizationFactorsSources](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-ipcccharacterizationfactorssources),
+[crossSectoralStandardsUsed](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-crosssectoralstandardsused),
 [boundaryProcessesDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
 [exemptedEmissionsPercent](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionspercent),
 and
@@ -4332,18 +4198,6 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>`productCategoryCpc`
         <td>
               MUST be equal to `83117`, the CPC code of logistics services.
-      <tr>
-        <td>CarbonFootprint
-        <td>`ipccCharacterizationFactorsSources`
-        <td>
-            MUST be set to the value of <{HOC/ipccCharacterizationFactorsSources}>. If undefined there,
-            the value cannot be derived from the <{HOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
-      <tr>
-        <td>CarbonFootprint
-        <td>`crossSectoralStandardsUsed`
-        <td>
-              MUST be set to the value of <{HOC/crossSectoralStandardsUsed}>. If undefined there,
-              the value cannot be derived from the <{HOC}> and MUST be provided by the data owner, see [[!PACTDX]] for further details.
       <tr>
         <td>CarbonFootprint
         <td>`referencePeriodStart`
@@ -4496,6 +4350,8 @@ the links above for further details.
 
 The `CarbonFootprint` mandatory properties
 [characterizationFactors](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-characterizationfactors),
+[ipccCharacterizationFactorsSources](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-ipcccharacterizationfactorssources),
+[crossSectoralStandardsUsed](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-crosssectoralstandardsused),
 [boundaryProcessesDescription](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-boundaryprocessesdescription),
 [exemptedEmissionsPercent](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#element-attrdef-carbonfootprint-exemptedemissionspercent),
 and
