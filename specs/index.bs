@@ -2775,7 +2775,7 @@ With action-specific response parameters
   ```
 </div>
 
-## Filtering and Pagination ## {#filtering-and-pagination}
+## Common HTTP Endpoint Behaviors ## {#filtering-and-pagination}
 
 Note: The following definitions and features apply to all iLEAP native endpoints.
 
