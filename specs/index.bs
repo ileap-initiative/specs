@@ -2811,7 +2811,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 1. a data recipient CAN call the pagination link more than once;
 1. upon each call, the host system;
-    1. MUST return the same data upon successful authentication (i.e. a Bearer token authentication
+    1. MUST return the same data upon successful authentication (see [[#authentication]])
         as defined in [[!PACTDX]] Section 7.3 or [[#authentication]]) as in the previous call to the
         pagination link;
     1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
