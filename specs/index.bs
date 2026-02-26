@@ -2814,7 +2814,7 @@ Upon a [=host system=] returning a [=pagination link=]:
     1. MUST return the same data upon successful authentication (see [[#authentication]])
         pagination link;
     1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
-    1. MUST return a `Link` header conforming with the previous description in case there is
+    1. MUST return a second `Link` header conforming with the previous description in case there is
         additional data  available;
 1. if a response contains a second pagination link, upon the data recipient calling the second
     pagination link, the previous pagination link MAY no longer work.
