@@ -73,9 +73,10 @@ executed through a PACT Conformant API.
 
 However, technical interoperability with PACT in these terms is deprecated in v1.1.0 of the iLEAP
 Technical Specifications, by which it is meant that:
-1. PACT support remains MANDATORY, but will be entirely removed in v2.0.0;
-1. a new OPTIONAL [=iLEAP standalone protocol=] is introduced, enabling the exchange of logistics
-    emissions data without relying on PACT;
+1. PACT support remains MANDATORY, but is deprecated, and will be entirely removed in v2.0.0;
+1. a new [=iLEAP standalone protocol=] is introduced, enabling the exchange of logistics emissions
+    data without relying on PACT; this protocol is MANDATORY for implementations of v1.1.0 and
+    beyond;
 1. implementers are STRONGLY RECOMMENDED to use the new iLEAP standalone protocol, while keeping
     PACT support for backward compatibility.
 
@@ -300,7 +301,7 @@ The transport service user is interested in accessing accurate emission and emis
 
 Accurate logistics emissions values also enable the Transport Service User to compare logistics emissions and the resulting reductions from operational measures.
 
-Data Transactions #1 ([[#txn1]]) and #2 ([[#txn2]]) enable this business case.
+Data Transactions 1 ([[#txn1]]) and 2 ([[#txn2]]) enable this business case.
 
 
 ## Procurement of Carbon-Efficient Logistics Services ## {#business-case-2}
@@ -310,7 +311,7 @@ Similarly, a [=Transport Service User=] requests intensity information from its 
 
 By incorporating emission intensities in procurement processes, the parties are enabled to select services by carbon-efficiency advantages.
 
-Data Transaction #2 [[#txn2]] enable this business case.
+Data Transaction 2 [[#txn2]] enable this business case.
 
 ## Emissions Calculation from Transport Activity Data ## {#business-case-3}
 
@@ -334,13 +335,13 @@ For instance, each party needs to collect the activity data only once. This data
 available to multiple parties for different purposes, including business cases beyond emissions
 calculations.
 
-Data Transaction #3 ([[#txn3]]) enables this business case.
+Data Transaction 3 ([[#txn3]]) enables this business case.
 
 ## Aggregated Emissions Reporting ## {#business-case-4}
 
 Issue: WIP
 
-Data Transaction #4 ([[#txn4]]) enables this business case.
+Data Transaction 4 ([[#txn4]]) enables this business case.
 
 ## Additional Business Cases ## {#txns-appendix}
 
@@ -372,6 +373,8 @@ defined by the iLEAP data model ([[#data-model]]) through the protocol defined i
 
 The following diagram shows how the three data transactions (defined below) are related:
 
+Issue: A new diagram reflecting Data Transaction 4 is needed.
+
 <figure id="figure-data-transactions">
   <img src="diagrams/transactions.svg" width="90%" >
   <figcaption>Transactions diagram</figcaption>
@@ -387,8 +390,8 @@ This data transaction enables a [=Transport Service User=] (for example, a [=shi
 To execute this transaction, the [=Transport Operator=] or the [=Transport Service Organizer=] MUST
 
 1. calculate 1 or more TCEs' emissions data in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
-2. make the resulting <{ShipmentFootprint}> available to the [=Transport Service User=] either
-    through the [=iLEAP standalone protocol=] ([[#action-sd]]) or through the PACT Network API (see [[#pcf-mapping-sf]]).
+2. make the resulting <{ShipmentFootprint}> available to the [=Transport Service User=]
+    through the [=iLEAP standalone protocol=] ([[#action-sd]]) and through the PACT Network API (see [[#pcf-mapping-sf]]).
 
 The [=Transport Service User=] CAN then derive the Transport Chain ([=TC=]) using the [=shipment id=], by
 1. collecting the <{TCE|TCEs}> from all the [=Transport Operators=] and the [=Transport Service Organizers=] involved in the shipment;
@@ -408,8 +411,8 @@ It can also facilitate the inclusion of emission intensity in procurement proces
 To execute this transaction the [=Transport Operator=] or [=Transport Service Organizer=] MUST
 
 1. calculate 1 or more TOC or HOC emission profiles in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
-2. make the resulting <{TOC|TOCs}> or <{HOC|HOCs}> available either through the [=iLEAP standalone protocol=] ([[#action-tocd]] and
-    [[#action-hocd]]) or through the PACT Network API (see [[#pcf-mapping]]).
+2. make the resulting <{TOC|TOCs}> or <{HOC|HOCs}> available through the [=iLEAP standalone protocol=] ([[#action-tocd]] and
+    [[#action-hocd]]) and through the PACT Network API (see [[#pcf-mapping]]).
 
 Note:
     Details on the definition and calculation of [=TOCs=] and [=HOCs=] are specified in [[!ISO14083]]
@@ -465,12 +468,12 @@ aggregated, in order to share less granular data with a Transport Service User.
 
 <figure id="dt4-example-1">
   <img src="diagrams/dt4-example-1.svg" height="80%" width="80%" >
-  <figcaption>Data Transaction 4 Example 1</figcaption>
+    <figcaption>Data Transaction 4 data flow between a GHG Calculation Tool and a Transport Service User, utilizing Transactions 1 and 2 for the report generation</figcaption>
 </figure>
 
 <figure id="dt4-example-2">
   <img src="diagrams/dt4-example-2.svg" height="80%" width="80%" >
-  <figcaption>Data Transaction 4 Example 2</figcaption>
+  <figcaption>A more sophisticated Data Transaction 4 example, using Shipment and Activity Data exchanges to derive an Aggregated Report.<figcaption>
 </figure>
 
 # End-to-End Example # {#example}
@@ -725,18 +728,14 @@ reporting in case of missing data or limited emissions calculation capabilities 
 The concept of ([[#dt-ar|Aggregated Report]]) is added to facilitate the exchange of aggregated
 emissions data, e.g. for reporting to public authorities and to avoid disclosing sensitive data.
 
-
-concepts in the [[!GLEC]] Framework and [[!ISO14083]]).
-
 The iLEAP Data Model is composed of six main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
 <{HOC}>, <{TAD}>, and <{AR|AggregatedReport}>.
 
-When using the [=iLEAP standalone protocol=], all data types are exchanged through dedicated endpoints.
+<{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, and <{HOC|HOCs}> can also be embedded as
+data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]] and
+[[#pcf-mapping]]) in a `ProductFootprint`.
 
-<{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, and <{HOC|HOCs}> can be also exchanged as extensions to the PACT
-Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]] and [[#pcf-mapping]]) in a `ProductFootprint`.
-
-Advisement: Properties marked with `O*` are mandatory when using the [=iLEAP standalone protocol=], but
+Advisement: Properties marked with `M*` are mandatory when using the [=iLEAP standalone protocol=], but
 optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already mandatory in
 the PACT Data Model (see [[#pcf-mapping]]).
 
@@ -776,7 +775,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>companyName</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             The name of the company owning the data.
       <tr>
@@ -798,7 +797,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>createdAt</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the creation of the <{ShipmentFootprint}>.
       <tr>
@@ -816,7 +815,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
 
@@ -828,7 +827,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
 
@@ -837,18 +836,6 @@ Issue: Consider adding
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
 
             Issue: Transposed from PACT and only slightly adapted. Needs review.
-      <tr>
-        <td><dfn>dataSchema</dfn>
-        <td>String
-        <td>O*
-        <td>
-            MUST be set to
-
-            :  `https://api.ileap.sine.dev/shipment-footprint.json`
-            :: The URL of the JSON schema for <{ShipmentFootprint|ShipmentFootprints}>.
-
-            Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
-            If so, it should also be included in TAD and AggregatedReport.
       <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
@@ -861,7 +848,7 @@ Issue: Consider adding
             - `name`: String, M, The name of the source.
             - `version`: String, O, The version of the source.
 
-            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>pactPds</dfn>: Decimal
         <td>String
@@ -869,15 +856,7 @@ Issue: Consider adding
         <td>
             The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
 
-            Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
-      <tr>
-        <td><dfn>assurance</dfn>
-        <td>?
-        <td>O
-        <td>
-
-            Issue: Not yet specified. PACT definition [here](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#elementdef-assurance).
-            Unclear whether this can be transposed. TBD through the data quality workstream.
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>comment</dfn>
         <td>String
@@ -887,7 +866,7 @@ Issue: Consider adding
 
             SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
 
-            Issue: Unclear whether this is needed.
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>mass</dfn> : [=Decimal=]
         <td>String
@@ -1230,7 +1209,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>companyName</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             The name of the company owning the data.
       <tr>
@@ -1246,7 +1225,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>createdAt</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the creation of the <{TOC}>.
       <tr>
@@ -1264,7 +1243,7 @@ Issue: Consider adding
      <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
 
@@ -1276,7 +1255,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
 
@@ -1285,18 +1264,6 @@ Issue: Consider adding
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
 
             Issue: Transposed from PACT and only slightly adapted. Needs review.
-      <tr>
-        <td><dfn>dataSchema</dfn>
-        <td>String
-        <td>O*
-        <td>
-            MUST be set to
-
-            :  `https://api.ileap.sine.dev/toc.json`
-            :: The URL of the JSON schema for <{TOC|TOCs}>.
-
-            Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
-            If so, it should also be included in TAD and AggregatedReport.
       <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
@@ -1309,7 +1276,7 @@ Issue: Consider adding
             - `name`: String, M, The name of the source.
             - `version`: String, O, The version of the source.
 
-            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>pactPds</dfn>: Decimal
         <td>String
@@ -1317,15 +1284,7 @@ Issue: Consider adding
         <td>
             The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
 
-            Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
-      <tr>
-        <td><dfn>assurance</dfn>
-        <td>?
-        <td>O
-        <td>
-
-            Issue: Not yet specified. PACT definition [here](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#elementdef-assurance).
-            Unclear whether this can be transposed. TBD through the data quality workstream.
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>comment</dfn>
         <td>String
@@ -1335,7 +1294,7 @@ Issue: Consider adding
 
             SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
 
-            Issue: Unclear whether this is needed.
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>tocId</dfn>
         <td>String
@@ -1544,7 +1503,7 @@ Issue: Consider adding
           <tr>
         <td><dfn>companyName</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             The name of the company owning the data.
       <tr>
@@ -1560,7 +1519,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
 
@@ -1572,7 +1531,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>createdAt</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the creation of the <{HOC}>.
       <tr>
@@ -1590,7 +1549,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
-        <td>O*
+        <td>M*
         <td>
             Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
 
@@ -1599,18 +1558,6 @@ Issue: Consider adding
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
 
             Issue: Transposed from PACT and only slightly adapted. Needs review.
-      <tr>
-        <td><dfn>dataSchema</dfn>
-        <td>String
-        <td>O*
-        <td>
-            MUST be set to
-
-            :  `https://api.ileap.sine.dev/hoc.json`
-            :: The URL of the JSON schema for <{HOC|HOCs}>.
-
-            Issue: Unclear whether this is necessary, especially as mandatory, although it is useful to point to the relevant schema.
-            If so, it should also be included in TAD and AggregatedReport.
       <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
@@ -1623,7 +1570,7 @@ Issue: Consider adding
             - `name`: String, M, The name of the source.
             - `version`: String, O, The version of the source.
 
-            Issue: Unclear whether this is needed. If so, consider adding examples (as in PACT).
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>pactPds</dfn>: Decimal
         <td>String
@@ -1631,15 +1578,7 @@ Issue: Consider adding
         <td>
             The share of primary data in percent used for the calculation of the emissions data, expressed as a value between 0 and 100 (both inclusive), as defined in the PACT Methodology v3.
 
-            Issue: Unclear whether this is needed. If so, add PACT Methodology v3 to refs and link here.
-      <tr>
-        <td><dfn>assurance</dfn>
-        <td>?
-        <td>O
-        <td>
-
-            Issue: Not yet specified. PACT definition [here](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#elementdef-assurance).
-            Unclear whether this can be transposed. TBD through the data quality workstream.
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>comment</dfn>
         <td>String
@@ -1649,7 +1588,7 @@ Issue: Consider adding
 
             SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
 
-            Issue: Unclear whether this is needed.
+            Issue: proposed attribute pending community input
       <tr>
         <td><dfn>hocId</dfn>
         <td>String
