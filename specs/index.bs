@@ -473,7 +473,7 @@ aggregated, in order to share less granular data with a Transport Service User.
 
 <figure id="dt4-example-2">
   <img src="diagrams/dt4-example-2.svg" height="80%" width="80%" >
-  <figcaption>A more sophisticated Data Transaction 4 example, using Shipment and Activity Data exchanges to derive an Aggregated Report.<figcaption>
+  <figcaption>A more sophisticated Data Transaction 4 example, using Shipment and Activity Data exchanges to derive an Aggregated Report.</figcaption>
 </figure>
 
 # End-to-End Example # {#example}
@@ -2742,7 +2742,9 @@ With Request parameters:
   grant_type=client_credentials
   ```
 </div>
-        <td>Authentication flow identical (see [[!PACTDX]] Chapter 7.3)
+
+  Authentication flow identical (see [[!PACTDX]] Chapter 7.3)
+
 #### Response Syntax #### {#action-authenticate-response}
 
 <pre highlight=http>
@@ -2859,14 +2861,6 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 
 Note: See [=Filter=] for further details on the syntax and semantics.
-        To filter <{ShipmentFootprint|ShipmentFootprints}> by the <{TCE/tocId}> of their embedded TCEs,
-        a data recipient would use:
-        ```
-        tces.tocId=$tocId
-        ```
-        This returns all <{ShipmentFootprint|ShipmentFootprints}> containing at least one <{TCE}>
-        with the specified <{TCE/tocId}>.
-    </div>
 
     <div class="example">
         To filter <{ShipmentFootprint|ShipmentFootprints}> by the origin location of their embedded TCEs:
