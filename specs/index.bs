@@ -2793,7 +2793,7 @@ Note: The filter statement syntax is described at the [=Filter=] request paramet
 
 If a [=host system=] does not implement filtering, it MUST process the request as if no [=Filter=] was provided.
 
-If a [=host system=] implements filtering, it CAN process the filter statement on a best-effort basis:
+If a [=host system=] implements filtering, it SHOULD process the filter statement on a best-effort basis:
 
 1. it CAN ignore the filter statement or parts of the filter statement, or
 1. it CAN return an error response as defined in the. For instance, a host system CAN return an HTTP
