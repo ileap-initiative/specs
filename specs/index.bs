@@ -2859,7 +2859,8 @@ Upon a [=host system=] returning a [=pagination link=]:
         if **any** element in the array satisfies the filter condition;
     3. Host systems CAN support any depth of nesting.
 
-    <div class="example">
+
+Note: See [=Filter=] for further details on the syntax and semantics.
         To filter <{ShipmentFootprint|ShipmentFootprints}> by the <{TCE/tocId}> of their embedded TCEs,
         a data recipient would use:
         ```
