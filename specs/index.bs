@@ -2789,7 +2789,6 @@ The specifications, behaviors, and considerations of this subchapter apply to al
 
 Filtering CAN be requested by a [=data recipient=] by supplying a [=filter statement=] through the [=Filter=] request parameter.
 
-Note: The filter statement syntax is described at the [=Filter=] request parameter.
 
 If a [=host system=] does not implement filtering, it MUST process the request as if no [=Filter=] was provided.
 
