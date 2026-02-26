@@ -2736,7 +2736,7 @@ With Request parameters:
   grant_type=client_credentials
   ```
 </div>
-
+        <td>Authentication flow identical (see [[!PACTDX]] Chapter 7.3)
 #### Response Syntax #### {#action-authenticate-response}
 
 <pre highlight=http>
