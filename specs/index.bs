@@ -2794,6 +2794,7 @@ Summary of changes:
     [[#pact-conformance-tests]]
 - removal of duplicated advisement in [[#dt-packaging-or-tr-eq-type]]
 - improve consistency of data type presentation in tables
+- fix typo in [[#appendix-b-sf-example]] (`3.6801` now reads `36801`)
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
@@ -2940,7 +2941,7 @@ A Product Footprint with a <{ShipmentFootprint}> highlighted:
                       "distance": {
                           "actual": "423"
                       },
-                      "transportActivity": "3.6801",
+                      "transportActivity": "36801",
                       "co2eWTW": "3.6801",
                       "co2eTTW": "3.2801"
                   }
