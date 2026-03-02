@@ -2934,9 +2934,9 @@ Note: See [=Filter=] for further details on the syntax and semantics.
 : <dfn>PaginationLink</dfn>
 :: See [=pagination link=] and [[#pagination]].
 
-## Action ShipmentData ## {#action-sd}
+## Action ShipmentFootprintData ## {#action-sd}
 
-Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with [[#pagination]] and optional [[#filtering]]
+Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]]
 
 A [=Host system=] MUST implement an access management system to return only the <{ShipmentFootprint|ShipmentFootprints}>
 intended for the requesting [=data recipient=].
@@ -3066,9 +3066,9 @@ Issue: example needs revision
   ```
 </div>
 
-## Action TransportOperatorCategoryData ## {#action-tocd}
+## Action TOCData ## {#action-tocd}
 
-Lists the [=data owner=]'s <{TOC|TOCs}> with [[#pagination]] and optional [[#filtering]].
+Lists the [=data owner=]'s <{TOC|TOCs}> with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]].
 
 A [=Host system=] MUST implement an access management system to return only the [=TOC=] intended for
 the requesting [=data recipient=].
@@ -3192,9 +3192,9 @@ Issue: example needs revision
   ```
 </div>
 
-## Action HubOperatorCategoryData ## {#action-hocd}
+## Action HOCData ## {#action-hocd}
 
-Lists the [=data owner=]'s <{HOC|HOCs}> with [[#pagination]] and optional [[#filtering]].
+Lists the [=data owner=]'s <{HOC|HOCs}> with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]].
 
 A [=Host system=] MUST implement an access management system to return only the [=HOC=] intended for
 the requesting [=data recipient=].
@@ -3319,7 +3319,7 @@ Issue: example needs revision
 
 ## Action TransportActivityData ## {#action-tad}
 
-Lists the [=data owner=]'s [=Transport Activity Data=] with [[#pagination]] and optional [[#filtering]]
+Lists the [=data owner=]'s [=Transport Activity Data=] with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]]
 
 A [=Host system=] SHOULD implement an access management system to return only the [=transport
 activity data=] intended for the requesting [=data recipient=].
@@ -3483,7 +3483,7 @@ Paginated response with a `link` header:
 
 ## Action AggregatedEmissionsData ## {#action-aed}
 
-Lists the [=data owner=]'s <{AggregatedReports}> with [[#pagination]] and optional [[#filtering]]
+Lists the [=data owner=]'s <{AggregatedReports}> with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]]
 
 A [=Host system=] SHOULD implement an access management system to return only the
 <{AggregatedReports}> intended for the requesting [=data recipient=].
@@ -4813,35 +4813,35 @@ HOCs](#pcf-mapping-hoc) must be conformante with the Data Model specified in [[#
 relevant properties of the `ProductFootprint` must also be confomant with the guidance provided in
 [[#pcf-mapping-hoc]].
 
-### Test Case 004: Get All ShipmentData ### {#test-case-004}
+### Test Case 004: Get All ShipmentFootprintData ### {#test-case-004}
 
-### Test Case 005: Get Filtered List of ShipmentData ### {#test-case-005}
+### Test Case 005: Get Filtered List of ShipmentFootprintData ### {#test-case-005}
 
-### Test Case 006: Get Limited List of ShipmentData ### {#test-case-006}
+### Test Case 006: Get Limited List of ShipmentFootprintData ### {#test-case-006}
 
-### Test Case 007: Attempt ShipmentData with Invalid Token ### {#test-case-007}
+### Test Case 007: Attempt ShipmentFootprintData with Invalid Token ### {#test-case-007}
 
-### Test Case 008: Attempt ShipmentData with Expired Token ### {#test-case-008}
+### Test Case 008: Attempt ShipmentFootprintData with Expired Token ### {#test-case-008}
 
-### Test Case 009: Get All TransportOperatorCategoryData ### {#test-case-009}
+### Test Case 009: Get All TOCData ### {#test-case-009}
 
-### Test Case 010: Get Filtered List of TransportOperatorCategoryData ### {#test-case-010}
+### Test Case 010: Get Filtered List of TOCData ### {#test-case-010}
 
-### Test Case 011: Get Limited List of TransportOperatorCategoryData ### {#test-case-011}
+### Test Case 011: Get Limited List of TOCData ### {#test-case-011}
 
-### Test Case 012: Attempt TransportOperatorCategoryData with Invalid Token ### {#test-case-012}
+### Test Case 012: Attempt TOCData with Invalid Token ### {#test-case-012}
 
-### Test Case 013: Attempt TransportOperatorCategoryData with Expired Token ### {#test-case-013}
+### Test Case 013: Attempt TOCData with Expired Token ### {#test-case-013}
 
-### Test Case 014: Get All HubOperationCategoryData ### {#test-case-014}
+### Test Case 014: Get All HOCData ### {#test-case-014}
 
-### Test Case 015: Get Filtered List of HubOperationCategoryData ### {#test-case-015}
+### Test Case 015: Get Filtered List of HOCData ### {#test-case-015}
 
-### Test Case 016: Get Limited List of HubOperationCategoryData ### {#test-case-016}
+### Test Case 016: Get Limited List of HOCData ### {#test-case-016}
 
-### Test Case 017: Attempt HubOperationCategoryData with Invalid Token ### {#test-case-017}
+### Test Case 017: Attempt HOCData with Invalid Token ### {#test-case-017}
 
-### Test Case 018: Attempt HubOperationCategoryData with Expired Token ### {#test-case-018}
+### Test Case 018: Attempt HOCData with Expired Token ### {#test-case-018}
 
 ### Test Case 019: Get All AggregatedEmissionsData ### {#test-case-019}
 
