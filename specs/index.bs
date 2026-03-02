@@ -772,6 +772,13 @@ Issue: Consider adding
         <th>Req
         <th>Specification
     <tbody>
+      <tr><dfn>specVersion</dfn>
+        <td>String
+        <td>M*
+        <td>
+            The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
+
+            For the present version, the value MUST be `1.1.0`.
       <tr>
         <td><dfn>companyName</dfn>
         <td>String
@@ -1206,6 +1213,13 @@ Issue: Consider adding
         <th>Req
         <th>Specification
     <tbody>
+      <tr><dfn>specVersion</dfn>
+        <td>String
+        <td>M*
+        <td>
+            The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
+
+            For the present version, the value MUST be `1.1.0`.
       <tr>
         <td><dfn>companyName</dfn>
         <td>String
@@ -1500,7 +1514,14 @@ Issue: Consider adding
         <th>Req
         <th>Specification
     <tbody>
-          <tr>
+      <tr><dfn>specVersion</dfn>
+        <td>String
+        <td>M*
+        <td>
+            The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
+
+            For the present version, the value MUST be `1.1.0`.
+      <tr>
         <td><dfn>companyName</dfn>
         <td>String
         <td>M*
@@ -1780,6 +1801,13 @@ encoded as a JSON object.
         <th>Req
         <th>Description
     <tbody>
+      <tr><dfn>specVersion</dfn>
+        <td>String
+        <td>O
+        <td>
+            The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
+
+            For the present version, the value MUST be `1.1.0`.
       <tr>
         <td><dfn>activityId</dfn>
         <td>String
@@ -1906,6 +1934,13 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <th>Req
         <th>Specification
     <tbody>
+      <tr><dfn>specVersion</dfn>
+        <td>String
+        <td>O
+        <td>
+            The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
+
+            For the present version, the value MUST be `1.1.0`.
       <tr>
         <td><dfn>reportId</dfn>
         <td>String
@@ -4978,6 +5013,15 @@ Issue: We're still refering to PACT Framework v2. We should move to v3, but make
       "href": "https://openid.net/specs/openid-connect-discovery-1_0.html",
       "status": "Final",
       "publisher": "OpenID Foundation"
+    },
+    "SEMVER": {
+      "authors": [
+        "Tom Preston-Werner"
+      ],
+      "title": "Semantic Versioning 2.0.0",
+      "href": "https://semver.org/spec/v2.0.0.html",
+      "status": "Final",
+      "publisher": "Tom Preston-Werner"
     }
   }
 </pre>
