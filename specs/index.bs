@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.1.0-20251201)
+Title: iLEAP Technical Specifications (Version 1.1.0-20260302)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -4203,7 +4203,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
               SHOULD be set to `"0"` (zero encoded as a string)
 
               Advisement: Version 4 of the GLEC Framework will provide guidance on biogenic emissions. Updates to this property
-              will be made after its release.
+              will be made after its release.j
 
       <tr>
         <td>CarbonFootprint
@@ -4440,6 +4440,16 @@ apply for additional support, materials, and marketing opportunities.
 
 
 # Appendix A: Changelog # {#changelog}
+
+Issue: DT#4 changelog information is missing.
+
+
+## Version 1.1.0-20260302 ## {#version-1.1.0-20260302}
+
+First draft release of Version 1.1.0, containing the following changes:
+- addition of iLEAP Standalone Protocol
+- re-wording of the PACT Integration Chapter [[#pcf-mapping]]
+
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
