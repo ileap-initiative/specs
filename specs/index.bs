@@ -4277,7 +4277,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
               SHOULD be set to `"0"` (zero encoded as a string)
 
               Advisement: Version 4 of the GLEC Framework will provide guidance on biogenic emissions. Updates to this property
-              will be made after its release.
+              will be made after its release.j
 
       <tr>
         <td>CarbonFootprint
@@ -4530,20 +4530,15 @@ apply for additional support, materials, and marketing opportunities.
 
 # Appendix A: Changelog # {#changelog}
 
-## Version 1.0.1-20260323 (2026-03-23) ## {#version-1.0.1}
+Issue: DT#4 changelog information is missing.
 
-Summary of changes:
-- addition of advisement to <{HOC/packagingOrTrEqAmount}> and <{TAD/packagingOrTrEqAmount}> regarding
-    incorrect type definitions, which will be corrected in v2.
-- addition of guidance on `secondaryEmissionFactorSources` in [[#pcf-mapping-sf]],
-    [[#pcf-mapping-toc]], and [[#pcf-mapping-hoc]]
-- addition on advisment on future methodological updates and their implications to [[#pcf-mapping]]
-- fix typo in <{Location}> properties table
-- update PACT Test Cases V2 links in [[#conformance]] and fix PACT version in
-    [[#pact-conformance-tests]]
-- removal of duplicated advisement in [[#dt-packaging-or-tr-eq-type]]
-- improve consistency of data type presentation in tables
-- fix typo in [[#appendix-b-sf-example]] (`3.6801` now reads `36801`)
+
+## Version 1.1.0-20260302 ## {#version-1.1.0-20260302}
+
+First draft release of Version 1.1.0, containing the following changes:
+- addition of iLEAP Standalone Protocol
+- re-wording of the PACT Integration Chapter [[#pcf-mapping]]
+
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
