@@ -51,7 +51,7 @@ exchange of standardized activity data and the calculation of emissions.
 
 ## Technical and Methodological Interoperability ## {#interop}
 
-Issue: If we want to have a more general section on this topic, I believe the text needs to be enriched.
+Issue: This section might need further elaboration.
 
 The iLEAP Technical Specifications are based on and methodologically aligned with the [[!ISO14083|ISO14083:2023]]
 and the [[!GLEC|GLEC Framework V3.1]].
@@ -249,7 +249,7 @@ The authors would like to thank the many individuals and organizations for their
 
 ## Auxiliary Definitions ## {#auxiliary-definitions}
 
-Issue: Definition need to be reviewed
+Issue: Needs revision
 
 : <dfn>Access Token</dfn>
 :: Credential to provide access to protected resources, as defined in [[!rfc6749]] Section 1.4 (see also Section 5.1 and Appendix A.12).
@@ -789,7 +789,8 @@ Issue: Consider adding
         <th>Req
         <th>Specification
     <tbody>
-      <tr><dfn>specVersion</dfn>
+      <tr>
+        <td><dfn>specVersion</dfn>
         <td>String
         <td>M*
         <td>
@@ -847,7 +848,7 @@ Issue: Consider adding
 
             This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
 
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
+            Issue: Needs revision
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
@@ -859,7 +860,7 @@ Issue: Consider adding
 
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
 
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
+            Issue: Needs revision
       <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
@@ -1230,7 +1231,8 @@ Issue: Consider adding
         <th>Req
         <th>Specification
     <tbody>
-      <tr><dfn>specVersion</dfn>
+      <tr>
+        <td><dfn>specVersion</dfn>
         <td>String
         <td>M*
         <td>
@@ -1282,7 +1284,7 @@ Issue: Consider adding
 
             This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
 
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
+            Issue: Needs revision
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
@@ -1294,7 +1296,7 @@ Issue: Consider adding
 
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
 
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
+            Issue: Needs revision
       <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
@@ -1531,7 +1533,8 @@ Issue: Consider adding
         <th>Req
         <th>Specification
     <tbody>
-      <tr><dfn>specVersion</dfn>
+      <tr>
+        <td><dfn>specVersion</dfn>
         <td>String
         <td>M*
         <td>
@@ -1565,7 +1568,7 @@ Issue: Consider adding
 
             This start date represents the earliest date from which activity data was collected to include in the emissions calculation.
 
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
+            Issue: Needs revision
       <tr>
         <td><dfn>createdAt</dfn>
         <td>String
@@ -1595,7 +1598,7 @@ Issue: Consider adding
 
             This end date represents the latest date until which activity data was collected to include in the emissions calculation.
 
-            Issue: Transposed from PACT and only slightly adapted. Needs review.
+            Issue: Needs revision
       <tr>
         <td><dfn>secondaryEmissionFactorSources</dfn>
         <td>Object[]
@@ -1821,7 +1824,8 @@ encoded as a JSON object.
         <th>Req
         <th>Description
     <tbody>
-      <tr><dfn>specVersion</dfn>
+      <tr>
+        <td><dfn>specVersion</dfn>
         <td>String
         <td>O
         <td>
@@ -1957,7 +1961,8 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <th>Req
         <th>Specification
     <tbody>
-      <tr><dfn>specVersion</dfn>
+      <tr>
+        <td><dfn>specVersion</dfn>
         <td>String
         <td>O
         <td>
@@ -2738,7 +2743,6 @@ All endpoints native to iLEAP share common characteristics regarding
 Note: PACT interoperability is deprecated, but needs to be maintained for backwards compatibility.
 
 Issue: Needs revision. In particular, we need to consider not demanding BasicAuth implementation with client credentials.
-Oscar (Way) has made a concrete proposal on how to keep OAuth2 and make the protocol more flexible regarding the details.
 
 With the deprecation of PACT interoperability, iLEAP defines its own authentication flow for the
 native endpoints. An [=access token=] obtained through either authentication method (PACT or iLEAP native)
@@ -4402,7 +4406,7 @@ are performed accurately in end-to-end scenarios.
 
 ## Conformance Matrix ## {#ileap-conformance-matrix}
 
-Issue: does this matrix still make sense with so many test cases?
+Issue: Matrix needs revision
 
 <figure>
   <table class="complex data">
