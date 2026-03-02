@@ -74,11 +74,11 @@ executed through a PACT Conformant API.
 However, technical interoperability with PACT in these terms is deprecated in v1.1.0 of the iLEAP
 Technical Specifications, by which it is meant that:
 1. PACT support remains MANDATORY, but is deprecated, and will be entirely removed in v2.0.0;
-1. a new [=iLEAP standalone protocol=] is introduced, enabling the exchange of logistics emissions
+1. the [=iLEAP standalone protocol=] ([[#http-rest-api]]) is introduced, enabling the exchange of logistics emissions
     data without relying on PACT; this protocol is MANDATORY for implementations of v1.1.0 and
     beyond;
-1. implementers are STRONGLY RECOMMENDED to use the new iLEAP standalone protocol, while keeping
-    PACT support for backward compatibility.
+1. implementers are STRONGLY RECOMMENDED to use the new iLEAP standalone protocol by default, while keeping
+    PACT support for backward compatibility and fallback purposes.
 
 The iLEAP Technical Specifications strive to remain semantical interoperable with the PACT
 Methodology and data model, ensuring an easy integration of logistics emissions into PCFs.
