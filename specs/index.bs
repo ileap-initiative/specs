@@ -3623,18 +3623,18 @@ Paginated response with a `link` header:
 
 As stated in [[#pact-interop]], PACT interoperability is deprecated. However, to ensure backward
 compatibility until the release of iLEAP v2.0.0, [=host systems=] MUST support the integration of
-the iLEAP data types into the PACT Data Model ([[!PACTDX]] Chapter 5) as specified in this section.
-The resulting `ProductFootprints` MUST be exchanged throuhg the PACT Data Exchange Protocol
-([[!PACTDX]] Chapter 7).
+the iLEAP data types into the PACT Data Model ([[!PACTDX]] Chapter 5).
 
-The Data types defined in [[#data-model]] are specific to [[!ISO14083]] and the [[!GLEC]] Framework.
+The iLEAP data models <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> are integrated into
+the PACT Data Model through its extensions mechanism ([[!DATA-MODEL-EXTENSIONS]]). This means,
+a `ProductFootprint` (see [[!PACTDX]] Chapter 5.1) embeds the JSON representation of
+the iLEAP data type in the `extensions` property (see [[!DATA-MODEL-EXTENSIONS]]).
 
-This section specifies the integration of the data types <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> into the PACT Data Model ([[!PACTDX]] Chapter 5).
-The integration of the data types <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> is achieved by storing them as extensions to the PACT Data Model (see [[!DATA-MODEL-EXTENSIONS]]).
-Therefore, all properties defined in the latter are also properties of the former. As a result, some properties relevant to logistics do not need to be defined in the [[#data-model]].
-The list below contains the properties that were omitted for this reason.
+The following chapters specify the exact embedding and mapping from iLEAP properties to PACT
+Data Model properties.
 
-Note: The extensions of one `ProductFootprint` CANNOT contain more than one iLEAP Data Type.
+Note: Other iLEAP data types, such as <{AR}> and <{TAD}>, are available through HTTP Actions [[#dt-tad]] and [[#dt-ar]] only.
+
 
 ### ShipmentFootprint ### {#pcf-mapping-sf}
 
