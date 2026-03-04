@@ -1590,6 +1590,14 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <th>Specification
     <tbody>
       <tr>
+        <td><dfn>specVersion</dfn>
+        <td>String
+        <td>O
+        <td>
+            The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
+
+            For the present version, the value MUST be `1.1.0`.
+      <tr>
         <td><dfn>reportId</dfn>
         <td>String
         <td>M
