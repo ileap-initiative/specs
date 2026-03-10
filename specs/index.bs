@@ -1830,6 +1830,12 @@ encoded as a JSON object.
 
             For the present version, the value MUST be `1.1.0`.
       <tr>
+        <td><dfn>createdAt</dfn>
+        <td>String
+        <td>O
+        <td>
+            Timestamp of the creation of the <{TAD}>. The value MUST be a date and time string conforming to ISO 8601 with timezone UTC.
+      <tr>
         <td><dfn>activityId</dfn>
         <td>String
         <td>M
@@ -2927,9 +2933,6 @@ Upon a [=host system=] returning a [=pagination link=]:
         if **any** element in the array satisfies the filter condition;
     3. Host systems CAN support any depth of nesting.
 
-
-Note: See [=Filter=] for further details on the syntax and semantics.
-
     <div class="example">
         To filter <{ShipmentFootprint|ShipmentFootprints}> by the origin location of their embedded TCEs:
         ```
@@ -2938,6 +2941,31 @@ Note: See [=Filter=] for further details on the syntax and semantics.
         This returns all <{ShipmentFootprint|ShipmentFootprints}> containing at least one <{TCE}>
         whose <{TCE/origin}> has a matching city.
     </div>
+
+    For all properties the value of which is a timestamp, filtering SHOULD support the possibility of specifying a time
+    range, implemented as follows:
+
+      1. The `$name` of the filter pair is the name of the timestamp property (e.g., `createdAt`) followed by either
+          `gte` (greater than or equal to) or `lt` (less than), using the [=dot notation=].
+      1. The `$value` of the filter pair is a date and time string conforming to ISO 8601 with timezone UTC.
+      1. To filter within the range defined by a start time and an end time, two filter pairs need to be concatenated with `&`.
+
+    <div class="example">
+        To filter <{ShipmentFootprint|ShipmentFootprints}> by the creation time between 2025-01-01 (inclusive) and 2026-01-01 (exclusive):
+        ```
+        createdAt.gte=2025-01-01T00:00:00Z&createdAt.lt=2026-01-01T00:00:00Z
+        ```
+        This returns all <{ShipmentFootprint|ShipmentFootprints}> created on or after `2025-01-01T00:00:00Z` and before `2026-01-01T00:00:00Z`.
+    </div>
+
+    The properties elligible to be filtered in this manner are:
+
+    - <strong><{ShipmentFootprint}></strong>: <{ShipmentFootprint/createdAt}>, <{ShipmentFootprint/referencePeriodStart}>, and <{ShipmentFootprint/referencePeriodEnd}>
+    - <strong><{TCE}></strong>: <{TCE/departureAt}>, and <{TCE/arrivalAt}>
+    - <strong><{TOC}></strong>: <{TOC/createdAt}>, <{TOC/referencePeriodStart}>, and <{TOC/referencePeriodEnd}>
+    - <strong><{HOC}></strong>: <{HOC/createdAt}>, <{HOC/referencePeriodStart}>, and <{HOC/referencePeriodEnd}>
+    - <strong><{TAD}></strong>: <{TAD/createdAt}>, <{TAD/departureAt}>, and <{TAD/arrivalAt}>
+    - <strong><{AggregatedReport}></strong>: <{AggregatedReport/createdAt}>, <{AggregatedReport/reportPeriodStart}>, and <{AggregatedReport/reportPeriodEnd}>
 
 : <dfn>Limit</dfn>
 ::
