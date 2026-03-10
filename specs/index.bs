@@ -2953,7 +2953,7 @@ Upon a [=host system=] returning a [=pagination link=]:
     <div class="example">
         To filter <{ShipmentFootprint|ShipmentFootprints}> by the creation time within the range defined by `2025-01-01T00:00:00Z` (inclusive) and `2026-01-01T00:00:00Z` (exclusive):
         ```
-        $filter=createdAt.interval.startTime=2025-01-01T00:00:00Z&createdAt.interval.endTime=2026-01-01T00:00:00Z
+        createdAt.interval.startTime=2025-01-01T00:00:00Z&createdAt.interval.endTime=2026-01-01T00:00:00Z
         ```
         This returns all <{ShipmentFootprint|ShipmentFootprints}> created on or after `2025-01-01T00:00:00Z` and before `2026-01-01T00:00:00Z`.
     </div>
