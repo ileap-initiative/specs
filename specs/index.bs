@@ -2945,20 +2945,22 @@ Upon a [=host system=] returning a [=pagination link=]:
     For all properties the value of which is a timestamp, filtering SHOULD support the possibility of specifying a time
     range, implemented as follows:
 
-      1. The `$name` of the filter pair is the name of the timestamp property (e.g., `createdAt`) followed by `interval`
-          and then by either `startTime` (inclusive) or `endTime` (exclusive), using the [=dot notation=].
-      1. The `$value` of the filter pair is a date and time string conforming to ISO 8601 with timezone UTC.
-      1. To filter within the range defined by a start time and an end time, two filter pairs need to be concatenated with `&`.
+      1. The `$name` of the filter pair is the name of the timestamp property (e.g., `createdAt`).
+      1. The `$value` of the filter pair is an array with two dates, representing a start time and an end time, respectively,
+          encoded as ISO 8601 date and time strings with timezone UTC.
 
     <div class="example">
-        To filter <{ShipmentFootprint|ShipmentFootprints}> by the creation time within the range defined by `2025-01-01T00:00:00Z` (inclusive) and `2026-01-01T00:00:00Z` (exclusive):
+        To filter <{ShipmentFootprint|ShipmentFootprints}> by the creation time between 2025-01-01 (inclusive) and 2026-01-01 (exclusive):
         ```
-        createdAt.interval.startTime=2025-01-01T00:00:00Z&createdAt.interval.endTime=2026-01-01T00:00:00Z
+        createdAt=[2025-01-01T00:00:00Z,2026-01-01T00:00:00Z]
         ```
-        This returns all <{ShipmentFootprint|ShipmentFootprints}> created on or after `2025-01-01T00:00:00Z` and before `2026-01-01T00:00:00Z`.
     </div>
 
-    The properties elligible to be filtered in this manner are:
+    - To filter for records after a certain date, use the current timestamp as the end date.
+    - To filter for records before a certain date, use a date sufficiently far in the past as the start date.
+    - To filter for records matching an exact timestamp, use the standard filter notation without brackets.
+
+    The properties eligible to be filtered in this manner are:
 
     - <strong><{ShipmentFootprint}></strong>: <{ShipmentFootprint/createdAt}>, <{ShipmentFootprint/referencePeriodStart}>, and <{ShipmentFootprint/referencePeriodEnd}>
     - <strong><{TCE}></strong>: <{TCE/departureAt}>, and <{TCE/arrivalAt}>
@@ -2966,11 +2968,6 @@ Upon a [=host system=] returning a [=pagination link=]:
     - <strong><{HOC}></strong>: <{HOC/createdAt}>, <{HOC/referencePeriodStart}>, and <{HOC/referencePeriodEnd}>
     - <strong><{TAD}></strong>: <{TAD/createdAt}>, <{TAD/departureAt}>, and <{TAD/arrivalAt}>
     - <strong><{AggregatedReport}></strong>: <{AggregatedReport/createdAt}>, <{AggregatedReport/reportPeriodStart}>, and <{AggregatedReport/reportPeriodEnd}>
-
-
-
-
-
 
 : <dfn>Limit</dfn>
 ::
