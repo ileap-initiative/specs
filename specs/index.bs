@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.1-17022026)
+Title: iLEAP Technical Specifications (Version 1.0.1-19032026)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -1286,8 +1286,11 @@ The Data Type <{HOC}> has the following properties:
         <td><dfn>packagingOrTrEqAmount</dfn>
         <td>Number `(int)`
         <td>O
-        <td>Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
+        <td>
 
+            Advisement: This property is currently defined as an integer but should be a decimal. This will be corrected in v2.
+
+            Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
       <tr>
         <td><dfn>energyCarriers</dfn>
         <td><{EnergyCarrier}>[]
@@ -1470,8 +1473,11 @@ encoded as a JSON object.
         <td><dfn>packagingOrTrEqAmount</dfn>
         <td>Number `(int)`
         <td>O
-        <td>Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
+        <td>
 
+            Advisement: This property is currently defined as an integer but should be a decimal. This will be corrected in v2.
+
+            Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
       <tr>
         <td><dfn>energyCarriers</dfn>
         <td><{EnergyCarrier}>[]
@@ -2783,9 +2789,11 @@ apply for additional support, materials, and marketing opportunities.
 
 # Appendix A: Changelog # {#changelog}
 
-## Version 1.0.1-17022026 (2026-02-17) ## {#version-1.0.1}
+## Version 1.0.1-19032026 (2026-03-19) ## {#version-1.0.1}
 
 Summary of changes:
+- addition of advisement to <{HOC/packagingOrTrEqAmount}> and <{TAD/packagingOrTrEqAmount}> regarding
+    incorrect type definitions, which will be corrected in v2.
 - addition of guidance on `secondaryEmissionFactorSources` in [[#pcf-mapping-sf]],
     [[#pcf-mapping-toc]], and [[#pcf-mapping-hoc]]
 - addition on advisment on future methodological updates and their implications to [[#pcf-mapping]]
