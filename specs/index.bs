@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.1-20260323)
+Title: iLEAP Technical Specifications (Version 1.1.0-20260323)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -293,6 +293,26 @@ calculations.
 
 Data Transaction #3 ([[#txn3]]) enables this business case.
 
+## Aggregated Emissions Reporting ## {#business-case-4}
+
+Consider the following scenarios:
+    1. A [=Transport Operator=] or a [=Transport Service Organizer=] needs to disclose emissions data to a
+        [=Transport Service Organizer=] or a [=Transport Service User=] for commercial or regulatory purposes, but is not
+        able or not willing (for privacy or competitive reasons) to share TCE-level data. Instead, they want to share emissions
+        aggregated per transport mode over a shipment or a period of time.
+    1. A [=Transport Service User=] or a [=Transport Service Organizer=] requests emissions data from a [=Transport Operator=] or
+        a [=Transport Service Organizer=]. They do not need TCE-level data, but rather emissions aggregated per transport mode
+        over a shipment or a period of time.
+    1. A [=Transport Service User=], a [=Transport Service Organizer=], or a [=Transport Operator=] needs to disclose an
+        emissions data to a public body, for regulatory purposes, but only aggregated data is required. (This could take
+        place simultaneously with 1. The data disclosed to the public body could be a subset of the data exchanged B2B
+        (e.g., customer identification could be redacted).)
+
+iLEAP generally simplifies data collection efforts for the parties involved in this business case,
+lowering the barrier for sharing emissions data, while still enabling the use of primary data for
+the calculation of emissions.
+
+Data Transaction #4 ([[#txn4]]) enables this business case.
 
 ## Additional Business Cases ## {#txns-appendix}
 
@@ -385,9 +405,48 @@ Note:
       lacking the capabilities to make emissions data available. Through this transaction they can
       provide activity data to their customers.
 
+## Data Transaction 4: Aggregated Emissions Data Exchange ## {#txn4}
+
+This data transaction enables a [=Transport Service Organizer=], a [=Transport Service User=], or
+Public Authorities to receive emissions data related to one or more shipments from a [=Transport
+Operator=], a [=Transport Service Organizer=], or a [=Transport Service User=], without disclosing
+TCE-level data. The data exchanged through this transaction MAY disclose emissions aggregated per
+transport mode and an aggregation of all hub <{TCE|TCEs}> (as requested in [[!ISO14083]] Chapter 13.3.2, see
+information"j)").
+
+To execute this transaction, a [=Transport Operator=] or [=Transport Service Organizer=] MUST:
+
+1.  calculate all <{TCE|TCEs}>' emissions corresponding to the shipment(s) in accordance with the GLEC Framework and ISO 14083,
+2. generate the <{AR|AggregatedReport}> from the collected <{TCE|TCEs}>, and
+3. make the <{AR|AggregatedReport}> available to a [=Transport Service Organizer=], [=Transport Service
+    User=], or Public Body, through an iLEAP Conformant API.
+
+Advisement: Aggregated Emissions Data is less granular than TCE-level data. Therefore, once
+Aggregated Emissions Data is exchanged, it is no longer possible to derive more granular (i.e.,
+TCE-level) data from it, thereby affecting the all data exchanges downstream. Please consider this
+when opting for this data transaction.
+
+### Examples ### {#txn4-examples}
+
+Note: The following are are usecase examples, where a Transport Service Organizer and a Telematics
+Provider send data to a GHG Calculation Tool with the goal of having the emissions calculated and
+aggregated, in order to share less granular data with a Transport Service User.
+
+<figure id="dt4-example-1">
+  <img src="diagrams/dt4-example-1.svg" height="80%" width="80%" >
+  <figcaption>Data Transaction 4 Example 1</figcaption>
+</figure>
+
+<figure id="dt4-example-2">
+  <img src="diagrams/dt4-example-2.svg" height="80%" width="80%" >
+  <figcaption>Data Transaction 4 Example 2</figcaption>
+</figure>
+
 # End-to-End Example # {#example}
 
 Note: Non-normative section
+
+Issue: Missing example with Data Transaction 4.
 
 ## Example Case with 2 Carriers and 1 LSP ## {#example-case-1}
 
@@ -525,8 +584,6 @@ The highlighted lines show the data exchanged according to the <{ShipmentFootpri
 
 `LSP` can further access the <{TOC|TOCs}> from `Carrier A` through the same endpoint (see [[#txn2]] and [[#pcf-mapping-toc]]).
 
-
-
 ### Data Collection by `LSP` from `Carrier A` ### {#example-http-s}
 
 To collect the TCE data related to the shipment, `LSP` performs the following HTTP call, yielding 2 TCEs in this hypothetical example.
@@ -630,13 +687,15 @@ Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) is added 
 Please, find more details on emissions calculation and the relantionship between the different concepts in the [[!GLEC]] Framework and [[!ISO14083]]).
 
 The iLEAP Data Model is composed by five main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
-<{HOC}>, and <{TAD}>.
+<{HOC}>, <{TAD}>, and <{AR|AggregatedReport}>.
 
 <{ShipmentFootprint|ShipmentFootprints}> and <{TOC|TOCs}> can be exchanged independently as extensions to the PACT
 Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]]) in a `ProductFootprint`.
 
 <{TAD|TADs}> can be exchanged through a dedicated endpoint. This should only be used by [=Transport
 Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, nor <{HOC|HOCs}>.
+
+<{AR|AggregatedReports}> can be exchanged through a dedicated endpoint.
 
 ## ShipmentFootprint ## {#dt-sf}
 
@@ -1017,7 +1076,7 @@ The Data Type <{TOC}> has the following properties:
         <td>
             The non-empty set (without duplicates) of certifications of the calculation methodology used to calculate the GHG emissions value and related variables.
 
-            Elements of the array MUST be one of the following:
+            Each element of the array MUST be one of the following:
 
             : ISO14083:2023
             :: Indicates that the calculation methodology has been evaluated as compliant with [[!ISO14083]]:2023, as declared in a certification certificate.
@@ -1224,7 +1283,7 @@ The Data Type <{HOC}> has the following properties:
         <td>
             The non-empty set (without duplicates) of certifications of the calculation methodology used to calculate the GHG emissions value and related variables.
 
-            Elements of the array MUST be one of the following:
+            Each element of the array MUST be one of the following:
 
             : ISO14083:2023
             :: Indicates that the calculation methodology has been evaluated as compliant with [[!ISO14083]]:2023, as declared in a certification certificate.
@@ -1363,7 +1422,7 @@ The Data Type <{HOC}> has the following properties:
 
 ## Transport Activity Data (<dfn element>TAD</dfn>) ## {#dt-tad}
 
-The <dfn>Transport Activity Data </dfn> (<{TAD}>) data type contains activity
+The <dfn>Transport Activity Data</dfn> (<{TAD}>) data type contains activity
 data, referring to a single consignment, leg, and mode of transport, or to a
 single transshipment within a hub.
 
@@ -1512,6 +1571,221 @@ encoded as a JSON object.
     <figcaption><{TAD}> properties</figcaption>
 </figure>
 
+## Aggregated Report (<dfn element data-lt="AR|AggregatedReports">AR</dfn>) ## {#dt-ar}
+
+The <dfn>AggregatedReport</dfn> (<{AR}>) data type contains aggregated emissions data for one or more shipments,
+disclosing total emissions, without disclosing TCE-level data. An AggregatedReport MAY disclose
+emissions aggregated per transport mode and  an aggregation of all hub TCEs (see ISO 14083 Chapter
+13.3).
+
+### Data Attributes ### {#ar-attributes}
+
+<figure id="ar-properties-table" dfn-type="element-attr" dfn-for="AggregatedReport">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Attribute Id
+        <th>Type
+        <th>Req
+        <th>Specification
+    <tbody>
+      <tr>
+        <td><dfn>specVersion</dfn>
+        <td>String
+        <td>O
+        <td>
+            The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
+
+            For the present version, the value MUST be `1.1.0`.
+      <tr>
+        <td><dfn>reportId</dfn>
+        <td>String
+        <td>M
+        <td>The non-empty unique ID of this [=AggregatedReport=] relative to the [=host system=].
+      <tr>
+        <td><dfn>standardsUsed</dfn>
+        <td>String[]
+        <td>M
+        <td>
+            The non-empty set (without duplicates) of methodological standards used to calculate the aggregated GHG
+            emissions and related variables.
+
+            Each element of the array MUST be one of the following:
+
+            : ISO14083:2023
+            :: Indicates that the calculation methodology has been evaluated as compliant with ISO14083:2023. MUST
+                be included for [[!ISO14083]] conformance.
+
+            Advisement: The enumeration of standards will be evolved in future revisions. Account for this when
+            implementing the validation of this property.
+      <tr>
+        <td><dfn>shipmentIds</dfn>
+        <td>String[]
+        <td>M
+        <td>
+            The shipment ids of the shipment(s) related to this [=AggregatedReport=].
+            In case the report covers multiple shipments, these MUST all belong to the same transport contract,
+            hence having the same Transport Service User (see <{AggregatedReport/transportServiceUserId}>).
+      <tr>
+        <td><dfn>tceIds</dfn>
+        <td>String[]
+        <td>O
+        <td>The ids of all TCEs related to the shipments referenced in <{AggregatedReport/shipmentIds}>.
+      <tr>
+        <td><dfn>tocIds</dfn>
+        <td>String[]
+        <td>O
+        <td>The ids of the TOCs used for the calculation of this [=AggregatedReport=].
+      <tr>
+        <td><dfn>hocIds</dfn>
+        <td>String[]
+        <td>O
+        <td>The ids of the HOCs used for the calculation of this [=AggregatedReport=].
+      <tr>
+        <td><dfn>reportPeriodStart</dfn>
+        <td>String
+        <td>O
+        <td>
+            If this AggregatedReport is based on a specific report period, then this MUST be defined, encoding the
+            “start” (inclusive) of the report's period. Timestamp of departure. The value MUST be a date and time
+            string conforming to ISO 8601 with timezone UTC.
+      <tr>
+              <td><dfn>reportPeriodEnd</dfn>
+        <td>String
+        <td>O
+        <td>
+            If this AggregatedReport is based on a specific report period, then this MUST be defined, encoding the
+            “end” (exclusive) of the report’s period. The value MUST be a date and time string conforming to ISO 8601
+            with timezone UTC.
+      <tr>
+        <td><dfn>status</dfn>
+        <td>String
+        <td>M
+        <td>
+            Each [=AggregatedReport=] MUST include the property `status` with value one of the following
+            values:
+
+            : `Active`
+            :: The default `status` of a report is `Active`. A report with status Active CAN be used by data recipients for logistics emissions calculations.
+            : `Deprecated`
+            :: The report is deprecated and SHOULD NOT be used for logistics emissions calculations by data recipients.
+
+      <tr>
+        <td><dfn>transportServiceUserId</dfn>
+        <td>String
+        <td>O
+        <td>
+            The id of the Transport Service User procuring the Shipment(s). This can be a Shipper or another
+            stakeholder, but does not need to be the Consignee.
+            <tr>
+        <td><dfn>transportServiceUserBuId</dfn>
+        <td>String
+        <td>O
+        <td>
+            The id of the Business Unit of the Transport Service User procuring the Shipment(s). This can be a Shipper
+            or another stakeholder, but does not need to be the Consignee.
+      <tr>
+        <td><dfn>consignmentIds</dfn>
+        <td>String[]
+        <td>O
+        <td>The ids of the consignments corresponding to this [=AggregatedReport=].
+      <tr>
+        <td><dfn>packagingOrTrEqType</dfn>
+        <td><{PackagingOrTrEqType}>
+        <td>O
+        <td>
+            Category of relevant packaging or transport equipment units utilized in the shipments referenced in
+            <{AggregatedReport/shipmentIds}>. See data type <{PackagingOrTrEqType}> for further information.
+      <tr>
+        <td><dfn>packagingOrTrEqAmount</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Number of packaging or transport equipment units utilized in the shipments referenced in
+            <{AggregatedReport/shipmentIds}>.
+      <tr>
+        <td><dfn>totalTransportActivity</dfn> : [=Decimal=]
+        <td>String
+        <td>M
+        <td>
+            The sum total of the transport activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
+            (SI derived Unit `ton kilometers`).
+      <tr>
+        <td><dfn>co2eWTW</dfn> : [=Decimal=]
+        <td>String
+        <td>M
+        <td>
+            GHG emissions released to atmosphere during the process of producing, storing, processing and distributing
+            an energy carrier for vehicle operation + GHG emissions released to atmosphere as a result of vehicle
+            operation. The value MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}>
+            with unit `kgCO2e`.
+      <tr>
+        <td><dfn>co2eTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            GHG emissions released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
+      <tr>
+        <td><dfn>noxTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Nitrogen oxide released to atmosphere as a result of vehicle operation. The value MUST be calculated for
+            the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>soxTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Sulphur oxide released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>ch4TTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Methane released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>pmTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Particulate matter (PM10 and PM2.5) released to atmosphere as a result of vehicle operation. The value MUST
+            be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>perModeEmissions</dfn>
+        <td><{ModeSpecificReport}>[]
+        <td>O
+        <td>The subreport with emissions per modality. This MUST be defined for [[!ISO14083]] conformance.
+      <tr>
+        <td><dfn>modalities</dfn>
+        <td>String[]
+        <td>O
+        <td>
+            The non-empty set (without duplicates) of transport modalities included in this [=AggregatedReport=].
+
+            If <{AggregatedReport/perModeEmissions}> is not defined, this property SHOULD be defined to either disclose the modalities
+            or to indicate that the emissions are aggregated across multiple modalities.
+
+            Each element of the array MUST be one of the following:
+
+            : `Road`
+            :: For transport mode road
+            : `Rail`
+            :: For transport mode rail
+            : `Air`
+            :: For transport mode air
+            : `Sea`
+            :: For transport mode sea
+            : `InlandWaterway`
+            :: For transport mode inland waterway.
+            : `MultiModal`
+            :: For transport modes combining two or more of the above transport modes.
+    </table>
+    <figcaption>Properties of data type [=AggregatedReport=]</figcaption>
+</figure>
 
 ## Additional Utility Data Types ## {#dt-utility-section}
 
@@ -1899,6 +2173,122 @@ implementing the validation of this property.
 Note: The use of value `Container` is discouraged, as it does not provide any information about the
 container equivalent unit.
 
+Advisement: The enumeration of packaging or transport equipment units above will be evolved in
+  future revisions.
+
+### Data Type <dfn element>ModeSpecificReport</dfn> ### {#dt-mode-specific-report}
+
+<figure id="mode-specific-report-properties-table" dfn-type="element-attr" dfn-for="ModeSpecificReport">
+  <table class="data">
+    <thead>
+      <tr>
+        <th>Property
+        <th>Type
+        <th>Req
+        <th>Specification
+    <tbody>
+      <tr>
+        <td><dfn>transportMode</dfn>
+        <td>{{TransportMode}}
+        <td>O
+        <td>
+
+            Advisement: Either <{ModeSpecificReport/transportMode}> or <{ModeSpecificReport/hubOperations}> MUST be defined.
+
+            The mode of transport, if the emissions relate to a transport operation.
+      <tr>
+        <td><dfn>hubOperations</dfn>
+        <td>String[]
+        <td>O
+        <td>
+
+            Advisement: Either <{ModeSpecificReport/transportMode}> or <{ModeSpecificReport/hubOperations}> MUST be defined.
+
+            The non-empty set (without duplicates) of hub operations, if the emissions relate to hub operations,
+            optionally disclosing the hub type.
+
+            Each element of the array MUST be one of the following:
+
+            : Transshipment
+            :: Refers to hubs where transshipment is the main service (>80% of goods handled)
+
+            : StorageAndTransshipment
+            :: Refers to hubs where both transshipment and warehousing are relevant services
+
+            : Warehouse
+            :: Refers to hubs where warehousing is the main service (>80% of goods handled)
+
+            : LiquidBulkTerminal
+            :: Refers to terminals equiped to handle cargo in liquid and gaseous forms
+
+            : Hub
+            :: Refers to hub operations in general
+      <tr>
+        <td><dfn>distanceTypes</dfn>
+        <td>String[]
+        <td>O
+        <td>
+              The non-empty set (without duplicates) of the GLEC distance types used to calculate the emissions for this mode of transport or hub operations.
+
+              Each element of the array MUST be one of the following:
+
+              : `actual`
+              :: For actual distance
+
+              : `gcd`
+              :: For [=Great Circle Distance=]
+
+              : `sfd`
+              :: For [=Shortest Feasible Distance=]
+
+      <tr>
+        <td><dfn>co2eWTW</dfn> : [=Decimal=]
+        <td>String
+        <td>M
+        <td>
+            GHG emissions released to atmosphere during the process of producing, storing, processing and distributing
+            an energy carrier for vehicle operation + GHG emissions released to atmosphere as a result of vehicle
+            operation. The value MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}>
+            with unit `kgCO2e`.
+      <tr>
+        <td><dfn>co2eTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            GHG emissions released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
+      <tr>
+        <td><dfn>noxTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Nitrogen oxide released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>soxTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Sulphur oxide released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>ch4TTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Methane released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+      <tr>
+        <td><dfn>pmTTW</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            Particulate matter (PM10 and PM2.5) released to atmosphere as a result of vehicle operation. The value MUST
+            be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kg`.
+  </table>
+  <figcaption>Properties of data type <{ModeSpecificReport}></figcaption>
+</figure>
+
 # HTTP REST API # {#http-rest-api}
 
 The iLEAP Technical Specifications are designed to be interoperable with the [[!PACTDX]] Protocol.
@@ -1906,14 +2296,25 @@ The iLEAP Technical Specifications are designed to be interoperable with the [[!
 Therefore, a [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
 1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
-1. the endpoint for the exchange of [=Transport Activity Data=] (see [[#action-tad]])
+1. the endpoint for the exchange of <{Transport Activity Data=}> (see [[#action-tad]])
+1. the endpoint for the exchange of <{AR|AggregatedReports}> (see [[#action-aed]])
 
+The endpoints for the exchange of <{Transport Activity Data}> and <{AR|AggregatedReports}> share
+common characteristics regarding
 
-## Action TransportActivityData ## {#action-tad}
+1. [[#filtering]] of results
+1. [[#pagination]] of results
+1. request and response syntax
 
-Lists the [=data owner=]'s [=Transport Activity Data=] with [[#pagination]] and optional [[#filtering]]
+The common characteristics are described in the following sections and referred to from
+[[#action-tad]] and [[#action-aed]].
 
-A [=Host system=] SHOULD implement an access management system to return only the [=transport activity data=] intended for the requesting [=data recipient=].
+## Definitions and Features ## {#definitions-and-features}
+
+Note: The following definitions and features apply to both the [[#action-tad]] and [[#action-aed]] endpoints.
+
+They do not apply to the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as these rely on
+the [[!PACTDX]] Protocol. See [[#pcf-mapping]] for details.
 
 ### Filtering ### {#filtering}
 
@@ -1926,21 +2327,23 @@ If a [=host system=] does not implement filtering, it MUST process the request a
 If a [=host system=] implements filtering, it CAN process the filter statement on a best-effort basis:
 
 1. it CAN ignore the filter statement or parts of the filter statement, or
-1. it CAN return an error response as defined in the [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responses).
-    For instance, a host system CAN return an error with code `NotImplemented` if it does not support a specific filter pair;
+1. it CAN return an error response as defined in the [PACT Technical
+    Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responses).
+    For instance, a host system CAN return an error with code `NotImplemented` if it does not
+    support a specific filter pair;
 1. it CAN treat concatenated filters disjunctively, i.e., returning the union of the results of the individual filters.
-
 
 ### Pagination ### {#pagination}
 
 [=Host systems=] MUST implement pagination server-side such that
 
-1. the host system MAY return less [=Transport Activity Data=] than requested through the [=Limit=] request parameter;
-1. the host system MUST return a `Link` header if there is additional [=Transport Activity Data=] ready to be retrieved, such that
+1. the host system MAY return less data than requested through the [=Limit=] request parameter;
+1. the host system MUST return a `Link` header if there is additional data ready to be retrieved, such that
     1. the `Link` header conforms to [[!RFC8288]];
     1. the value of the `rel` parameter is equal to `next`;
     1. the target IRI (RFC8288, section 3.1) of the `Link` header is absolute;
-    1. the value of `host` of the target IRI is equal to the value of the `host` request header from the original `TransportActivityData` HTTP request.
+    1. the value of `host` of the target IRI is equal to the value of the `host` request header from
+        the original HTTP request.
 
 The target IRI from a pagination `link` header is called a <dfn>pagination link</dfn>.
 
@@ -1948,22 +2351,20 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 1. a data recipient CAN call the pagination link more than once;
 1. upon each call, the host system;
-    1. MUST return the same Transport Activity Data upon successful authentication (i.e. a Bearer token authentication as defined in [[!PACTDX]] Section 6.3);
+    1. MUST return the same data upon successful authentication (i.e. a Bearer token authentication
+        as defined in [[!PACTDX]] Section 6.3);
     1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
-    1. MUST return a `Link` header conforming with the previous description in case there is additional Transport Activity Data  available;
-1. if a response contains a second pagination link, upon the data recipient calling the second pagination link, the previous pagination link MAY no longer work.
-    - i.e. data recipients MUST NOT assume that previous pagination links continue to return results after advancing in the pagination process;
+    1. MUST return a `Link` header conforming with the previous description in case there is
+        additional data  available;
+1. if a response contains a second pagination link, upon the data recipient calling the second
+    pagination link, the previous pagination link MAY no longer work.
+    - i.e. data recipients MUST NOT assume that previous pagination links continue to return results
+        after advancing in the pagination process;
 1. a pagination link MUST be valid for at least 180 seconds after creation;
 1. a data recipient SHOULD retry calling the pagination link after the server returned an error;
     1. and SHOULD use a randomized exponential back-off strategy when retrying.
 
-### Request Syntax ### {#action-tad-request}
-
-<pre highlight=http>
-GET <l>[=Subpath=]</l>/2/ileap/tad?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
-host: <l>[=Hostname=]</l>
-authorization: Bearer <l>[=BearerToken=]</l>
-</pre>
+### Definitions and Parameters ### {#definitions-and-parameters}
 
 : <dfn>Subpath</dfn>
 :: If a host system uses a relative subpath, then the requesting data recipient MUST prepend this subpath.
@@ -1982,62 +2383,27 @@ authorization: Bearer <l>[=BearerToken=]</l>
     of the field to filter by, and `$value` the (case-insensitive) value to filter for.
     Filter pairs CAN be concatenated with `&`.
 
-    <div class=example>
-      Get transport activity data with [=Feedstock=] `"Fossil"` and <{TAD/packagingOrTrEqType}> `"Pallet"`
-
-      ```http
-      GET /2/ileap/tad?feedstock=Fossil&packagingOrTrEqType=pallet HTTP/1.1
-      ```
-    </div>
-
 : <dfn>Limit</dfn>
 ::
     `Limit` is an OPTIONAL request parameter. If defined,
       1. the name of the HTTP request parameter MUST be `limit` and
       2. the value MUST be a positive integer.
 
-### Response Syntax ### {#action-tad-response}
-
-Response without a `link` header:
-
-<pre highlight=http>
-HTTP/1.1 <l>[=TadStatusCode=]</l> <l>[=TadStatusText=]</l>
-content-type: application/json
-content-length: <l>[=ContentLength=]</l>
-
-<l>[=TadResponseBody=]</l>
-</pre>
-
-
-Paginated response with a `link` header:
-
-<pre highlight=http>
-HTTP/1.1 <l>[=TadStatusCode=]</l> <l>[=TadStatusText=]</l>
-content-type: application/json
-content-length: <l>[=ContentLength=]</l>
-link: <l>[=PaginationLink=]</l>; rel="next"
-
-<l>[=TadResponseBody=]</l>
-</pre>
-
-
-
-With response parameters
-
-: <dfn>TadStatusCode</dfn>
+: <dfn>StatusCode</dfn>
 ::
     If the host system returns transport activity data, the `HttpStatusCode` MUST be 200.
 
     If the host system responds with an error response, the `HttpStatusCode` MUST match the HTTP Status Code of the respective error response code, as defined in the [PACT Technical Specifications](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#api-error-responsesm).
 
-: <dfn>TadStatusText</dfn>
+: <dfn>StatusText</dfn>
 ::
-    The HTTP Status text conforming to the HTTP status code [=TadStatusCode=].
+    The HTTP Status text conforming to the HTTP status code [=StatusCode=].
 
-: <dfn>TadResponseBody</dfn>
+: <dfn>ResponseBody</dfn>
 ::
-    If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the list of [=Transport Activity Data=].
-    The list MUST be encoded as a JSON array.
+    If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the
+    list of the relevant data (either [=Transport Activity Data=] or [=AggregatedReports=]). The list MUST be encoded as
+    a JSON array.
 
     If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
 
@@ -2051,6 +2417,256 @@ With response parameters
 : <dfn>PaginationLink</dfn>
 :: See [=pagination link=] and [[#pagination]].
 
+
+## Action TransportActivityData ## {#action-tad}
+
+Lists the [=data owner=]'s [=Transport Activity Data=] with [[#pagination]] and optional [[#filtering]]
+
+A [=Host system=] SHOULD implement an access management system to return only the [=transport
+activity data=] intended for the requesting [=data recipient=].
+
+### Request Syntax ### {#action-tad-request}
+
+<pre highlight=http>
+  GET <l>[=Subpath=]</l>/2/ileap/tad?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  host: <l>[=Hostname=]</l>
+  authorization: Bearer <l>[=BearerToken=]</l>
+</pre>
+
+#### Examples #### {#action-tad-request-examples}
+
+<div class=example>
+  Get all transport activity
+
+  ```http
+  GET /2/ileap/tad HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get filtered transport activity data with [=Feedstock=] `"Fossil"` and <{TAD/packagingOrTrEqType}> `"Pallet"`
+
+  ```http
+  GET /2/ileap/tad?feedstock=Fossil&packagingOrTrEqType=pallet HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get a limited amount of transport activity data (2)
+
+  ```http
+  GET /2/ileap/tad?limit=2 HTTP/1.1
+  ```
+</div>
+
+### Response Syntax ### {#action-tad-response}
+
+Response without a `link` header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  content-type: application/json
+  content-length: <l>[=ContentLength=]</l>
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+Paginated response with a `link` header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  content-type: application/json
+  content-length: <l>[=ContentLength=]</l>
+  link: <l>[=PaginationLink=]</l>; rel="next"
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+#### Example #### {#action-tad-response-examples}
+
+<div class=example>
+  Example response to request with `limit=1`
+
+  ```http
+  HTTP/1.1 200 OK
+  content-type: application/json
+  content-length: 1321
+  link: <https://api.ileap.sine.dev/2/ileap/tad?offset=1&limit=1>; rel="next"
+  ```
+
+  ```json
+  {
+    "data": [
+      {
+        "activityId": "1",
+        "consignmentIds": [
+          "1"
+        ],
+        "distance": {
+          "actual": "656.0"
+        },
+        "mass": "1000.0",
+        "loadFactor": "0.8",
+        "emptyDistanceFactor": "0.1",
+        "origin": {
+          "street": "Bredowstraße",
+          "zip": "10551",
+          "city": "Berlin",
+          "country": "DE",
+          "locode": "DEBER",
+          "lat": "52.52437",
+          "lng": "13.41053"
+        },
+        "destination": {
+          "street": "Keizersgracht",
+          "zip": "1017",
+          "city": "Amsterdam",
+          "country": "NL",
+          "locode": "NLAMS",
+          "lat": "52.37403",
+          "lng": "4.88969"
+        },
+        "departureAt": "2025-12-01T14:33:51.076755968Z",
+        "arrivalAt": "2025-12-11T14:33:51.076756378Z",
+        "mode": "Road",
+        "packagingOrTrEqType": "Pallet",
+        "packagingOrTrEqAmount": 10,
+        "energyCarriers": [
+          {
+            "energyCarrier": "Diesel",
+            "feedstocks": [
+              {
+                "feedstock": "Fossil",
+                "feedstockShare": "1.0",
+                "regionProvenance": "Europe"
+              }
+            ],
+            "energyConsumption": "10.496",
+            "energyConsumptionUnit": "l",
+            "emissionFactorWTW": "4.13",
+            "emissionFactorTTW": "3.17",
+            "relativeShare": "1.0"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+</div>
+
+## Action AggregatedEmissionsData ## {#action-aed}
+
+Lists the [=data owner=]'s [=AggregatedReports=] with [[#pagination]] and optional [[#filtering]]
+
+A [=Host system=] SHOULD implement an access management system to return only the
+[=AggregatedReports=] intended for the requesting [=data recipient=].
+
+### Request Syntax ### {#action-aed-request}
+
+<pre highlight=http>
+  GET <l>[=Subpath=]</l>/2/ileap/aed?<l>[=Filter=]</l>&<l>[=Limit=]</l> HTTP/1.1
+  host: <l>[=Hostname=]</l>
+  authorization: Bearer <l>[=BearerToken=]</l>
+</pre>
+
+#### Examples #### {#action-aed-request-examples}
+
+<div class=example>
+  Get all `AggregatedReports`
+
+  ```http
+  GET /2/ileap/aed HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get filtered `AggregatedReports` <{AggregatedReport/reportId}> `"report-1"`
+
+  ```http
+  GET /2/ileap/aed?reportId=report-1 HTTP/1.1
+  ```
+</div>
+
+<div class=example>
+  Get a limited amount of `AggregatedReports` (2)
+
+  ```http
+  GET /2/ileap/aed?limit=2 HTTP/1.1
+  ```
+</div>
+
+### Response Syntax ### {#action-aed-response}
+
+Response without a `link` header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  content-type: application/json
+  content-length: <l>[=ContentLength=]</l>
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+Paginated response with a `link` header:
+
+<pre highlight=http>
+  HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
+  content-type: application/json
+  content-length: <l>[=ContentLength=]</l>
+  link: <l>[=PaginationLink=]</l>; rel="next"
+
+  <l>[=ResponseBody=]</l>
+</pre>
+
+#### Example #### {#action-aed-response-examples}
+
+<div class=example>
+  Example response to request with `limit=1`
+
+  ```http
+  HTTP/1.1 200 OK
+  content-type: application/json
+  content-length: 1321
+  link: <https://api.ileap.sine.dev/2/ileap/aed?offset=1&limit=1>; rel="next"
+  ```
+
+  ```json
+  {
+    "data": [
+      {
+        "reportId": "ar-2025-q4-001",
+        "shipmentIds": [
+          "shipment-12345",
+          "shipment-12346",
+          "shipment-12347"
+        ],
+        "status": "Active",
+        "reportPeriodStart": "2025-10-01T00:00:00Z",
+        "reportPeriodEnd": "2025-12-31T23:59:59Z",
+        "transportServiceUserId": "company-abc-123",
+        "totalTransportActivity": "50000",
+        "co2eWTW": "600",
+        "co2eTTW": "550",
+        "noxTTW": "2.5",
+        "perModeEmissions": [
+          {
+            "mode": "Road",
+            "co2eWTW": "400",
+            "co2eTTW": "360",
+            "noxTTW": "1.8"
+          },
+          {
+            "mode": "Rail",
+            "co2eWTW": "200",
+            "co2eTTW": "190",
+            "noxTTW": "0.7"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+</div>
 
 ## PACT Integration ## {#pcf-mapping}
 
@@ -3293,7 +3909,7 @@ host system=] with an invalid access token and the syntax specified in [[#action
 #### Expected Response #### {#test-case-007-response}
 
 The test [=target host system=] must respond with a 403 Forbidden status code and an `AccessDenied`
-error response code, as specified in [=TadResponseBody=].
+error response code, as specified in [=ResponseBody=].
 
 ### Test Case 008: Attempt TransportActivityData with Expired Token ### {#test-case-008}
 
@@ -3314,7 +3930,7 @@ through PACT's Test Cases
 #### Expected Response #### {#test-case-008-response}
 
 The test [=target host system=] must respond with a 401 Unauthorized status code and an
-`ExpiredToken` error response code, as specified in [=TadResponseBody=].
+`ExpiredToken` error response code, as specified in [=ResponseBody=].
 
 <pre class=biblio>
  {
@@ -3359,6 +3975,15 @@ The test [=target host system=] must respond with a 401 Unauthorized status code
       "title": "Technical Specification for Data Model Extensions",
       "status": "LS",
       "publisher": "WBCSD"
+    },
+    "SEMVER": {
+      "authors": [
+        "Tom Preston-Werner"
+      ],
+      "title": "Semantic Versioning 2.0.0",
+      "href": "https://semver.org/spec/v2.0.0.html",
+      "status": "Final",
+      "publisher": "Tom Preston-Werner"
     }
   }
 </pre>
