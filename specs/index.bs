@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.1-19032026)
+Title: iLEAP Technical Specifications (Version 1.0.1-20260323)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -2789,7 +2789,7 @@ apply for additional support, materials, and marketing opportunities.
 
 # Appendix A: Changelog # {#changelog}
 
-## Version 1.0.1-19032026 (2026-03-19) ## {#version-1.0.1}
+## Version 1.0.1-20260323 (2026-03-23) ## {#version-1.0.1}
 
 Summary of changes:
 - addition of advisement to <{HOC/packagingOrTrEqAmount}> and <{TAD/packagingOrTrEqAmount}> regarding
