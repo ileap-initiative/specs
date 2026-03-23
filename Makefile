@@ -25,7 +25,8 @@ serve: ${DIAGRAMS}
 clean:
 	rm -f ${DIAGRAMS}
 
-%.svg: %.mmd ${MMDC}
+%.svg: %.mmd
+	test -x ${MMDC} || make ${MMDC}
 	${MMDC} -i $< -o $@
 
 ${MMDC}:
