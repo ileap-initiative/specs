@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.1-20260325)
+Title: iLEAP Technical Specifications (Version 1.0.1-20260323)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -2789,7 +2789,7 @@ apply for additional support, materials, and marketing opportunities.
 
 # Appendix A: Changelog # {#changelog}
 
-## Version 1.0.1-19032026 (2026-03-19) ## {#version-1.0.1}
+## Version 1.0.1-20260323 (2026-03-23) ## {#version-1.0.1}
 
 Summary of changes:
 - addition of advisement to <{HOC/packagingOrTrEqAmount}> and <{TAD/packagingOrTrEqAmount}> regarding
@@ -3293,7 +3293,7 @@ host system=] with an invalid access token and the syntax specified in [[#action
 #### Expected Response #### {#test-case-007-response}
 
 The test [=target host system=] must respond with a 403 Forbidden status code and an `AccessDenied`
-error response code or a 402 Unauthorized , as specified in [=TadResponseBody=].
+error response code, as specified in [=TadResponseBody=].
 
 ### Test Case 008: Attempt TransportActivityData with Expired Token ### {#test-case-008}
 
