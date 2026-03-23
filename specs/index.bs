@@ -3909,7 +3909,7 @@ host system=] with an invalid access token and the syntax specified in [[#action
 #### Expected Response #### {#test-case-007-response}
 
 The test [=target host system=] must respond with a 403 Forbidden status code and an `AccessDenied`
-error response code, as specified in [=TadResponseBody=].
+error response code, as specified in [=ResponseBody=].
 
 ### Test Case 008: Attempt TransportActivityData with Expired Token ### {#test-case-008}
 
@@ -3975,6 +3975,15 @@ The test [=target host system=] must respond with a 401 Unauthorized status code
       "title": "Technical Specification for Data Model Extensions",
       "status": "LS",
       "publisher": "WBCSD"
+    },
+    "SEMVER": {
+      "authors": [
+        "Tom Preston-Werner"
+      ],
+      "title": "Semantic Versioning 2.0.0",
+      "href": "https://semver.org/spec/v2.0.0.html",
+      "status": "Final",
+      "publisher": "Tom Preston-Werner"
     }
   }
 </pre>
