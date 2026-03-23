@@ -3293,7 +3293,7 @@ host system=] with an invalid access token and the syntax specified in [[#action
 #### Expected Response #### {#test-case-007-response}
 
 The test [=target host system=] must respond with a 403 Forbidden status code and an `AccessDenied`
-error response code or a 402 Unauthorized , as specified in [=TadResponseBody=].
+error response code, as specified in [=TadResponseBody=].
 
 ### Test Case 008: Attempt TransportActivityData with Expired Token ### {#test-case-008}
 
