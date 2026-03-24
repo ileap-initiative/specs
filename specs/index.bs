@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.1-20260323)
+Title: iLEAP Technical Specifications (Version 1.0.1-20260326)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -2789,9 +2789,10 @@ apply for additional support, materials, and marketing opportunities.
 
 # Appendix A: Changelog # {#changelog}
 
-## Version 1.0.1-20260323 (2026-03-23) ## {#version-1.0.1}
+## Version 1.0.1-20260326 (2026-03-26) ## {#version-1.0.1}
 
 Summary of changes:
+- updated URL for iLEAP Technical Specifications to `https://specs.ileap.global`
 - addition of advisement to <{HOC/packagingOrTrEqAmount}> and <{TAD/packagingOrTrEqAmount}> regarding
     incorrect type definitions, which will be corrected in v2.
 - addition of guidance on `secondaryEmissionFactorSources` in [[#pcf-mapping-sf]],
