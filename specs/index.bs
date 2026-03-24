@@ -3,8 +3,8 @@ Title: iLEAP Technical Specifications (Version 1.0.1-20260323)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
-ED: https://sine-fdn.github.io/ileap-extension/
-TR: https://sine-fdn.github.io/ileap-extension/TR/2025/ileap-extension-20250527/
+ED: https://specs.ileap.global/
+TR: https://specs.ileap.global/TR/2025/ileap-extension-20250527/
 Canonical URL: ED
 Editor: Violetta Matzoros, https://www.smartfreightcentre.org, violetta.matzoros@smartfreightcentre.org
 Editor: Martin Pompéry, https://sine.foundation, martin@sine.foundation
@@ -16,7 +16,7 @@ Abstract: They introduce a data model and protocol for the interoperable exchang
 Abstract: The iLEAP Technical Specifications are interoperable with the [[!PACTDX|PACT Data Exchange Protocol]] and its PCF data model.
 Markup Shorthands: markdown yes
 Boilerplate: omit conformance, omit copyright
-Previous Version: https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240521/
+Previous Version: https://specs.ileap.global/TR/2024/ileap-extension-20240521/
 Local Boilerplate: header yes
 </pre>
 
@@ -99,20 +99,20 @@ status tags are:
 
 :: Work-in-progress. The version number is typically extended with the date on which the most recent
     changes were made (e.g., 0.2.1-20240523). Accessible at
-    [https://sine-fdn.github.io/ileap-extension/](https://sine-fdn.github.io/ileap-extension/).
+    [https://specs.ileap.global/](https://specs.ileap.global/).
 
 : Consultation Draft
 
 :: Pre-release. Distributed for the purpose of obtaining community feedback. No further significant
     changes will be made until the release. Minor corrections may still be possible. Every
     Consultation Draft is assigned a stable, permanent, URL, e.g.,
-    [https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240521/](https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240521/).
+    [https://specs.ileap.global/TR/2024/ileap-extension-20240521/](https://specs.ileap.global/TR/2024/ileap-extension-20240521/).
 
 : Release
 
 :: Stable release. No further changes will be made to this version. Any additional changes will be
     included in subsequent versions. Every Release is assigned a stable, permanent, URL, e.g.,
-    [https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240605/](https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240605/).
+    [https://specs.ileap.global/TR/2024/ileap-extension-20240605/](https://specs.ileap.global/TR/2024/ileap-extension-20240605/).
 
 
 ## Acknowledgements ## {#acknowledgements}
