@@ -2945,9 +2945,10 @@ Upon a [=host system=] returning a [=pagination link=]:
     For all properties the value of which is a timestamp, filtering SHOULD support the possibility of specifying a time
     range, implemented as follows:
 
-      1. The `$name` of the filter pair is the name of the timestamp property (e.g., `createdAt`).
-      1. The `$value` of the filter pair is an array with two dates, representing a start time and an end time, respectively,
-          encoded as ISO 8601 date and time strings with timezone UTC.
+      1. The `$name` of the filter pair is the name of the timestamp or numerical property (e.g., `createdAt`).
+      1. The `$value` of the filter pair is an array with two elements, representing a start and an end of the interval,
+          respectively, which are either numerical values or timestamps encoded as ISO 8601 date and time strings with
+          timezone UTC.
 
     <div class="example">
         To filter <{ShipmentFootprint|ShipmentFootprints}> by the creation time between 2025-01-01 (inclusive) and 2026-01-01 (exclusive):
@@ -2956,18 +2957,9 @@ Upon a [=host system=] returning a [=pagination link=]:
         ```
     </div>
 
-    - To filter for records after a certain date, use the current timestamp as the end date.
-    - To filter for records before a certain date, use a date sufficiently far in the past as the start date.
-    - To filter for records matching an exact timestamp, use the standard filter notation without brackets.
-
-    The properties eligible to be filtered in this manner are:
-
-    - <strong><{ShipmentFootprint}></strong>: <{ShipmentFootprint/createdAt}>, <{ShipmentFootprint/referencePeriodStart}>, and <{ShipmentFootprint/referencePeriodEnd}>
-    - <strong><{TCE}></strong>: <{TCE/departureAt}>, and <{TCE/arrivalAt}>
-    - <strong><{TOC}></strong>: <{TOC/createdAt}>, <{TOC/referencePeriodStart}>, and <{TOC/referencePeriodEnd}>
-    - <strong><{HOC}></strong>: <{HOC/createdAt}>, <{HOC/referencePeriodStart}>, and <{HOC/referencePeriodEnd}>
-    - <strong><{TAD}></strong>: <{TAD/createdAt}>, <{TAD/departureAt}>, and <{TAD/arrivalAt}>
-    - <strong><{AggregatedReport}></strong>: <{AggregatedReport/createdAt}>, <{AggregatedReport/reportPeriodStart}>, and <{AggregatedReport/reportPeriodEnd}>
+    - To filter for records higher than a certain value or after a certain date, use a sufficiently large end value or the current date as the end date, respectively.
+    - To filter for records lower than a certain value or before a certain date, use a sufficiently small start value or a date sufficiently far in the past as the start date, respectively.
+    - To filter for records matching an exact timestamp or value, use the standard filter notation without brackets.
 
 : <dfn>Limit</dfn>
 ::
