@@ -26,7 +26,7 @@ clean:
 	rm -f ${DIAGRAMS}
 
 %.svg: %.mmd
-	test -x ${MMDC} || make ${MMDC}
+	make ${MMDC}
 	${MMDC} -i $< -o $@
 
 ${MMDC}:
