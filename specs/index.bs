@@ -67,7 +67,7 @@ This is now deprecated, but maintained for backwards compatibility (see
 
 Advisement: DEPRECATED
 
-Up to v1.0.0 of the iLEAP Technical Specifications, technical interoperability with the
+Up to v1.0.1 of the iLEAP Technical Specifications, technical interoperability with the
 [[!PACTDX|PACT Data Exchange Protocol]] was a key design principle. Specifically, the iLEAP data
 model was designed as an extension of the PACT PCF data model and iLEAP data transactions were
 executed through a PACT Conformant API.
@@ -92,7 +92,7 @@ protocol=] with the following phased approach:
 1. Upon the release of v1.1.0, implement the new iLEAP standalone
     protocol alongside the existing PACT-based API, enabling the exchange of logistics emissions data
     through both protocols.
-1. Maintain both PACT-based and iLEAP standalone APIs support for a transitional period, privileging
+1. Maintain and support both the PACT-based and iLEAP standalone API for a transitional period, privileging
     the use of the iLEAP standalone protocol.
 1. Upon the release of v2.0.0, remove PACT support entirely and fully transition to the iLEAP
     standalone protocol.
@@ -741,7 +741,7 @@ Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) enables
 reporting in case of missing data or limited emissions calculation capabilities from e.g.
 [=Transport Operators=].
 
-The concept of ([[#dt-ar|Aggregated Report]]) is added to facilitate the exchange of aggregated
+The concept of [[#dt-ar|Aggregated Report]] is added to facilitate the exchange of aggregated
 emissions data, e.g. for reporting to public authorities and to avoid disclosing sensitive data.
 
 The iLEAP Data Model is composed of six main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
@@ -751,9 +751,11 @@ The iLEAP Data Model is composed of six main data types: <{ShipmentFootprint}>, 
 data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]] and
 [[#pcf-mapping]]) in a `ProductFootprint`.
 
-Advisement: Properties marked with `M*` are mandatory when using the [=iLEAP standalone protocol=], but
-optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already mandatory in
-the PACT Data Model (see [[#pcf-mapping]]).
+<div class="advisement" id="M*" style="text-align: center">
+  <strong>Properties marked with `M*` are mandatory when using the [=iLEAP standalone protocol=], but
+  optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already mandatory in
+  the PACT Data Model (see [[#pcf-mapping]]).</strong>
+</div>
 
 ## ShipmentFootprint ## {#dt-sf}
 
@@ -791,7 +793,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>specVersion</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
 
@@ -799,7 +801,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>companyName</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             The name of the company owning the data.
       <tr>
@@ -821,7 +823,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>createdAt</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the creation of the <{ShipmentFootprint}>.
       <tr>
@@ -839,7 +841,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
 
@@ -851,7 +853,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
 
@@ -1234,7 +1236,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>specVersion</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
 
@@ -1242,7 +1244,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>companyName</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             The name of the company owning the data.
       <tr>
@@ -1258,7 +1260,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>createdAt</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the creation of the <{TOC}>.
       <tr>
@@ -1276,7 +1278,7 @@ Issue: Consider adding
      <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
 
@@ -1288,7 +1290,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
 
@@ -1537,7 +1539,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>specVersion</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
 
@@ -1545,7 +1547,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>companyName</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             The name of the company owning the data.
       <tr>
@@ -1561,7 +1563,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the start (including) of the time boundary for which the data is considered to be representative.
 
@@ -1573,7 +1575,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>createdAt</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the creation of the <{HOC}>.
       <tr>
@@ -1591,7 +1593,7 @@ Issue: Consider adding
       <tr>
         <td><dfn>referencePeriodEnd</dfn>
         <td>String
-        <td>M*
+        <td>[M*](#M*)
         <td>
             Timestamp of the end (excluding) of the time boundary for which the data is considered to be representative.
 
@@ -1970,6 +1972,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             The version of the iLEAP Technical Specifications to which the data conforms, expressed as a string in the format `MAJOR.MINOR.PATCH`, following Semantic Versioning 2.0.0 (see [[!SEMVER]]).
 
             For the present version, the value MUST be `1.1.0`.
+      <tr>
         <td><dfn>createdAt</dfn>
         <td>String
         <td>M
@@ -2673,7 +2676,7 @@ The PACT-based API is now DEPRECATED and will be removed in v2.0.0 of the iLEAP 
 Specifications. Yet, for the time being, it is still mandatory to ensure backwards compatibility
 with existing implementations.
 
-We recommend new implementations to use the standalone API as described in [[#http-rest-api]].
+We recommend new implementations to use the standalone API as described in here.
 Conformance with iLEAP v1.1.0 requires implementing the standalone API.
 
 Therefore, a [=host system=] MUST implement
@@ -2811,7 +2814,7 @@ With Request parameters:
   ```
 </div>
 
-  Authentication flow identical (see [[!PACTDX]] Chapter 7.3)
+  Authentication flow identical to [[!PACTDX]] (see Chapter 7.3).
 
 #### Response Syntax #### {#action-authenticate-response}
 
@@ -2865,7 +2868,7 @@ If a [=host system=] does not implement filtering, it MUST process the request a
 If a [=host system=] implements filtering, it SHOULD process the filter statement on a best-effort basis:
 
 1. it CAN ignore the filter statement or parts of the filter statement, or
-1. it CAN return an error response as defined in the. For instance, a host system CAN return an HTTP
+1. it CAN return an error response as defined in the [=ResponseBody=]. For instance, a host system CAN return an HTTP
     error code `400` and a body with error `NotImplemented` if it does not support a specific filter pair;
 1. it CAN treat concatenated filters disjunctively, i.e., returning the union of the results of the individual filters.
 
@@ -2887,8 +2890,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 1. a data recipient CAN call the pagination link more than once;
 1. upon each call, the host system;
-    1. MUST return the same data upon successful authentication (see [[#authentication]])
-        pagination link;
+    1. MUST return the same data from the same pagination link, upon successful authentication (see [[#authentication]]);
     1. MUST NOT return more data than requested in case [=Limit=] was defined by a [=data recipient=];
     1. MUST return a second `Link` header conforming with the previous description in case there is
         additional data  available;
@@ -2897,8 +2899,8 @@ Upon a [=host system=] returning a [=pagination link=]:
     - i.e. data recipients MUST NOT assume that previous pagination links continue to return results
         after advancing in the pagination process;
 1. a pagination link MUST be valid for at least 180 seconds after creation;
-1. a data recipient SHOULD retry calling the pagination link after the server returned an error;
-    1. and SHOULD use a randomized exponential back-off strategy when retrying.
+1. a data recipient SHOULD retry calling the pagination link after the server returned an error and
+    SHOULD use a randomized exponential back-off strategy when retrying.
 
 ### Definitions and Parameters ### {#definitions-and-parameters}
 
@@ -3279,7 +3281,7 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
   Get the `HOC`, with <{HOC/hocId}> equal to `"hub-rotterdam"`
 
   ```http
-  GET /v1/ileap/hocs?hocId=hub-rotterdam- HTTP/1.1
+  GET /v1/ileap/hocs?hocId=hub-rotterdam HTTP/1.1
   ```
 </div>
 
@@ -4547,7 +4549,7 @@ First draft release of Version 1.1.0, containing the following changes:
 - updated definitions
 - fixed references to PACT Technical Specifications v2.2
 - improvements of the PACT Integration Chapter [[#pcf-mapping]]
-- addition of optional <{TAD/specVersion}>
+- addition of optional <{TAD/specVersion|TAD/specVersion}>
 - addition of new endpoint for [[#txn3]] aligned with the iLEAP standalone protocol
 - addition of new test cases for iLEAP standalone protocol in [[#ileap-conformance-matrix]]
 - updated [[#test-case-027]] (formerly TC007) to accept 401 Unauthorized in addition to 403 Forbidden
