@@ -3,14 +3,14 @@ Title: FAQ iLEAP Technical Specifications
 Shortname: ileap-faq
 Status: LD
 Status Text: Frequently Asked Questions
-ED: https://sine-fdn.github.io/ileap-extension/faq
+ED: https://specs.ileap.global/faq
 Canonical URL: ED
 Editor: Violetta Matzoros, https://www.smartfreightcentre.org, violetta.matzoros@smartfreightcentre.org
 Editor: Martin Pompéry, https://sine.foundation, martin@sine.foundation
 Editor: Raimundo Henriques, https://sine.foundation, raimundo@sine.foundation
 Former Editor: Gabriela Rubio Domingo
 Repository: sine-fdn/ileap-extension
-Abstract: The [iLEAP Technical Specifications](https://sine-fdn.github.io/ileap-extension/specs/) outline the the semantics for logistics emissions data exchange, thereby promoting a seamless exchange of logistics emissions data. They were conceived as an extension to the [PACT Data Model and Data Exchange Protocol](https://wbcsd.github.io/data-exchange-protocol/v2/), thereby levereging its network effects. This document provides answers to frequently asked questions about the iLEAP Technical Specifications, including their integration with the PACT Tech Specs.
+Abstract: The [iLEAP Technical Specifications](https://specs.ileap.global/) outline the the semantics for logistics emissions data exchange, thereby promoting a seamless exchange of logistics emissions data. They were conceived as an extension to the [PACT Data Model and Data Exchange Protocol](https://wbcsd.github.io/data-exchange-protocol/v2/), thereby levereging its network effects. This document provides answers to frequently asked questions about the iLEAP Technical Specifications, including their integration with the PACT Tech Specs.
 Markup Shorthands: markdown yes
 Boilerplate: omit conformance, omit copyright
 </pre>
@@ -74,7 +74,7 @@ Footprint (a "logistics product" / logistics service footprint) in order to achi
 with any system implementing the PACT Tech Specs.
 
 The iLEAP Tech Specs provide further
-[guidance](https://sine-fdn.github.io/ileap-extension/#pcf-mapping) on how to integrate the iLEAP
+[guidance](https://specs.ileap.global/#pcf-mapping) on how to integrate the iLEAP
 data into the PACT data model.
 
 ## Why did iLEAP choose PACT Tech Specs as a protocol and foundation? ## {#why-choose-pact}

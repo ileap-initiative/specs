@@ -1,10 +1,10 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.0.0)
+Title: iLEAP Technical Specifications (Version 1.0.1-20260326)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
-ED: https://sine-fdn.github.io/ileap-extension/
-TR: https://sine-fdn.github.io/ileap-extension/TR/2025/ileap-extension-20250527/
+ED: https://specs.ileap.global/
+TR: https://specs.ileap.global/TR/2025/ileap-extension-20250527/
 Canonical URL: ED
 Editor: Violetta Matzoros, https://www.smartfreightcentre.org, violetta.matzoros@smartfreightcentre.org
 Editor: Martin Pompéry, https://sine.foundation, martin@sine.foundation
@@ -16,7 +16,7 @@ Abstract: They introduce a data model and protocol for the interoperable exchang
 Abstract: The iLEAP Technical Specifications are interoperable with the [[!PACTDX|PACT Data Exchange Protocol]] and its PCF data model.
 Markup Shorthands: markdown yes
 Boilerplate: omit conformance, omit copyright
-Previous Version: https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240521/
+Previous Version: https://specs.ileap.global/TR/2024/ileap-extension-20240521/
 Local Boilerplate: header yes
 </pre>
 
@@ -99,20 +99,20 @@ status tags are:
 
 :: Work-in-progress. The version number is typically extended with the date on which the most recent
     changes were made (e.g., 0.2.1-20240523). Accessible at
-    [https://sine-fdn.github.io/ileap-extension/](https://sine-fdn.github.io/ileap-extension/).
+    [https://specs.ileap.global/](https://specs.ileap.global/).
 
 : Consultation Draft
 
 :: Pre-release. Distributed for the purpose of obtaining community feedback. No further significant
     changes will be made until the release. Minor corrections may still be possible. Every
     Consultation Draft is assigned a stable, permanent, URL, e.g.,
-    [https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240521/](https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240521/).
+    [https://specs.ileap.global/TR/2024/ileap-extension-20240521/](https://specs.ileap.global/TR/2024/ileap-extension-20240521/).
 
 : Release
 
 :: Stable release. No further changes will be made to this version. Any additional changes will be
     included in subsequent versions. Every Release is assigned a stable, permanent, URL, e.g.,
-    [https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240605/](https://sine-fdn.github.io/ileap-extension/TR/2024/ileap-extension-20240605/).
+    [https://specs.ileap.global/TR/2024/ileap-extension-20240605/](https://specs.ileap.global/TR/2024/ileap-extension-20240605/).
 
 
 ## Acknowledgements ## {#acknowledgements}
@@ -808,8 +808,8 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>Category of relevant packaging or transport equipment units utilized for the transport of the consignment. See data type <{PackagingOrTrEqType}> for further information.
 
       <tr>
-        <td><dfn>packagingOrTrEqAmount</dfn>
-        <td>Decimal
+        <td><dfn>packagingOrTrEqAmount</dfn>: [=Decimal=]
+        <td>String
         <td>O
         <td>Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
         <div class=example>
@@ -1039,8 +1039,8 @@ The Data Type <{TOC}> has the following properties:
         <td>Text description of the applicable TOC. Including mode of transport, contract type, equipment type, vehicle type, freight temperature, LTL/FTL etc
 
       <tr>
-        <td><dfn>mode</dfn> : {{TransportMode}}
-        <td>String
+        <td><dfn>mode</dfn>
+        <td>{{TransportMode}}
         <td>M
         <td>Mode of transport.
 
@@ -1267,18 +1267,18 @@ The Data Type <{HOC}> has the following properties:
         <td>O
         <td>The address of the hub.
       <tr>
-        <td><dfn>inboundTransportMode</dfn>: {{TransportMode}}
+        <td><dfn>inboundTransportMode</dfn>
         <td>{{TransportMode}}
         <td>O
         <td>Indicates the transport mode upstream the hub for this HOC.
       <tr>
-        <td><dfn>outboundTransportMode</dfn>: {{TransportMode}}
+        <td><dfn>outboundTransportMode</dfn>
         <td>{{TransportMode}}
         <td>O
         <td>Indicates the transport mode downstream the hub for this HOC.
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
-        <td>String
+        <td><{PackagingOrTrEqType}>
         <td>O
         <td>Category of relevant packaging or transport equipment units utilized for the transport of the consignment. See data type <{PackagingOrTrEqType}> for further information.
 
@@ -1286,8 +1286,11 @@ The Data Type <{HOC}> has the following properties:
         <td><dfn>packagingOrTrEqAmount</dfn>
         <td>Number `(int)`
         <td>O
-        <td>Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
+        <td>
 
+            Advisement: This property is currently defined as an integer but should be a decimal. This will be corrected in v2.
+
+            Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
       <tr>
         <td><dfn>energyCarriers</dfn>
         <td><{EnergyCarrier}>[]
@@ -1470,8 +1473,11 @@ encoded as a JSON object.
         <td><dfn>packagingOrTrEqAmount</dfn>
         <td>Number `(int)`
         <td>O
-        <td>Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
+        <td>
 
+            Advisement: This property is currently defined as an integer but should be a decimal. This will be corrected in v2.
+
+            Number of packaging or transport equipment units utilized to transport the related consignment by the [=Transport Operator=] or [=Transport Service Organizer=].
       <tr>
         <td><dfn>energyCarriers</dfn>
         <td><{EnergyCarrier}>[]
@@ -1612,7 +1618,7 @@ Properties of data type <dfn element>Location</dfn>:
         <td>Longitude of the location.  If <{Location/lat}> is defined, so <{Location/lng}> MUST be defined.
 
     </table>
-    <figcaption><{GLECDistance}> properties</figcaption>
+    <figcaption><{Location}> properties</figcaption>
 </figure>
 
 
@@ -1893,9 +1899,6 @@ implementing the validation of this property.
 Note: The use of value `Container` is discouraged, as it does not provide any information about the
 container equivalent unit.
 
-Advisement: The enumeration of packaging or transport equipment units above will be evolved in
-  future revisions.
-
 # HTTP REST API # {#http-rest-api}
 
 The iLEAP Technical Specifications are designed to be interoperable with the [[!PACTDX]] Protocol.
@@ -2053,12 +2056,19 @@ With response parameters
 
 The Data types defined in [[#data-model]] are specific to [[!ISO14083]] and the [[!GLEC]] Framework.
 
-This section specifies the integration of the data types <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> into the PACT Data Model ([[!PACTDX]] Chapter 4).
-The integration of the data types <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> is achieved by storing them as extensions to the PACT Data Model (see [[!DATA-MODEL-EXTENSIONS]]).
-Therefore, all properties defined in the latter are also properties of the former. As a result, some properties relevant to logistics do not need to be defined in the [[#data-model]].
-The list below contains the properties that were omitted for this reason.
+This section specifies the integration of the data types <{ShipmentFootprint}>, <{TOC}>, and <{HOC}>
+into the PACT Data Model ([[!PACTDX]] Chapter 4). The integration of the data types
+<{ShipmentFootprint}>, <{TOC}>, and <{HOC}> is achieved by storing them as extensions to the PACT
+Data Model (see [[!DATA-MODEL-EXTENSIONS]]). Therefore, all properties defined in the latter are
+also properties of the former. As a result, some properties relevant to logistics do not need to be
+defined in the [[#data-model]]. The list below contains the properties that were omitted for this
+reason.
 
 Note: The extensions of one `ProductFootprint` CANNOT contain more than one iLEAP Data Type.
+
+Advisement: We are expecting methodological updates regarding (among others) biogenic emissions and
+black carbon. Once these updates are available, further guidance on how to represent them in the
+PACT Data Model will be provided.
 
 <figure id="ileap-pact-properties-mapping">
   <table class="data">
@@ -2208,6 +2218,22 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
               The relative share of logistics emissions for whose calculation primary data has been used.
 
               See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`secondaryEmissionFactorSources`
+        <td>
+              If GLEC default or modeled values were used, this SHOULD be indicated in the emission factor sources
+              array, setting
+              - `"name"` to `"GLEC Framework"`
+              - `"version"` to the version used (version 3.0 is recommended)
+
+              For example:
+              <pre highlight='json'>
+                {
+                  "name": "GLEC Framework",
+                  "version": "3.0"
+                }
+              </pre>
       <tr>
         <td>DataModelExtension
         <td>`specVersion`
@@ -2385,6 +2411,22 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
               The relative share of logistics emissions for whose calculation primary data has been used.
 
               See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`secondaryEmissionFactorSources`
+        <td>
+              If GLEC default or modeled values were used, this SHOULD be indicated in the emission factor sources
+              array, setting
+              - `"name"` to `"GLEC Framework"`
+              - `"version"` to the version used (version 3.0 is recommended)
+
+              For example:
+              <pre highlight='json'>
+                {
+                  "name": "GLEC Framework",
+                  "version": "3.0"
+                }
+              </pre>
       <tr>
         <td>DataModelExtension
         <td>`specVersion`
@@ -2566,7 +2608,22 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
               The relative share of logistics emissions for whose calculation primary data has been used.
 
               See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
+      <tr>
+        <td>CarbonFootprint
+        <td>`secondaryEmissionFactorSources`
+        <td>
+              If GLEC default or modeled values were used, this SHOULD be indicated in the emission factor sources
+              array, setting
+              - `"name"` to `"GLEC Framework"`
+              - `"version"` to the version used (version 3.0 is recommended)
 
+              For example:
+              <pre highlight='json'>
+                {
+                  "name": "GLEC Framework",
+                  "version": "3.0"
+                }
+              </pre>
       <tr>
         <td>DataModelExtension
         <td>`specVersion`
@@ -2673,7 +2730,8 @@ are performed accurately in end-to-end scenarios.
         <th style="text-align: left">Conformance
     <tbody >
       <tr>
-        <td style="text-align: left">All [PACT Required Test Cases](https://wbcsd.github.io/pact-conformance-testing/checklist.html#required-tests)
+        <td style="text-align: left">All [PACT Mandatory Test Cases
+V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
         <td rowspan="4"><dfn>iLEAP Emissions Data Conformance</dfn>
 
       <tr>
@@ -2730,6 +2788,22 @@ apply for additional support, materials, and marketing opportunities.
 
 
 # Appendix A: Changelog # {#changelog}
+
+## Version 1.0.1-20260326 (2026-03-26) ## {#version-1.0.1}
+
+Summary of changes:
+- updated URL for iLEAP Technical Specifications to `https://specs.ileap.global`
+- addition of advisement to <{HOC/packagingOrTrEqAmount}> and <{TAD/packagingOrTrEqAmount}> regarding
+    incorrect type definitions, which will be corrected in v2.
+- addition of guidance on `secondaryEmissionFactorSources` in [[#pcf-mapping-sf]],
+    [[#pcf-mapping-toc]], and [[#pcf-mapping-hoc]]
+- addition on advisment on future methodological updates and their implications to [[#pcf-mapping]]
+- fix typo in <{Location}> properties table
+- update PACT Test Cases V2 links in [[#conformance]] and fix PACT version in
+    [[#pact-conformance-tests]]
+- removal of duplicated advisement in [[#dt-packaging-or-tr-eq-type]]
+- improve consistency of data type presentation in tables
+- fix typo in [[#appendix-b-sf-example]] (`3.6801` now reads `36801`)
 
 ## Version 1.0.0 (2025-05-27) ## {#version-1.0.0}
 
@@ -2876,7 +2950,7 @@ A Product Footprint with a <{ShipmentFootprint}> highlighted:
                       "distance": {
                           "actual": "423"
                       },
-                      "transportActivity": "3.6801",
+                      "transportActivity": "36801",
                       "co2eWTW": "3.6801",
                       "co2eTTW": "3.2801"
                   }
@@ -3056,9 +3130,9 @@ In order to test the conformance of an iLEAP implementation, the following tests
 ## PACT Conformance Tests ## {#pact-conformance-tests}
 
 Since the iLEAP Technical Specifications were conceived as an extension to the PACT Data Model and
-Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.1.0 or above. For that
-reason, the required tests in the [PACT Conformance Testing
-Checklist](https://wbcsd.github.io/pact-conformance-testing/checklist.html#required-tests) should also be performed.
+Data Exchange Protocol, any iLEAP conformant implementation must also implement [[!PACTDX]] v2.2.0. For that reason, the mandatory tests in the [PACT Test Cases
+V2](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
+should also be performed.
 
 ## iLEAP Specific Conformance Tests ## {#ileap-specific-conformance-tests}
 
