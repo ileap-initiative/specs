@@ -2679,7 +2679,7 @@ with existing implementations.
 We recommend new implementations to use the standalone API as described in here.
 Conformance with iLEAP v1.1.0 requires implementing the standalone API.
 
-Therefore, a [=host system=] MUST implement
+A [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
 1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
 1. the iLEAP native authentication flow as defined in [[#authentication]]
@@ -2899,7 +2899,7 @@ Upon a [=host system=] returning a [=pagination link=]:
     - i.e. data recipients MUST NOT assume that previous pagination links continue to return results
         after advancing in the pagination process;
 1. a pagination link MUST be valid for at least 180 seconds after creation;
-1. a data recipient SHOULD retry calling the pagination link after the server returned an error and
+1. a data recipient SHOULD retry calling the pagination link after the server returned an error, and
     SHOULD use a randomized exponential back-off strategy when retrying.
 
 ### Definitions and Parameters ### {#definitions-and-parameters}
