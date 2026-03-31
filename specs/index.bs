@@ -3854,7 +3854,7 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>
               The relative share of logistics emissions for whose calculation primary data has been used.
 
-              See [[!PACTDX]] and the PACT Framework ([[!PACT-V2]]) for further details.
+              See [[!PACTDX]] and the PACT Methodology ([[!PACT-V2]]) for further details.
       <tr>
         <td>CarbonFootprint
         <td>`secondaryEmissionFactorSources`
@@ -4286,7 +4286,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>
               The relative share of logistics emissions for whose calculation primary data has been used.
 
-              See [[!PACTDX]] and the PACT Framework ([[!PACT-V2]]) for further details.
+              See [[!PACTDX]] and the PACT Methodology ([[!PACT-V2]]) for further details.
       <tr>
         <td>CarbonFootprint
         <td>`secondaryEmissionFactorSources`
@@ -5112,7 +5112,7 @@ The test [=target host system=] must respond with a 401 Unauthorized status code
 `ExpiredToken` error response code, as specified in [=ResponseBody=].
 
 
-Issue: We're still refering to PACT Framework v2. We should move to v3, but make sure that this is sound.
+Issue: We're still refering to PACT Methodology v2. We should move to v3, but make sure that this is sound.
 
 <pre class=biblio>
  {
