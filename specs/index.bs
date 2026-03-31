@@ -53,7 +53,7 @@ Issue: This section might need further elaboration.
 The iLEAP Technical Specifications are based on and are methodologically aligned with the [[!ISO14083|ISO14083:2023]]
 and the [[!GLEC|GLEC Framework V3.1]].
 
-Furthermore, the specifications are designed to be methodologically interoperable with the [[!PACT-FRAMEWORK|PACT Framework Version 2]] and [[!PACT-V3|Version 3]].
+Furthermore, the specifications are designed to be methodologically interoperable with the [[!PACT-V2|PACT Methodology Version 2]] and [[!PACT-V3|Version 3]].
 
 
 ## PACT Technical Interoperability ## {#pact-interop}
@@ -3704,7 +3704,7 @@ PACT Data Model will be provided.
           <td>`assurance` : [Assurance](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#dt-assurance)
           <td>Object
           <td>O
-          <td>If present, the Assurance information in accordance with the [[!PACT-FRAMEWORK]].
+          <td>If present, the Assurance information in accordance with the [[!PACT-V2]].
           <td>[CarbonFootprint/assurance](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#element-attrdef-carbonfootprint-assurance)
     </table>
 </figure>
@@ -3854,7 +3854,7 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>
               The relative share of logistics emissions for whose calculation primary data has been used.
 
-              See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
+              See [[!PACTDX]] and the PACT Framework ([[!PACT-V2]]) for further details.
       <tr>
         <td>CarbonFootprint
         <td>`secondaryEmissionFactorSources`
@@ -4068,7 +4068,7 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>
               The relative share of logistics emissions for whose calculation primary data has been used.
 
-              See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
+              See [[!PACTDX]] and the PACT Framework ([[!PACT-V2]]) for further details.
       <tr>
         <td>CarbonFootprint
         <td>`secondaryEmissionFactorSources`
@@ -4286,7 +4286,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>
               The relative share of logistics emissions for whose calculation primary data has been used.
 
-              See [[!PACTDX]] and the PACT Framework ([[!PACT-FRAMEWORK]]) for further details.
+              See [[!PACTDX]] and the PACT Framework ([[!PACT-V2]]) for further details.
       <tr>
         <td>CarbonFootprint
         <td>`secondaryEmissionFactorSources`
@@ -5144,16 +5144,17 @@ Issue: We're still refering to PACT Framework v2. We should move to v3, but make
       "publisher": "WBCSD",
       "status": "CR"
     },
-    "PACT-FRAMEWORK": {
+    "PACT-V2": {
       "authors": [],
       "href": "https://www.wbcsd.org/wp-content/uploads/2023/01/Pathfinder-Framework-Version-2.0.pdf",
-      "title": "PACT Framework: Guidance for the Accounting and Exchange of Product Life Cycle Emissions (Version 2.0)",
+      "title": "Pathfinder Framework: Guidance for the Accounting and Exchange of Product Life Cycle Emissions (Version 2.0)",
       "status": "LS",
       "publisher": "WBCSD"
     },
     "PACT-V3": {
       "authors": [ "World Business Council for Sustainable Development (WBCSD) PACT Team" ],
       "href": "https://github.com/wbcsd/tr/blob/main/2025/methodology-20250625/pact-methodology-v3.0.pdf",
+      "title": "PACT Methodology: Methodology for Calculating and Exchanging Cradle-to-Gate Product Carbon Footprints (PCFs)",
       "status": "LS",
       "publisher": "WBCSD"
     },
