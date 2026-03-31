@@ -184,7 +184,7 @@ The authors would like to thank the many individuals and organizations for their
 :: Represents a grouping of hub operations sharing similar characteristics.  [[!GLEC]] Framework.
 
 : <dfn data-noexport>Hub Operator</dfn>
-:: A party that is offering hub services, including warehousing and transshipment services.
+:: Refers to the party that is offering hub services, including warehousing and transshipment services. See [[!ISO14083]], Section 3.1.13.
 
 : <dfn>Primary Data</dfn>
 ::
