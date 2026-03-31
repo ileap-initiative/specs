@@ -2676,8 +2676,10 @@ The PACT-based API is now DEPRECATED and will be removed in v2.0.0 of the iLEAP 
 Specifications. Yet, for the time being, it is still mandatory to ensure backwards compatibility
 with existing implementations.
 
-We recommend new implementations to use the standalone API as described in here.
-Conformance with iLEAP v1.1.0 requires implementing the standalone API.
+Advisement: We recommend new implementations to use the standalone API as described in here.
+Specifically, we encourage data recipients to pull data through the new endpoints.
+Accordingly, data owners are encouraged to prioritize the implementation of the new endpoints, which is required for
+conformance with iLEAP v1.1.0.
 
 A [=host system=] MUST implement
 1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
