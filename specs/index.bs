@@ -20,82 +20,65 @@ Previous Version: https://specs.ileap.global/TR/2024/ileap-extension-20240521/
 Local Boilerplate: header yes, copyright yes, abstract yes
 </pre>
 
+
 # Introduction # {#introduction}
 
 [=Transport Service Users=], [=Transport Service Organizers=], and [=Transport Operators=]
-have a growing need to calculate and report logistics emissions with
-greater accuracy and transparency. They want to transition from default and modeled
-data to primary data that accurately reflects the emissions of their operations.
+face a growing need to calculate and report logistics emissions with
+greater accuracy and transparency. Increasingly, this means moving beyond default
+and modeled data toward primary data that reflects actual operational emissions.
 
-However, despite the methodological interoperability
-that has been achieved with [[!ISO14083|ISO14083:2023]] and the [[!GLEC|GLEC Framework]],
-data access processes remain predominantly manual and differ between companies.
+The methodological foundations for this shift are already in place: [[!ISO14083|ISO 14083:2023]]
+and the [[!GLEC|GLEC Framework]] have established a shared basis for emissions accounting.
+Yet data access processes remain largely manual and vary from company to company, making the
+exchange of primary emissions data both challenging and costly.
 
-Because of this, accessing and exchanging logistics emissions data based on
-primary data is challenging and costly.
+The iLEAP Technical Specifications address this gap by enabling the structured flow of
+emissions and activity data across organizations and IT systems. They do so by:
 
-The iLEAP Technical Specifications address these challenges by
-
-1. "working backwards" from business cases ([[#business-cases]])
-2. translating business cases into related data transactions ([[#txns]])
-    enabling their realization through independent software
-    implementations, known as [=host systems=]
-3. enabling the interoperable flow of data between [=host systems=] by
-    defining a data exchange protocol ([[#http-rest-api]]) and a data model
-    ([[#data-model]]) that is rooted in the [[!ISO14083|ISO 14083]] and the
-    [[!GLEC|GLEC Framework V3.1]].
-
-This document also introduces the interoperable flow of activity data,
-defined in [[#txn3]], to support the
-exchange of standardized activity data and the calculation of emissions.
+1. "working backwards" from concrete business cases ([[#business-cases]]),
+2. translating those business cases into well-defined data transactions ([[#txns]])
+    that can be realized through independent software implementations,
+    known as [=host systems=],
+3. defining a data exchange protocol ([[#http-rest-api]]) to unlock the interoperable
+      flow of data between host systems, and
+4. introducing a data model ([[#data-model]]) that aligns with the leading global logistics
+    methodology  ([[!GLEC|GLEC Framework V3.1]]) and standard ([[!ISO14083|ISO 14083]]).
 
 
-## Technical and Methodological Interoperability ## {#interop}
+## Methodological Interoperability ## {#interop}
 
 Issue: This section might need further elaboration.
 
-The iLEAP Technical Specifications are based on and methodologically aligned with the [[!ISO14083|ISO14083:2023]]
+The iLEAP Technical Specifications are based on and are methodologically aligned with the [[!ISO14083|ISO14083:2023]]
 and the [[!GLEC|GLEC Framework V3.1]].
 
-They are also methodologically interoperable with the [[!PACT-FRAMEWORK|PACT Framework]] and its PCF data model.
+Furthermore, the specifications are designed to be methodologically interoperable with the [[!PACT-FRAMEWORK|PACT Framework Version 2]] and [[!PACT-V3|Version 3]].
 
-The iLEAP Technical Specifications were also technically interoperable with the [[!PACTDX|PACT Data Exchange Protocol]].
-This is now deprecated, but maintained for backwards compatibility (see
-[[#pact-interop]]).
 
-### Technical Interoperability with PACT ### {#pact-interop}
+## PACT Technical Interoperability ## {#pact-interop}
 
-Advisement: DEPRECATED
+The iLEAP Technical Specifications are also technically interoperable with the
+[[!PACTDX|PACT Data Exchange Protocol]].
+However, from v1.1.0 onwards, technical interoperability with PACT at the level
+of the API ([[#http-rest-api]]) and the data model integration ([[#pcf-mapping]])
+is DEPRECATED.
 
-Up to v1.0.1 of the iLEAP Technical Specifications, technical interoperability with the
-[[!PACTDX|PACT Data Exchange Protocol]] was a key design principle. Specifically, the iLEAP data
-model was designed as an extension of the PACT PCF data model and iLEAP data transactions were
-executed through a PACT Conformant API.
+Furthermore, PACT Technical Interoperability is scheduled for removal with the
+release of the iLEAP Technical Specifications v2.0.0.
 
-However, technical interoperability with PACT in these terms is deprecated in v1.1.0 of the iLEAP
-Technical Specifications, by which it is meant that:
-1. PACT support remains MANDATORY, but is deprecated, and will be entirely removed in v2.0.0;
-1. the [=iLEAP standalone protocol=] ([[#http-rest-api]]) is introduced, enabling the exchange of logistics emissions
-    data without relying on PACT; this protocol is MANDATORY for implementations of v1.1.0 and
-    beyond;
-1. implementers are STRONGLY RECOMMENDED to use the new iLEAP standalone protocol by default, while keeping
-    PACT support for backward compatibility and fallback purposes.
+### Transition Process ### {#migration-pact-ileap}
 
-The iLEAP Technical Specifications strive to remain semantical interoperable with the PACT
-Methodology and data model, ensuring an easy integration of logistics emissions into PCFs.
+To maintain connectivity and interoperability during the transition from PACT-based implementations
+to the new [=iLEAP standalone protocol=], [=host systems=] MUST implement a phased transition process as follows:
 
-#### Migration from PACT-based to iLEAP standalone protocol #### {#migration-pact-ileap}
+1. host systems MUST implement the PACT Protocol (see [[#http-rest-api-introduction]]).
+1. the iLEAP standalone protocol ([[#http-rest-api]]) is introduced. This new protocol is MANDATORY
+    for implementations from v1.1.0 onwards;
+1. host systems are RECOMMENDED to use the new iLEAP standalone protocol by default for data exchange, while keeping PACT support for backward compatibility and fallback purposes.
 
-We recommend implementers to migrate from PACT-based implementations to the new [=iLEAP standalone
-protocol=] with the following phased approach:
+Note: The editors of this specification strive to assert semantical interoperability with the PACT Technical Specifications with future releases.
 
-1. Upon the release of v1.1.0, implement the new iLEAP standalone
-    protocol alongside the existing PACT-based API, enabling the exchange of logistics emissions data
-    through both protocols.
-1. Maintain and support both the PACT-based and iLEAP standalone API for a transitional period, privileging
-    the use of the iLEAP standalone protocol.
-1. Upon the release of v2.0.0, remove PACT support entirely and fully transition to the iLEAP
-    standalone protocol.
 
 ## Out of Scope ## {#out-of-scope}
 
@@ -2663,6 +2646,8 @@ Advisement: The enumeration of packaging or transport equipment units above will
 
 # HTTP REST API # {#http-rest-api}
 
+## Introduction ## {#http-rest-api-introduction}
+
 The iLEAP Technical Specifications define two possibile REST HTTP APIs for the exchange of logistics emissions data:
 - the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> relying on the [[!PACTDX]] Protocol (see [[#pcf-mapping]]),
     with two additional endpoints for the exchange of <{TAD|Transport Activity Data}> and <{AR|Aggregated Reports}>; and
@@ -5163,6 +5148,12 @@ Issue: We're still refering to PACT Framework v2. We should move to v3, but make
       "authors": [],
       "href": "https://www.wbcsd.org/wp-content/uploads/2023/01/Pathfinder-Framework-Version-2.0.pdf",
       "title": "PACT Framework: Guidance for the Accounting and Exchange of Product Life Cycle Emissions (Version 2.0)",
+      "status": "LS",
+      "publisher": "WBCSD"
+    },
+    "PACT-V3": {
+      "authors": [ "World Business Council for Sustainable Development (WBCSD) PACT Team" ],
+      "href": "https://github.com/wbcsd/tr/blob/main/2025/methodology-20250625/pact-methodology-v3.0.pdf",
       "status": "LS",
       "publisher": "WBCSD"
     },
