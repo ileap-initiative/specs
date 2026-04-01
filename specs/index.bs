@@ -339,19 +339,19 @@ Data Transaction 3 ([[#txn3]]) enables this business case.
 
 Consider the following scenarios:
 
-    1. A [=Transport Operator=] or a [=Transport Service Organizer=] needs to disclose emissions data to a
-        [=Transport Service Organizer=] or a [=Transport Service User=]
-        but refrains from sharing TCE-level data, due to privacy or competition concerns.
-    1. A [=Transport Service User=] or a [=Transport Service Organizer=] is interested in an emissions report from
-        a [=Transport Operator=] or a [=Transport Service Organizer=], wherein emissions are aggregated,
-        such as per transport mode or over multiple shipments.
-    1. A [=Transport Service User=], a [=Transport Service Organizer=], or a [=Transport Operator=] needs to disclose
-        emissions data to a public body for regulatory purposes. The regulatory mandate requires only aggregated data.
+1. A [=Transport Service Organizer=] or a [=Transport Service User=] requests emissions data
+    from a [=Transport Operator=] or a [=Transport Service Organizer=] which decide to share
+    an [[#dt-ar|aggregated report]] instead of [[#txn1|TCE-level data]], due to privacy or competition concerns.
+      - Similarly, a [=Transport Operator=] can opt to make aggregated emission reports available
+        to a [=Transport Service Organizer=].
+1. A [=Transport Service User=] or a [=Transport Service Organizer=] is interested in emissions reports from
+    a [=Transport Operator=] or a [=Transport Service Organizer=], wherein emissions are aggregated
+    per transport mode or over multiple shipments.
+1. A [=Transport Service User=], a [=Transport Service Organizer=], or a [=Transport Operator=] needs to
+    report logistics emissions data to a public body for regulatory purposes.
 
-iLEAP lowers barriers and total costs for sharing aggregated emissions data by
-
-- enabling the automated access to relevant input data for aggregated reports ([[#txn1]], [[#txn2]], and [[#txn3]]), and
-- defining the interoperable exchange of aggregated reports through Data Transaction 4 ([[#txn4]])
+Data Transaction 4 ([[#txn3]]) enables this business case, while Data Transactions 1, 2, and 3
+support the collection of relevant input data for report calculations (see [[#txn1]], [[#txn2]], [[#txn3]]).
 
 
 ## Additional Business Cases ## {#txns-appendix}
