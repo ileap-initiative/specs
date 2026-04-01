@@ -398,17 +398,17 @@ Note: A [=Tool Provider=] can assume various roles on behalf of the [=Transport 
 
 ## Data Transaction 1: TCE Data Exchange ## {#txn1}
 
-This data transaction enables a [=Transport Service User=] (for example, a [=shipper=]) to receive [=Transport Chain Elements=] from a
+This data transaction enables a [=Transport Service User=] (for example, a [=shipper=]) to receive emissions from [=Transport Chain Elements=] from a
 [=Transport Operator=] or a [=Transport Service Organizer=] for a single [=shipment=].
 
 To execute this transaction, the [=Transport Operator=] or the [=Transport Service Organizer=] must
 
-1. calculate 1 or more TCEs' emissions data in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
+1. calculate the emissions of 1 or more [=Transport Chain Elements=] in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
 2. make the resulting <{ShipmentFootprint}> available to the [=Transport Service User=]
     through the (recommended) [=iLEAP standalone protocol=] ([[#action-sd]]) and through the (deprecated) PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
 
-The [=Transport Service User=] can then derive the Transport Chain ([=TC=]) using the [=shipment id=], by
-1. collecting the <{TCE|TCEs}> from all the [=Transport Operators=] and the [=Transport Service Organizers=] involved in the shipment;
+The [=Transport Service User=] can then derive emissions using the [=shipment id=], by
+1. collecting the <{TCE|TCEs}> from the <{ShipmentFootprint|ShipmentFootprints}> of all the [=Transport Operators=] and the [=Transport Service Organizers=] involved in the shipment;
 2. forming the [=TC=] from the collected TCEs;
 3. calculating the logistics emissions of the shipment in accordance with the [[!GLEC]] Framework and [[!ISO14083]].
 
