@@ -42,18 +42,18 @@ emissions and activity data across organizations and IT systems. They do so by:
     known as [=host systems=],
 3. defining a data exchange protocol ([[#http-rest-api]]) to unlock the interoperable
       flow of data between host systems, and
-4. introducing a data model ([[#data-model]]) that aligns with the leading global logistics
-    methodology  ([[!GLEC|GLEC Framework V3.1]]) and standard ([[!ISO14083|ISO 14083]]).
+4. introducing a data model ([[#data-model]]) that aligns with [[!ISO14083|ISO 14083]] and the [[!GLEC|GLEC Framework V3.1]].
 
 
 ## Methodological Interoperability ## {#interop}
 
 Issue: This section might need further elaboration.
 
-The iLEAP Technical Specifications are based on and are methodologically aligned with the [[!ISO14083|ISO14083:2023]]
-and the [[!GLEC|GLEC Framework V3.1]].
+The iLEAP Technical Specifications are based on [[!ISO14083|ISO14083:2023]],
+with which they are methodologically aligned and the [[!GLEC|GLEC Framework V3.1]].
 
-Furthermore, the specifications are designed to be methodologically interoperable with the [[!PACT-V2|PACT Methodology Version 2]] and [[!PACT-V3|Version 3]].
+Furthermore, the specifications are designed to be methodologically interoperable
+with the [[!PACT-V2|PACT Methodology Version 2]] and [[!PACT-V3|Version 3]].
 
 
 ## PACT Technical Interoperability ## {#pact-interop}
