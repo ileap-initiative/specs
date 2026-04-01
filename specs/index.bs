@@ -419,7 +419,7 @@ Note: For an example exchange, see [[#example]].
 
 This data transaction enables a [=Transport Service Organizer=] or a [=Transport Service User=] to receive [=TOC=] or [=HOC=] emission intensity data from a [=Transport Operator=].
 
-The provision of emission intensity data at the [=TOC=] or [=HOC=] level enables the [=Transport Service Organizer=] to collect the necessary information to calculate emissions according to the GLEC Framework and [[!ISO14083]].
+The provision of emission intensity data at the [=TOC=] or [=HOC=] level enables the [=Transport Service Organizer=] or [=Transport Service User=] to collect the necessary information to calculate emissions according to the GLEC Framework and [[!ISO14083]].
 It also facilitates the inclusion of emission intensity in procurement processes, allowing for the provision of services that offer carbon-efficiency advantages (see Business Case 2).
 
 To execute this transaction, first the [=Transport Operator=] or [=Transport Service Organizer=] must
