@@ -17,7 +17,7 @@ Abstract: The iLEAP Technical Specifications are interoperable with the [[!PACTD
 Markup Shorthands: markdown yes
 Boilerplate: omit conformance, omit copyright
 Previous Version: https://specs.ileap.global/TR/2024/ileap-extension-20240521/
-Local Boilerplate: header yes
+Local Boilerplate: header yes, copyright yes, abstract yes
 </pre>
 
 # Introduction # {#introduction}
