@@ -68,16 +68,6 @@ compatibility and fallback purposes.
 
 Note: The PACT Data Exchange Protocol integration is scheduled for removal with the v2.0.0 release of the iLEAP Technical Specifications.
 
-### Transition Process ### {#migration-pact-ileap}
-
-To maintain connectivity and interoperability during the transition from PACT-based implementations
-to the new [=iLEAP standalone protocol=], [=host systems=] MUST implement a phased transition process as follows:
-
-1. host systems MUST implement the PACT Protocol (see [[#http-rest-api-introduction]]).
-1. the iLEAP standalone protocol ([[#http-rest-api]]) is introduced. This new protocol is MANDATORY
-    for implementations from v1.1.0 onwards;
-1. host systems are RECOMMENDED to use the new iLEAP standalone protocol by default for data exchange, while keeping PACT support for backward compatibility and fallback purposes.
-
 Note: The editors of this specification strive to assert semantical interoperability with the PACT Technical Specifications with future releases.
 
 
