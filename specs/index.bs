@@ -381,7 +381,7 @@ A data transaction is an abstraction for the exchange of data between two partie
 
 It facilitates interoperability between different parties by explaining the context and their intentions.
 
-Each transaction enables interoperability between [=host systems=], exchanging data in the format
+Each transaction enables interoperability between [=host systems=] by exchanging data in the format
 defined by the iLEAP data model ([[#data-model]]) through the protocols defined in
 [[#http-rest-api]] and the PACT Data Exchange Protocol ([[#pcf-mapping]]).
 
