@@ -342,11 +342,9 @@ Consider the following scenarios:
 1. A [=Transport Service Organizer=] or a [=Transport Service User=] requests emissions data
     from a [=Transport Operator=] or a [=Transport Service Organizer=] which decide to share
     an [[#dt-ar|aggregated report]] instead of [[#txn1|TCE-level data]], due to privacy or competition concerns.
-      - Similarly, a [=Transport Operator=] can opt to make aggregated emission reports available
-        to a [=Transport Service Organizer=].
-1. A [=Transport Service User=] or a [=Transport Service Organizer=] is interested in emissions reports from
-    a [=Transport Operator=] or a [=Transport Service Organizer=], wherein emissions are aggregated
-    per transport mode or over multiple shipments.
+1. A [=Transport Service User=] or a [=Transport Service Organizer=] requests emissions reports from
+    a [=Transport Operator=] or a [=Transport Service Organizer=], aggregated
+    per transport mode or over one or more  shipments.
 1. A [=Transport Service User=], a [=Transport Service Organizer=], or a [=Transport Operator=] needs to
     report logistics emissions data to a public body for regulatory purposes.
 
