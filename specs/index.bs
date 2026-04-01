@@ -334,6 +334,7 @@ calculations.
 
 Data Transaction 3 ([[#txn3]]) enables this business case.
 
+
 ## Aggregated Emissions Reporting ## {#business-case-4}
 
 Consider the following scenarios:
@@ -347,11 +348,11 @@ Consider the following scenarios:
     1. A [=Transport Service User=], a [=Transport Service Organizer=], or a [=Transport Operator=] needs to disclose
         emissions data to a public body for regulatory purposes. The regulatory mandate requires only aggregated data.
 
-iLEAP simplifies the overall aggregated reporting process for these scenarios, from the necessary data collection efforts,
-including the collection of primary data, to the eventual report delivery, lowering the barrier and total costs for sharing
-aggregated emissions data.
+iLEAP lowers barriers and total costs for sharing aggregated emissions data by
 
-Data Transaction 4 ([[#txn4]]) enables this business case.
+- enabling the automated access to relevant input data for aggregated reports ([[#txn1]], [[#txn2]], and [[#txn3]]), and
+- defining the interoperable exchange of aggregated reports through Data Transaction 4 ([[#txn4]])
+
 
 ## Additional Business Cases ## {#txns-appendix}
 
