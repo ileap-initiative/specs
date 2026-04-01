@@ -434,7 +434,7 @@ To execute this transaction, first the [=Transport Operator=] or [=Transport Ser
 Then, a [=Transport Service Organizer=] or a [=Transport Service User=] can
 retrieve the <{TOC|TOCs}> or <{HOC|HOCs}> using the (recommended)
 [=iLEAP standalone protocol=] ([[#action-tocd]] and [[#action-hocd]])
-or the DEPRECATED [[!PACTDX|PACT Data Exchange Protocol]]
+or the (deprecated) PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
 (see [[#pcf-mapping]] for details).
 
 
