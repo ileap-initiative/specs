@@ -340,7 +340,7 @@ Consider the following scenarios:
 
     1. A [=Transport Operator=] or a [=Transport Service Organizer=] needs to disclose emissions data to a
         [=Transport Service Organizer=] or a [=Transport Service User=]
-        but refrains from sharing TCE-level data, such as due to privacy or competition concerns.
+        but refrains from sharing TCE-level data, due to privacy or competition concerns.
     1. A [=Transport Service User=] or a [=Transport Service Organizer=] is interested in an emissions report from
         a [=Transport Operator=] or a [=Transport Service Organizer=], wherein emissions are aggregated,
         such as per transport mode or over multiple shipments.
