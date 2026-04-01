@@ -344,7 +344,7 @@ Consider the following scenarios:
     an [[#dt-ar|aggregated report]] instead of [[#txn1|TCE-level data]], due to privacy or competition concerns.
 1. A [=Transport Service User=] or a [=Transport Service Organizer=] requests emissions reports from
     a [=Transport Operator=] or a [=Transport Service Organizer=], aggregated
-    per transport mode or over one or more  shipments.
+    per transport mode or over one or more shipments.
 1. A [=Transport Service User=], a [=Transport Service Organizer=], or a [=Transport Operator=] needs to
     report logistics emissions data to a public body for regulatory purposes.
 
