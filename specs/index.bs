@@ -58,14 +58,15 @@ Furthermore, the specifications are designed to be methodologically interoperabl
 
 ## PACT Technical Interoperability ## {#pact-interop}
 
-The iLEAP Technical Specifications are also technically interoperable with the
-[[!PACTDX|PACT Data Exchange Protocol]].
-However, from v1.1.0 onwards, technical interoperability with PACT at the level
-of the API ([[#http-rest-api]]) and the data model integration ([[#pcf-mapping]])
-is DEPRECATED.
+iLEAP is interoperable with the [[!PACTDX|PACT Data Exchange Protocol]]
+and its PCF data model ([[#pcf-mapping]]).
 
-Furthermore, PACT Technical Interoperability is scheduled for removal with the
-release of the iLEAP Technical Specifications v2.0.0.
+With v1.1.0, the [=iLEAP standalone protocol=] ([[#http-rest-api]])
+is introduced as the primary protocol for data exchange, while support
+for the [[!PACTDX|PACT Data Exchange Protocol]] is maintained for backward
+compatibility and fallback purposes.
+
+Note: The PACT Data Exchange Protocol integration is scheduled for removal with the v2.0.0 release of the iLEAP Technical Specifications.
 
 ### Transition Process ### {#migration-pact-ileap}
 
