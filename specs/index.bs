@@ -348,7 +348,7 @@ Consider the following scenarios:
 1. A [=Transport Service User=], a [=Transport Service Organizer=], or a [=Transport Operator=] needs to
     report logistics emissions data to a public body for regulatory purposes.
 
-Data Transaction 4 ([[#txn3]]) enables this business case, while Data Transactions 1, 2, and 3
+Data Transaction 4 ([[#txn4]]) enables this business case, while Data Transactions 1, 2, and 3
 support the collection of relevant input data for report calculations (see [[#txn1]], [[#txn2]], [[#txn3]]).
 
 
