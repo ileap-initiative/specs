@@ -208,7 +208,7 @@ The authors would like to thank the many individuals and organizations for their
     A digital identifier which uniquely identifies a [=Shipment=] relative to the [=Host system=] and to the [=Data recipient=].
 
 : <dfn>Shipper</dfn>
-:: An entity which sends goods for transport; e.g. buying transport services from [=Transport Service Organizers=] or [=Transport Operators=]. See [[!GLEC]] Framework.
+:: Refers to the party sending goods for transport; e.g. buying transport services from [=Transport Service Organizers=] or [=Transport Operators=]. See [[!GLEC]] Framework.
 
 : <dfn>Shortest Feasible Distance</dfn> (SFD)
 ::
