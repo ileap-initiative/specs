@@ -4520,7 +4520,6 @@ First draft release of Version 1.1.0, containing the following changes:
 - addition of new data transaction 4 ([[#txn4]]) and corresponding data type ([[#dt-ar]])
 - addition of iLEAP standalone protocol
 - deprecation of PACT technical interoperability (see [[#pact-interop]])
-- new migration guide with phased approach for implementers (see [[#migration-pact-ileap]])
 - updated definitions
 - fixed references to PACT Technical Specifications v2.2
 - improvements of the PACT Integration Chapter [[#pcf-mapping]]
