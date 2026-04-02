@@ -728,25 +728,30 @@ Issue: Consider having an example with the iLEAP standalone protocol instead, mo
 
 # Data Model # {#data-model}
 
-The iLEAP data model of this chapter together with the data transactions ([[#txns]]) build upon the
-[[!ISO14083|ISO 14083]] concepts of [=TOC=], [=HOC=], [=Transport Chain Element|TCE=], [=TC=]. The
-purpose of the data model is to define the syntax and semantics with the goal of enabling the
-interoperable exchange of data between a [=data owner=] and a [=data recipient=] using the HTTP REST
-API ([[#http-rest-api]]).
+The iLEAP data model of this chapter together with the data transactions ([[#txns]]) build upon
+[[!ISO14083|ISO 14083]] and the [[!GLEC|GLEC Framework]]. The purpose of the data model is to
+define the syntax and semantics with the goal of enabling the interoperable exchange of data
+between a [=data owner=] and a [=data recipient=] using the HTTP REST API ([[#http-rest-api]]).
 
-Additionally, the concept of transport activity data ([[#dt-tad|TAD]]) enables
-reporting in case of missing data or limited emissions calculation capabilities from e.g.
+The data model is composed of six main data types organized into two categories.
+
+The first category covers **emissions data** aligned with [[!ISO14083|ISO 14083]]. At its
+foundation are the data types <{TCE}>, <{TOC}>, and <{HOC}>, corresponding to the ISO 14083
+concepts of [=Transport Chain Element|TCE=], [=TOC=], and [=HOC=]. Building on these,
+the data model defines two complementary approaches to emissions reporting in line with
+ISO 14083 reporting principles: <{ShipmentFootprint}>, which represents the footprint of an
+individual shipment across its [=TC|transport chain=], and <{AR|AggregatedReport}>, which
+facilitates the exchange of aggregated emissions data, e.g. for reporting to public authorities
+and to avoid disclosing sensitive data.
+
+The second category covers **activity data**. <{TAD}> (transport activity data, [[#dt-tad|TAD]])
+enables reporting in case of missing data or limited emissions calculation capabilities from e.g.
 [=Transport Operators=].
-
-The concept of [[#dt-ar|Aggregated Report]] is added to facilitate the exchange of aggregated
-emissions data, e.g. for reporting to public authorities and to avoid disclosing sensitive data.
-
-The iLEAP Data Model is composed of six main data types: <{ShipmentFootprint}>, <{TCE}>, <{TOC}>,
-<{HOC}>, <{TAD}>, and <{AR|AggregatedReport}>.
 
 <{ShipmentFootprint|ShipmentFootprints}>, <{TOC|TOCs}>, and <{HOC|HOCs}> can also be embedded as
 data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIONS]] and
 [[#pcf-mapping]]) in a `ProductFootprint`.
+
 
 <div class="advisement" id="M*" style="text-align: center">
   <strong>Properties marked with `M*` are mandatory when using the [=iLEAP standalone protocol=], but
@@ -754,22 +759,18 @@ data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIO
   the PACT Data Model (see [[#pcf-mapping]]).</strong>
 </div>
 
+
 ## ShipmentFootprint ## {#dt-sf}
 
-<dfn element>ShipmentFootprint</dfn> is a collection of 1
-or more [=Transport Chain Elements=] (encoded as <{TCE|TCEs}>)
-for a single [=shipment=].
+The <dfn element>ShipmentFootprint</dfn> data type enables reporting at the level of transport or
+hub services for a single shipment, aligned with ISO 14083 (Chapter 13.3) and the GLEC Framework.
 
-Note: a ShipmentFootprint CAN include TCEs that the [=data owner=] collected from other parties.
+A ShipmentFootprint covers one or more [=Transport Chain Elements=] (encoded as <{TCE|TCEs}>) and
+their respective emissions. By collecting one or more ShipmentFootprints, a [=Transport Chain=]
+([=TC=]) can be assembled together with its associated emissions data, ultimately enabling the
+calculation of the shipment's logistics emissions.
 
-By collecting 1 or more <{TCE|TCEs}> for a shipment from [=Transport Operators=] and [=Transport Service Organizers=],
-a [=Transport Service User=] can build the <{ShipmentFootprint}>. The <{ShipmentFootprint}> corresponds to the logistics emissions related to a full Transport Chain ([=TC=]).
-
-To calculate a ShipmentFootprint, the [=Transport Service User=] MUST
-
-- first receive <{TCE|TCEs}>  from [=Transport Operators=] and [=Transport Service Organizers=], linked to the shipment id for a single shipment in accordance with [[#dt-tce]],
-    OR calculate <{TCE|TCEs}> from <{TOC|TOCs}>, <{HOC|HOCs}> or <{TAD}> from [=Transport Operators=] and [=Transport Service Organizers=].
-- and then add up all <{TCE|TCEs}> that compose the full Transport Chain ([=TC=]) to derive the <{ShipmentFootprint}>.
+Note: A ShipmentFootprint CAN include TCEs that the [=data owner=] collected from other parties.
 
 ### Data Attributes ### {#sf-attributes}
 
@@ -917,13 +918,14 @@ Issue: Consider adding
 
 ## Transport Chain Element (<dfn element>TCE</dfn>) ## {#dt-tce}
 
-The Data Type <{TCE}> models information related to a single [=Transport Chain Element=].
+The <{TCE}> data type models information related to a single [=Transport Chain Element=] and its associated emissions data.
 
-The data related to TCEs can be obtained from direct measurement (see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
+The emissions data represented in a <{TCE}> can be obtained from direct measurement
+(see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
 
 <{TCE|TCEs}> are typically calculated by [=Transport Operators=] and [=Transport Service Organizers=]. They are made available to [=Transport Service Users=] through
-the <{ShipmentFootprint}> data type (see [[#dt-sf]]), using either the [=iLEAP standalone protocol=] (see [[#action-sd]]) or the PACT Data
-Exchange Protocol (see [[#pcf-mapping]]).
+the <{ShipmentFootprint}> data type (see [[#dt-sf]]), using either the [=iLEAP standalone protocol=] (see [[#action-sd]]) or the PACT Data Exchange Protocol
+(see [[#pcf-mapping]]).
 
 ### Ordering of TCEs ### {#tce-ordering}
 
