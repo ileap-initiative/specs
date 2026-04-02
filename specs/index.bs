@@ -759,22 +759,18 @@ data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIO
   the PACT Data Model (see [[#pcf-mapping]]).</strong>
 </div>
 
+
 ## ShipmentFootprint ## {#dt-sf}
 
-<dfn element>ShipmentFootprint</dfn> is a collection of 1
-or more [=Transport Chain Elements=] (encoded as <{TCE|TCEs}>)
-for a single [=shipment=].
+The <dfn element>ShipmentFootprint</dfn> data type enables reporting at the level of transport or
+hub services for a single shipment, aligned with ISO 14083 (Chapter 13.3) and the GLEC Framework.
 
-Note: a ShipmentFootprint CAN include TCEs that the [=data owner=] collected from other parties.
+A ShipmentFootprint covers one or more [=Transport Chain Elements=] (encoded as <{TCE|TCEs}>) and
+their respective emissions. By collecting one or more ShipmentFootprints, a [=Transport Chain=]
+([=TC=]) can be assembled together with its associated emissions data, ultimately enabling the
+calculation of the shipment's logistics emissions.
 
-By collecting 1 or more <{TCE|TCEs}> for a shipment from [=Transport Operators=] and [=Transport Service Organizers=],
-a [=Transport Service User=] can build the <{ShipmentFootprint}>. The <{ShipmentFootprint}> corresponds to the logistics emissions related to a full Transport Chain ([=TC=]).
-
-To calculate a ShipmentFootprint, the [=Transport Service User=] MUST
-
-- first receive <{TCE|TCEs}>  from [=Transport Operators=] and [=Transport Service Organizers=], linked to the shipment id for a single shipment in accordance with [[#dt-tce]],
-    OR calculate <{TCE|TCEs}> from <{TOC|TOCs}>, <{HOC|HOCs}> or <{TAD}> from [=Transport Operators=] and [=Transport Service Organizers=].
-- and then add up all <{TCE|TCEs}> that compose the full Transport Chain ([=TC=]) to derive the <{ShipmentFootprint}>.
+Note: A ShipmentFootprint CAN include TCEs that the [=data owner=] collected from other parties.
 
 ### Data Attributes ### {#sf-attributes}
 
