@@ -918,13 +918,14 @@ Issue: Consider adding
 
 ## Transport Chain Element (<dfn element>TCE</dfn>) ## {#dt-tce}
 
-The Data Type <{TCE}> models information related to a single [=Transport Chain Element=].
+The <{TCE}> data type models information related to a single [=Transport Chain Element=] and its associated emissions data.
 
-The data related to TCEs can be obtained from direct measurement (see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
+The emissions data represented in a <{TCE}> can be obtained from direct measurement
+(see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
 
 <{TCE|TCEs}> are typically calculated by [=Transport Operators=] and [=Transport Service Organizers=]. They are made available to [=Transport Service Users=] through
-the <{ShipmentFootprint}> data type (see [[#dt-sf]]), using either the [=iLEAP standalone protocol=] (see [[#action-sd]]) or the PACT Data
-Exchange Protocol (see [[#pcf-mapping]]).
+the <{ShipmentFootprint}> data type (see [[#dt-sf]]), using either the [=iLEAP standalone protocol=] (see [[#action-sd]]) or the PACT Data Exchange Protocol
+(see [[#pcf-mapping]]).
 
 ### Ordering of TCEs ### {#tce-ordering}
 
