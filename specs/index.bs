@@ -4059,7 +4059,7 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>
               The relative share of logistics emissions for whose calculation primary data has been used.
 
-              See [[!PACTDX]] and the PACT Framework ([[!PACT-V2]]) for further details.
+              See [[!PACTDX]] and the PACT Mathodology ([[!PACT-V2]]) for further details.
       <tr>
         <td>CarbonFootprint
         <td>`secondaryEmissionFactorSources`
