@@ -2648,12 +2648,12 @@ The iLEAP Technical Specifications define two REST API families:
     <{AggregatedReport|Aggregated Report}> data.
 
     The standalone API consists of the following REQUIRED actions:
-      1. authentication flow [[#authentication]]
-      1. endpoint for <{ShipmentFootprint}> data (see [[#action-sd]])
-      1. endpoint for <{TOC}> data (see [[#action-tocd]])
-      1. endpoint for <{HOC}> data (see [[#action-hocd]])
+      1. [[#action-authenticate]] and the authentication flow [[#authentication]]
+      1. [[#action-sd]] for the exchange of <{ShipmentFootprint|ShipmentFootprints}>
+      1. [[#action-tocd]] for the exchange of <{TOC|TOCs}>
+      1. [[#action-hocd]] for the exchange of <{HOC|HOCs}>
       1. endpoint for <{TAD|Transport Activity Data}> (see [[#action-tad]])
-      1. endpoint for <{AR|Aggregated Reports}> (see [[#action-aed]])
+      1. [[#action-aed]] for the exchange of <{AR|Aggregated Reports}> 
 
     Except for [[#action-authenticate|Action Authenticate]], all actions share characteristics
     regarding the [[#access-control|access control]], [[#filtering|filtering]], and [[#pagination|pagination]] of results,
@@ -2689,7 +2689,7 @@ conformance with iLEAP v1.1.0.
     <thead>
       <tr>
         <th>PACT-based API
-        <th>iLEAP Standalone API
+        <th>iLEAP standalone API
         <th>Notes
     <tbody>
       <tr>
