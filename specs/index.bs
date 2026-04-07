@@ -762,13 +762,15 @@ data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIO
 
 ## ShipmentFootprint ## {#dt-sf}
 
-The <dfn element>ShipmentFootprint</dfn> data type enables reporting at the level of transport or
-hub services for a single shipment, aligned with ISO 14083 (Chapter 13.3) and the GLEC Framework.
+The <dfn element>ShipmentFootprint</dfn> data type enables reporting at the
+level of transport or hub services for a single shipment, aligned with
+ISO 14083 (Chapter 13.3) and the GLEC Framework.
 
-A ShipmentFootprint covers one or more [=Transport Chain Elements=] (encoded as <{TCE|TCEs}>) and
-their respective emissions. By collecting one or more ShipmentFootprints, a [=Transport Chain=]
-([=TC=]) can be assembled together with its associated emissions data, ultimately enabling the
-calculation of the shipment's logistics emissions.
+A ShipmentFootprint covers one or more [=Transport Chain Elements=] and
+their respective emissions, encoded as <{TCE|TCEs}>. By collecting one or
+more ShipmentFootprints, a [=Transport Chain=] ([=TC=]) and its emissions
+data can be assembled together ultimately enabling the calculation of the
+shipment's logistics emissions.
 
 Note: A ShipmentFootprint CAN include TCEs that the [=data owner=] collected from other parties.
 
@@ -918,14 +920,14 @@ Issue: Consider adding
 
 ## Transport Chain Element (<dfn element>TCE</dfn>) ## {#dt-tce}
 
-The <{TCE}> data type models information related to a single [=Transport Chain Element=] and its associated emissions data.
+The <{TCE}> data type models information related to a single [=Transport Chain Element=] and its emissions data.
 
 The emissions data represented in a <{TCE}> can be obtained from direct measurement
 (see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
 
 <{TCE|TCEs}> are typically calculated by [=Transport Operators=] and [=Transport Service Organizers=]. They are made available to [=Transport Service Users=] through
-the <{ShipmentFootprint}> data type (see [[#dt-sf]]), using either the [=iLEAP standalone protocol=] (see [[#action-sd]]) or the PACT Data Exchange Protocol
-(see [[#pcf-mapping]]).
+the <{ShipmentFootprint}> data type (see [[#dt-sf]]), through the RECOMMENDED [=iLEAP standalone protocol=] (see [[#action-sd]]) and through the DEPRECATED
+PACT Data Exchange Protocol (see [[#pcf-mapping]]).
 
 ### Ordering of TCEs ### {#tce-ordering}
 
