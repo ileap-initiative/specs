@@ -2962,7 +2962,9 @@ If a [=host system=] implements filtering, it SHOULD process the filter statemen
 
 ### Pagination ### {#pagination}
 
-[=Host systems=] MUST implement pagination server-side such that
+Support for pagination is REQUIRED for [=host systems=] and [=data recipients=].
+
+[=Host systems=] MUST implement pagination server-side, such that
 
 1. the host system MAY return less data than requested through the [=Limit=] request parameter;
 1. the host system MUST return a `Link` header if there is additional data ready to be retrieved, such that
@@ -2990,6 +2992,17 @@ Upon a [=host system=] returning a [=pagination link=]:
 1. a data recipient SHOULD retry calling the pagination link after the server returned an error, and
     SHOULD use a randomized exponential back-off strategy when retrying.
 
+A [=data recipient=] CAN trigger pagination by supplying a [=Limit=] request parameter.
+
+Irrespective of whether a [=Limit=] parameter is supplied, a [=data recipient=] MUST
+be able to process paginated responses, such that
+1. it MUST be able to process responses containing a pagination link, and
+1. it MUST be able to call pagination links until no more pagination link are
+    provided by the host system.
+
+[=Data recipients=] SHOULD implement a strategy to deal with pagination links no
+longer working, including retrying (using appropriate back-off strategies etc.),
+or completely re-starting the data retrieval process from the beginning.
 
 ## Action ShipmentFootprintData ## {#action-sd}
 
