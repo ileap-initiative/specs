@@ -2800,8 +2800,8 @@ The following defintions and parameters are used throughout this chapter:
 
 : <dfn>ResponseBody</dfn>
 ::
-    If the host system accepts the [=access token=], the body MUST be a JSON object with property `data` with value the
-    list of the relevant data (either [=Transport Activity Data=] or <{AggregatedReports}>). The list MUST be encoded as
+    The HTTP response body upon a successful request. The body MUST be a JSON object with property `data` with value the
+    list of the respective data (<{ShipmentFootprint}> for [[#action-sd|Action ShipmentFootprintData]], <{TOC}> for [[#action-tocd|Action TOC]], etc. ). The list MUST be encoded as
     a JSON array.
 
     If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
