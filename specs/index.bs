@@ -2667,16 +2667,13 @@ The iLEAP Technical Specifications define two REST API families:
 ::
     The PACT-based API also enables the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> data, yet
     is based on the [[!PACTDX]] Protocol (see [[#pcf-mapping]]).
-    It also includes two endpoints for the exchange of <{TAD|Transport Activity Data}>
-    and <{AR|Aggregated Reports}>.
 
     The PACT-based API consists of the following REQUIRED actions:
       1. authentication flow as defined in [[!PACTDX]] Chapter 6.3
-      2. exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> data as specified in [[#pcf-mapping]]
-      3. endpoint for <{TAD|Transport Activity Data}> (see [[#action-tad]])
-      4. endpoint for <{AR|Aggregated Reports}> (see [[#action-aed]])
+      2. exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> data as specified in [[#pcf-mapping]].
 
-    Since April 1 2026, the [[PACTDX]] is deprecated. Consequently, the [=PACT-based API=] approach is DEPRECATED.
+    Since April 1 2026, the v2 family of the PACT Technical Specifications, including [[PACTDX]],
+    is deprecated. Consequently, the [=PACT-based API=] approach is DEPRECATED.
     For backward compatibility reasons, a [=host system=] MUST implement the PACT-based API.
 
 
