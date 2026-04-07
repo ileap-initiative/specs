@@ -2996,7 +2996,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 ## Action ShipmentFootprintData ## {#action-sd}
 
-Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]]
+Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]].
 
 A [=Host system=] MUST implement an access management system to return only the <{ShipmentFootprint|ShipmentFootprints}>
 intended for the requesting [=data recipient=].
