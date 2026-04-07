@@ -2656,7 +2656,7 @@ The iLEAP Technical Specifications define two REST API families:
       1. endpoint for <{AR|Aggregated Reports}> (see [[#action-aed]])
 
     Except for [[#action-authenticate|Action Authenticate]], all actions share characteristics
-    regarding the [[#filtering|filtering]] and [[#pagination|pagination]] of results,
+    regarding the [[#access-control|access control]], [[#filtering|filtering]], and [[#pagination|pagination]] of results,
     as well as the request and response syntax.
 
     A [=host system=] MUST implement the [=iLEAP standalone API=] which is now the preferred option for data exchange.
@@ -2946,6 +2946,18 @@ With action-specific response parameters
 
 The specifications, behaviors, and considerations of this subchapter apply to all [=iLEAP standalone API=] actions except for [[#action-authenticate]].
 
+
+### Access Control ### {#access-control}
+
+A [=host system=] MUST implement an access control mechanism such that each API response
+contains only data intended for the requesting [=data recipient=].
+
+This applies to all [=iLEAP standalone API=] actions except for [[#action-authenticate|Action Authenticate]].
+
+The mechanism by which a [=host system=] determines which data is intended for a given
+[=data recipient=] is implementation-specific.
+
+
 ### Filtering ### {#filtering}
 
 Filtering CAN be requested by a [=data recipient=] by supplying a [=filter statement=] through the [=Filter=] request parameter.
@@ -3004,12 +3016,10 @@ be able to process paginated responses, such that
 longer working, including retrying (using appropriate back-off strategies etc.),
 or completely re-starting the data retrieval process from the beginning.
 
+
 ## Action ShipmentFootprintData ## {#action-sd}
 
-Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]].
-
-A [=Host system=] MUST implement an access management system to return only the <{ShipmentFootprint|ShipmentFootprints}>
-intended for the requesting [=data recipient=].
+Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
 Note:
   To retrieve shipment footprints based on embedded properties (regardless of the level of nesting),
@@ -3136,10 +3146,7 @@ Issue: example needs revision
 
 ## Action TOCData ## {#action-tocd}
 
-Lists the [=data owner=]'s <{TOC|TOCs}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]].
-
-A [=Host system=] MUST implement an access management system to return only the [=TOC=] intended for
-the requesting [=data recipient=].
+Lists the [=data owner=]'s <{TOC|TOCs}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
 To retrieve only one TOC, the [=data recipient=] SHOULD use the [=Filter=] parameter with filter
 pair `tocId=$tocId`, where `$tocId` is the identifier of the TOC as defined in <{TOC/tocId}>.
@@ -3262,10 +3269,7 @@ Issue: example needs revision
 
 ## Action HOCData ## {#action-hocd}
 
-Lists the [=data owner=]'s <{HOC|HOCs}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]].
-
-A [=Host system=] MUST implement an access management system to return only the [=HOC=] intended for
-the requesting [=data recipient=].
+Lists the [=data owner=]'s <{HOC|HOCs}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
 To retrieve only one HOC, the [=data recipient=] SHOULD use the [=Filter=] parameter with filter
 pair `hocId=$hocId`, where `$hocId` is the identifier of the HOC as defined in <{HOC/hocId}>.
@@ -3387,10 +3391,7 @@ Issue: example needs revision
 
 ## Action TransportActivityData ## {#action-tad}
 
-Lists the [=data owner=]'s [=Transport Activity Data=] with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]]
-
-A [=Host system=] SHOULD implement an access management system to return only the [=transport
-activity data=] intended for the requesting [=data recipient=].
+Lists the [=data owner=]'s [=Transport Activity Data=] with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
 To retrieve only transport activity data related to a specific activity, the [=data recipient=]
 SHOULD use the [=Filter=] parameter with filter pair `activityId=$activityId`, where `$activityId`
@@ -3551,10 +3552,7 @@ Paginated response ([[#pagination]]):
 
 ## Action AggregatedEmissionsData ## {#action-aed}
 
-Lists the [=data owner=]'s <{AggregatedReports}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]]
-
-A [=Host system=] SHOULD implement an access management system to return only the
-<{AggregatedReports}> intended for the requesting [=data recipient=].
+Lists the [=data owner=]'s <{AggregatedReports}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
 To retrieve only one <{AggregatedReport}>, the [=data recipient=] SHOULD use the [=Filter=]
 parameter with filter pair `reportId=$reportId`, where `$reportId` is the identifier of the report
