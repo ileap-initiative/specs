@@ -764,7 +764,7 @@ data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIO
 
 The <dfn element>ShipmentFootprint</dfn> data type enables reporting at the
 level of transport or hub services for a single shipment, aligned with
-ISO 14083 (Chapter 13.3) and the GLEC Framework.
+[[!ISO14083|ISO 14083]] (Chapter 13.3) and the [[!GLEC|GLEC Framework]].
 
 A ShipmentFootprint covers one or more [=Transport Chain Elements=] and
 their respective emissions, encoded as <{TCE|TCEs}>. By collecting one or
