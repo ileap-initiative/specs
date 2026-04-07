@@ -239,7 +239,8 @@ Issue: Needs revision
     A host system implements support for the data transactions defined in [[#txns]].
 
 : <dfn>iLEAP standalone protocol</dfn>
-:: The HTTP REST API and data model, introduced in v1.1.0 of these technical specifications, which enables the exchange
+::
+    The [=iLEAP standalone API=] and [[#data-model|data model]], introduced in v1.1.0 of these technical specifications, which enables the exchange
     of logistics emissions. See [[#http-rest-api]] for details.
 
 : <dfn>OpenId Provider Configuration Document</dfn>
@@ -2639,37 +2640,59 @@ Advisement: The enumeration of packaging or transport equipment units above will
 
 ## Introduction ## {#http-rest-api-introduction}
 
-The iLEAP Technical Specifications define two possibile REST HTTP APIs for the exchange of logistics emissions data:
-- the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> relying on the [[!PACTDX]] Protocol (see [[#pcf-mapping]]),
-    with two additional endpoints for the exchange of <{TAD|Transport Activity Data}> and <{AR|Aggregated Reports}>; and
-- a standalone API for the exchange of <{ShipmentFootprint}>, <{TOC}>, <{HOC}>, <{TAD|Transport Activity Data}>, and
-    <{AggregatedReport|Aggregated Reports}>, not relying on the [[!PACTDX]] Protocol.
+The iLEAP Technical Specifications define two REST API families:
 
-The PACT-based API is now DEPRECATED and will be removed in v2.0.0 of the iLEAP Technical
-Specifications. Yet, for the time being, it is still mandatory to ensure backwards compatibility
-with existing implementations.
+: <dfn>iLEAP standalone API</dfn>
+::
+    The standalone API enables the exchange of <{ShipmentFootprint}>, <{TOC}>, <{HOC}>, <{TAD|Transport Activity Data}>, and
+    <{AggregatedReport|Aggregated Report}> data.
 
-Advisement: We recommend new implementations to use the standalone API as described in here.
+    The standalone API consists of the following MANDATORY actions:
+      1. authentication flow [[#authentication]]
+      1. endpoint for <{ShipmentFootprint}> data (see [[#action-sd]])
+      1. endpoint for <{TOC}> data (see [[#action-tocd]])
+      1. endpoint for <{HOC}> data (see [[#action-hocd]])
+      1. endpoint for <{TAD|Transport Activity Data}> (see [[#action-tad]])
+      1. endpoint for <{AR|Aggregated Reports}> (see [[#action-aed]])
+
+    Except for [[#action-authenticate|Action Authenticate]], all actions share characteristics
+    regarding the [[#filtering|filtering]] and [[#pagination|pagination]] of results,
+    as well as the request and response syntax.
+
+    A [=host system=] MUST implement the [=iLEAP standalone API=] which is now the preferred option for data exchange.
+
+    Note: The [=iLEAP standalone API=] is introduced in v1.1.0. It is RECOMENDED for [=data recipients=].
+
+: <dfn>PACT-based API</dfn>
+::
+    The PACT-based API also enables the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> data, yet
+    is based on the [[!PACTDX]] Protocol (see [[#pcf-mapping]]).
+    It also includes two endpoints for the exchange of <{TAD|Transport Activity Data}>
+    and <{AR|Aggregated Reports}>.
+
+    The PACT-based API consists of the following MANDATORY actions:
+      1. authentication flow as defined in [[!PACTDX]] Chapter 6.3
+      2. exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> data as specified in [[#pcf-mapping]]
+      3. endpoint for <{TAD|Transport Activity Data}> (see [[#action-tad]])
+      4. endpoint for <{AR|Aggregated Reports}> (see [[#action-aed]])
+
+    Since April 1 2026, the [[PACTDX]] is deprecated. Consequently, the [=PACT-based API=] approach is DEPRECATED.
+    For backward compatibility reasons, a [=host system=] MUST implement the PACT-based API.
+
+
+Advisement: We recommend new implementations to use the [=iLEAP standalone API=] by default.
 Specifically, we encourage data recipients to pull data through the new endpoints.
 Accordingly, data owners are encouraged to prioritize the implementation of the new endpoints, which is required for
 conformance with iLEAP v1.1.0.
 
-A [=host system=] MUST implement
-1. the authentication flow as defined in [[!PACTDX]] Chapter 6.3
-1. the exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> as specified in [[#pcf-mapping]]
-1. the iLEAP native authentication flow as defined in [[#authentication]]
-1. the iLEAP native endpoint for the exchange of <{ShipmentFootprint}> (see [[#action-sd]])
-1. the iLEAP native endpoint for the exchange of <{TOC}> (see [[#action-tocd]])
-1. the iLEAP native endpoint for the exchange of <{HOC}> (see [[#action-hocd]])
-1. the iLEAP native endpoint for the exchange of <{TAD|Transport Activity Data}> (see [[#action-tad]])
-1. the iLEAP native endpoint for the exchange of <{AR|Aggregated Reports}> (see [[#action-aed]])
+
 
 <figure id="api-endpoint-mapping">
   <table class="data">
     <thead>
       <tr>
-        <th>PACT-based Endpoint
-        <th>iLEAP-native Endpoint
+        <th>PACT-based API
+        <th>iLEAP Standalone API
         <th>Notes
     <tbody>
       <tr>
@@ -2704,27 +2727,29 @@ A [=host system=] MUST implement
 <figcaption>Mapping PACT-based to iLEAP native endpoints</figcaption>
 </figure>
 
-All endpoints native to iLEAP share common characteristics regarding
-
-1. [[#filtering]] of results
-1. [[#pagination]] of results
-1. request and response syntax
 
 ## Authentication ## {#authentication}
 
-Note: PACT interoperability is deprecated, but needs to be maintained for backwards compatibility.
-
 Issue: Needs revision. In particular, we need to consider not demanding BasicAuth implementation with client credentials.
 
-With the deprecation of PACT interoperability, iLEAP defines its own authentication flow for the
-native endpoints. An [=access token=] obtained through either authentication method (PACT or iLEAP native)
-MUST be valid for accessing the same data.
+With the deprecation of PACT interoperability, iLEAP defines an [=authentication flow=] for the
+[=iLEAP standalone API=]. An [=access token=] obtained through either authentication method ([=PACT-based API|PACT=] or [=iLEAP standalone API=])
+MUST be valid for both [=PACT-based API|PACT-based=] and [=iLEAP standalone API=] endpoints.
 
-### Authentication Flow ### {#authentication-flow}
+### Authentication Flow ### {#auth-flow}
 
-Note: The iLEAP <dfn id="dfn-authentication-flow">authentication flow</dfn> follows the same structure of that defined in [[!PACTDX]] Section 7.3.
+The iLEAP <dfn>authentication flow</dfn> consists of the following steps:
 
-#### AuthEndpoint Discovery #### {#auth-endpoint-discovery}
+1. Token endpoint discovery, as specified in [[#auth-endpoint-discovery]].
+1. Authentication against the token endpoint, as specified in [[#action-authenticate]].
+
+Note:
+  The iLEAP [=authentication flow=] follows the approach of [[!PACTDX]], Section 7.3.
+  This means, [=host systems=] that implement the PACT-based authentication flow are
+  also conforming with the iLEAP authentication flow.
+
+
+### AuthEndpoint Discovery ### {#auth-endpoint-discovery}
 
 A [=host system=] MAY use any endpoint for authentication, as long as they make it available through
 an OpenId Configuration Document. In order to discover the authentication endpoint, a [=data recipient=] MUST:
@@ -2738,7 +2763,8 @@ If the [=host system=] does not provide a valid OpenId Configuration Document at
 or that the `token_endpoint` is not defined, the [=data recipient=] MUST use
 [=Hostname=]`/`[=Subpath=]`/auth/token` as the [=AuthEndpoint=].
 
-### Action Authenticate ### {#action-authenticate}
+
+## Action Authenticate ## {#action-authenticate}
 
 Request an access token using client credentials.
 
@@ -2748,7 +2774,7 @@ Request an access token using client credentials.
 Accordingly, if no discovery method through an OpenId Configuration Document is implemented, the [=host system=] MUST
 offer this action under the endpoint [=Hostname=]`/`[=Subpath=]`/auth/token`.
 
-#### Request Syntax #### {#action-authenticate-request}
+### Request Syntax ### {#action-authenticate-request}
 
 <pre highlight=http>
 POST <l>[=AuthEndpoint=]</l> HTTP/1.1
@@ -2774,7 +2800,7 @@ With Request parameters:
 : <dfn>ContentLength</dfn>
 :: The length of the Body. See [[!rfc9112]].
 
-##### Example ##### {#example-authenticate-request}
+#### Example #### {#example-authenticate-request}
 
 <div class=example>
   Request an access token using client credentials:
@@ -2791,7 +2817,7 @@ With Request parameters:
 
   Authentication flow identical to [[!PACTDX]] (see Chapter 7.3).
 
-#### Response Syntax #### {#action-authenticate-response}
+### Response Syntax ### {#action-authenticate-response}
 
 <pre highlight=http>
 HTTP/1.1 <l>[=AuthStatusCode=]</l> OK
@@ -2811,7 +2837,7 @@ With action-specific response parameters
     of successful authentication (containing an [=access token=]), or [[!rfc6749]] Section 5.2
     otherwise.
 
-##### Example ##### {#example-authenticate-response}
+#### Example #### {#example-authenticate-response}
 
 <div class=example>
   Example of a successful response containing an access token:
@@ -2831,7 +2857,7 @@ With action-specific response parameters
 
 ## Common HTTP Endpoint Behaviors ## {#filtering-and-pagination}
 
-The specifications, behaviors, and considerations of this subchapter apply to all iLEAP HTTP Actions.
+The specifications, behaviors, and considerations of this subchapter apply to all [=iLEAP standalone API=] actions except for [[#action-authenticate]].
 
 ### Filtering ### {#filtering}
 
