@@ -3254,7 +3254,7 @@ Issue: example needs revision
 
 ## Action HOCData ## {#action-hocd}
 
-Lists the [=data owner=]'s <{HOC|HOCs}> with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]].
+Lists the [=data owner=]'s <{HOC|HOCs}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]].
 
 A [=Host system=] MUST implement an access management system to return only the [=HOC=] intended for
 the requesting [=data recipient=].
@@ -3379,7 +3379,7 @@ Issue: example needs revision
 
 ## Action TransportActivityData ## {#action-tad}
 
-Lists the [=data owner=]'s [=Transport Activity Data=] with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]]
+Lists the [=data owner=]'s [=Transport Activity Data=] with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]]
 
 A [=Host system=] SHOULD implement an access management system to return only the [=transport
 activity data=] intended for the requesting [=data recipient=].
@@ -3543,7 +3543,7 @@ Paginated response with a `link` header:
 
 ## Action AggregatedEmissionsData ## {#action-aed}
 
-Lists the [=data owner=]'s <{AggregatedReports}> with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]]
+Lists the [=data owner=]'s <{AggregatedReports}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]]
 
 A [=Host system=] SHOULD implement an access management system to return only the
 <{AggregatedReports}> intended for the requesting [=data recipient=].
