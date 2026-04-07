@@ -2810,12 +2810,15 @@ The following defintions and parameters are used throughout this chapter:
 
     In all other cases, for instance in case of a malformed value of the header authorization, the body SHOULD be an error response with code [BadRequest](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#badrequest).
 
-: ContentLength
-:: The length of the Body. See [[!rfc9112]].
+: <dfn>ContentLength</dfn>
+:: The length of the body. See [[!rfc9112]].
 
 : <dfn>PaginationLink</dfn>
 :: See [=pagination link=] and [[#pagination]].
 
+: <dfn>AuthEndpoint</dfn>
+::
+    The endpoint to request an [=access token=]. See [[#authentication]] for further details on discovery and request syntax.
 
 
 ## Authentication ## {#authentication}
@@ -2878,17 +2881,11 @@ content-length: <l>[=ContentLength=]</l>
 
 With Request parameters:
 
-: <dfn>AuthEndpoint</dfn>
-:: The endpoint to request an [=access token=] after discovering the value by performing the [=authentication flow=].
-
 : <dfn>BasicAuth</dfn>
 :: See [[!rfc6749]] Section 4.4.2
 
 : <dfn>AuthBody</dfn>
 :: See [[!rfc6749]] Section 4.4
-
-: <dfn>ContentLength</dfn>
-:: The length of the Body. See [[!rfc9112]].
 
 #### Example #### {#example-authenticate-request}
 
