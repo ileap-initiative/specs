@@ -2647,7 +2647,7 @@ The iLEAP Technical Specifications define two REST API families:
     The standalone API enables the exchange of <{ShipmentFootprint}>, <{TOC}>, <{HOC}>, <{TAD|Transport Activity Data}>, and
     <{AggregatedReport|Aggregated Report}> data.
 
-    The standalone API consists of the following MANDATORY actions:
+    The standalone API consists of the following REQUIRED actions:
       1. authentication flow [[#authentication]]
       1. endpoint for <{ShipmentFootprint}> data (see [[#action-sd]])
       1. endpoint for <{TOC}> data (see [[#action-tocd]])
@@ -2670,7 +2670,7 @@ The iLEAP Technical Specifications define two REST API families:
     It also includes two endpoints for the exchange of <{TAD|Transport Activity Data}>
     and <{AR|Aggregated Reports}>.
 
-    The PACT-based API consists of the following MANDATORY actions:
+    The PACT-based API consists of the following REQUIRED actions:
       1. authentication flow as defined in [[!PACTDX]] Chapter 6.3
       2. exchange of <{ShipmentFootprint}>, <{TOC}>, and <{HOC}> data as specified in [[#pcf-mapping]]
       3. endpoint for <{TAD|Transport Activity Data}> (see [[#action-tad]])
@@ -2996,7 +2996,7 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 ## Action ShipmentFootprintData ## {#action-sd}
 
-Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]]
+Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]]
 
 A [=Host system=] MUST implement an access management system to return only the <{ShipmentFootprint|ShipmentFootprints}>
 intended for the requesting [=data recipient=].
@@ -3128,7 +3128,7 @@ Issue: example needs revision
 
 ## Action TOCData ## {#action-tocd}
 
-Lists the [=data owner=]'s <{TOC|TOCs}> with MANDATORY [[#pagination]] and OPTIONAL [[#filtering]].
+Lists the [=data owner=]'s <{TOC|TOCs}> with REQUIRED [[#pagination]] and OPTIONAL [[#filtering]].
 
 A [=Host system=] MUST implement an access management system to return only the [=TOC=] intended for
 the requesting [=data recipient=].
