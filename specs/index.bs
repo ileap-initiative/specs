@@ -142,7 +142,7 @@ The authors would like to thank the many individuals and organizations for their
 
 : <dfn>Consignment id</dfn>
 ::
-    A digital identifier which uniquely identifies a [=Consignment=] between [=Host systems=] of [=data owner=] and [=data recipient=].
+    A digital identifier which uniquely identifies a [=Consignment=] relative to the [=Host system=] and to the [=data recipient=].
 
 : <dfn>Distance</dfn>
 :: See [=Transport Distance=] and [=Actual Distance=]
