@@ -191,7 +191,7 @@ The authors would like to thank the many individuals and organizations for their
 : <dfn>Transport Activity</dfn>
 ::
     Transport activity for each consignment is calculated by multiplying the consignment's mass by the TCE distance.
-    It is measured with unit `ton kilometer`. See [[!ISO14083]] Section 3.1.24 and the [[!GLEC]] Framework.
+    It is measured with unit `tonne-kilometer`. See [[!ISO14083]] Section 3.1.24 and the [[!GLEC]] Framework.
 
 : <dfn data-lt="Transport Chain|TC">Transport Chain (TC)</dfn>
 :: A Transport Chain as defined in the [[!GLEC]] Framework. A TC consists of 1 or more [=Transport Chain Elements=]. A TC corresponds to a shipment.
@@ -868,12 +868,12 @@ Issue: Consider adding
         <td><dfn>mass</dfn> : [=Decimal=]
         <td>String
         <td>M
-        <td>The mass of the good (SI Unit `kilograms`) and the packaging provided for transport by the [=Transport Service User=], excluding any additional packaging or handling equipment used by the Transport Operator or Transport Service Organizer.
+        <td>The mass of the good (in `kilograms`) and the packaging provided for transport by the [=Transport Service User=], excluding any additional packaging or handling equipment used by the Transport Operator or Transport Service Organizer.
       <tr>
         <td><dfn>volume</dfn> : [=Decimal=]
         <td>String
         <td>O
-        <td>The volume of the freight (SI Unit `cubic metre (CBM)`) and any packaging provided by the [=Transport Service User=].
+        <td>The volume of the freight (in `cubic metres`) and any packaging provided by the [=Transport Service User=].
       <tr>
         <td><dfn>shipmentId</dfn>
         <td>String
@@ -995,7 +995,7 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td><dfn>mass</dfn> : [=Decimal=]
         <td>String
         <td>M
-        <td>The freight mass of the consignment (SI derived Unit `kilograms`) and the packaging provided for transport by the Transport Service user, excluding any additional packaging or handling equipment used by the Transport Operator or Transport Service Organizer, in accordance with the [[!GLEC]] Framework.
+        <td>The freight mass of the consignment (in `kilograms`) and the packaging provided for transport by the Transport Service user, excluding any additional packaging or handling equipment used by the Transport Operator or Transport Service Organizer, in accordance with the [[!GLEC]] Framework.
 
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
@@ -1047,7 +1047,7 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>String
         <td>M
         <td>
-            The [=transport activity=] of the TCE (SI derived Unit `ton kilometers`)
+            The [=transport activity=] of the TCE (in `tonne-kilometers`)
 
             <div class=example>
                 If the transport [=distance=] is `700` `kilometers` and the mass is `230` `kilograms`,
@@ -1825,7 +1825,7 @@ encoded as a JSON object.
         <td><dfn>mass</dfn> : [=Decimal=]
         <td>String
         <td>O
-        <td>Mass of freight (SI derived Unit `kilograms`).
+        <td>Mass of freight (in `kilograms`).
       <tr>
         <td><dfn>loadFactor</dfn> : [=Decimal=]
         <td>String
@@ -2060,7 +2060,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>M
         <td>
             The sum total of the transport activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
-            (SI derived Unit `ton kilometers`).
+            (in `tonne-kilometers`).
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
@@ -3780,8 +3780,8 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>CarbonFootprint
         <td>`unitaryProductAmount`
         <td>
-              MUST equal the total ton kilometers over all TCEs (<{ShipmentFootprint/tces}>),
-                    calculated by taking the sum of the ton kilometers over all TCEs (see property <{TCE/transportActivity}>)
+              MUST equal the total tonne-kilometers over all TCEs (<{ShipmentFootprint/tces}>),
+                    calculated by taking the sum of the tonne-kilometers over all TCEs (see property <{TCE/transportActivity}>)
 
       <tr>
         <td>CarbonFootprint
@@ -3993,7 +3993,7 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>CarbonFootprint
         <td>`unitaryProductAmount`
         <td>
-              SHOULD be set to `"1"` so that the ProductFootprint represents the emissions per ton kilometer of the TOC.
+              SHOULD be set to `"1"` so that the ProductFootprint represents the emissions per tonne-kilometer of the TOC.
 
 
       <tr>
@@ -4527,6 +4527,7 @@ First draft release of Version 1.1.0, containing the following changes:
 - addition of new endpoint for [[#txn3]] aligned with the iLEAP standalone protocol
 - addition of new test cases for iLEAP standalone protocol in [[#ileap-conformance-matrix]]
 - updated [[#test-case-027]] (formerly TC007) to accept 401 Unauthorized in addition to 403 Forbidden
+- remove references to SI units
 
 
 ## Version 1.0.1-20260326 (2026-03-26) ## {#version-1.0.1}
