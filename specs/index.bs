@@ -2942,7 +2942,7 @@ With action-specific response parameters
   ```
 </div>
 
-## Common HTTP Endpoint Behaviors ## {#filtering-and-pagination}
+## Common HTTP Endpoint Behaviors ## {#http-rest-api-common-behaviors}
 
 The specifications, behaviors, and considerations of this subchapter apply to all [=iLEAP standalone API=] actions except for [[#action-authenticate]].
 
@@ -4555,9 +4555,11 @@ apply for additional support, materials, and marketing opportunities.
 
 First draft release of Version 1.1.0, containing the following changes:
 - addition of new data transaction 4 ([[#txn4]]) and corresponding data type ([[#dt-ar]])
-- addition of iLEAP standalone protocol
-- deprecation of PACT technical interoperability (see [[#pact-interop]])
+- addition of [=iLEAP standalone protocol=] and [=iLEAP standalone api=] ([[#http-rest-api]])
+    - this new protocol has common behavior as specified in [[#http-rest-api-common-behaviors]]
+- deprecation of PACT technical interoperability (see [[#pact-interop]] and [=PACT-based API=])
 - updated definitions
+- updated introductions for data types <{ShipmentFootprint}> and <{TAD}>
 - fixed references to PACT Technical Specifications v2.2
 - improvements of the PACT Integration Chapter [[#pcf-mapping]]
 - addition of optional <{TAD/specVersion|TAD/specVersion}>
