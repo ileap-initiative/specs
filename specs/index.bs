@@ -2749,7 +2749,7 @@ The following defintions and parameters are used throughout this chapter:
     of the field to filter by, and `$value` the (case-insensitive) value to filter for.
     Filter pairs CAN be concatenated with `&`.
 
-    The `$name` of a filter pair CAN use <dfn>dot notation</dfn> to reference nested or embedded
+    The `$name` of a filter pair CAN use dot notation to reference nested or embedded
     properties within a data type. When dot notation is used:
 
     1. Each segment of the path (separated by `.`) represents a property name;
@@ -3148,12 +3148,10 @@ Issue: example needs revision
 
 Lists the [=data owner=]'s <{TOC|TOCs}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
-To retrieve only one TOC, the [=data recipient=] SHOULD use the [=Filter=] parameter with filter
-pair `tocId=$tocId`, where `$tocId` is the identifier of the TOC as defined in <{TOC/tocId}>.
+Note:
+  To retrieve TOCs based on embedded properties (regardless of the level of nesting),
+  [=data recipients=] SHOULD use [[#filtering]]. See [[#action-tocd-request-examples]] for examples.
 
-To retrive TOCs based on embedded properties (regardless of the level of nesting), such as those of
-their embedded <{TOC/energyCarriers}>, the [=data recipient=] CAN use [=dot notation=]
-in the [=Filter=] parameter.
 
 ### Request Syntax ### {#action-tocd-request}
 
@@ -3173,35 +3171,27 @@ in the [=Filter=] parameter.
   ```
 </div>
 
-<div class=example>
-  Get the `TOC`, with <{TOC/tocId}> equal to `"40t-diesel-2023"`
+To retrieve only one TOC, identified by <{TOC/tocId}> equal to `"40t-diesel-2023"`:
 
+<div class=example>
   ```http
   GET /v1/ileap/tocs?tocId=40t-diesel-2023 HTTP/1.1
   ```
 </div>
 
-<div class=example>
-  Get filtered `TOCs` where the <{TOC/energyCarriers}> include the <{EnergyCarrier/energyCarrier}> `"Diesel"`
+To retrieve <{TOC|TOCs}> where at least one of their <{TOC/energyCarriers}> has <{EnergyCarrier/energyCarrier}> equal to `"Diesel"`:
 
+<div class=example>
   ```http
   GET /v1/ileap/tocs?energyCarriers.energyCarrier=diesel HTTP/1.1
   ```
 </div>
 
-<div class=example>
-  Get filtered `TOCs` where the <{TOC/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
+To filter for `TOCs` where the <{TOC/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
 
+<div class=example>
   ```http
   GET /v1/ileap/tocs?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
-  ```
-</div>
-
-<div class=example>
-  Get a limited amount of `TOCs` (2)
-
-  ```http
-  GET /v1/ileap/tocs?limit=2 HTTP/1.1
   ```
 </div>
 
@@ -3271,11 +3261,10 @@ Issue: example needs revision
 
 Lists the [=data owner=]'s <{HOC|HOCs}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
-To retrieve only one HOC, the [=data recipient=] SHOULD use the [=Filter=] parameter with filter
-pair `hocId=$hocId`, where `$hocId` is the identifier of the HOC as defined in <{HOC/hocId}>.
+Note:
+  To retrieve HOCs based on embedded properties (regardless of the level of nesting),
+  [=data recipients=] SHOULD use [[#filtering]]. See [[#action-hocd-request-examples]] for examples.
 
-To retrieve HOCs based on embedded properties (regardless of the level of nesting), such as those of
-their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot notation=] in the [=Filter=] parameter.
 
 ### Request Syntax ### {#action-hocd-request}
 
@@ -3287,43 +3276,36 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
 
 #### Examples #### {#action-hocd-request-examples}
 
-<div class=example>
-  Get all `HOCs`
+To retrieve all `HOCs`:
 
+<div class=example>
   ```http
   GET /v1/ileap/hocs HTTP/1.1
   ```
 </div>
 
+To retrieve the `HOC` identified by <{HOC/hocId}> equal to `"hub-rotterdam"`:
+
 <div class=example>
-  Get the `HOC`, with <{HOC/hocId}> equal to `"hub-rotterdam"`
 
   ```http
   GET /v1/ileap/hocs?hocId=hub-rotterdam HTTP/1.1
   ```
 </div>
 
-<div class=example>
-  Get filtered `HOCs` where the <{HOC/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
+To filter for `HOCs` where the <{HOC/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
 
+<div class=example>
   ```http
   GET /v1/ileap/hocs?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
   ```
 </div>
 
-<div class=example>
-  Get filtered `HOCs` where the <{HOC/hubLocation}> has <{Location/city}> equal to `"Hamburg"`
+To filter for `HOCs` where the <{HOC/hubLocation}> has <{Location/city}> equal to `"Hamburg"`
 
+<div class=example>
   ```http
   GET /v1/ileap/hocs?hubLocation.city=hamburg HTTP/1.1
-  ```
-</div>
-
-<div class=example>
-  Get a limited amount of `HOCs` (2)
-
-  ```http
-  GET /v1/ileap/hocs?limit=2 HTTP/1.1
   ```
 </div>
 
@@ -3393,12 +3375,9 @@ Issue: example needs revision
 
 Lists the [=data owner=]'s [=Transport Activity Data=] with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
-To retrieve only transport activity data related to a specific activity, the [=data recipient=]
-SHOULD use the [=Filter=] parameter with filter pair `activityId=$activityId`, where `$activityId`
-is the identifier of the activity as defined in <{TAD/activityId}>.
-
-To retrieve transport activity data based on embedded properties (regardless of the level of
-nesting), such as those of their embedded <{TAD/energyCarriers}>, the [=data recipient=] CAN use [=dot notation=] in the [=Filter=] parameter.
+Note:
+  To retrieve shipment footprints based on embedded properties (regardless of the level of nesting),
+  [=data recipients=] SHOULD use [[#filtering]]. See [[#action-tad-request-examples]] for examples.
 
 ### Request Syntax ### {#action-tad-request}
 
@@ -3415,43 +3394,38 @@ endpoint. Below, only the new version is documented.
 
 #### Examples #### {#action-tad-request-examples}
 
-<div class=example>
-  Get all `TransportActivityData`
+To retrieve all `TransportActivityData`:
 
+<div class=example>
   ```http
   GET /v1/ileap/tad HTTP/1.1
   ```
 </div>
 
+To get the `TransportActivity` with <{TAD/activityId}> equal to `"123456"`:
+
 <div class=example>
-  Get the `TransportActivity` with <{TAD/activityId}> equal to `"1"`
 
   ```http
-  GET /v1/ileap/tad?activityId=1 HTTP/1.1
+  GET /v1/ileap/tad?activityId=123456 HTTP/1.1
   ```
 </div>
 
+To filter for `TransportActivityData` where the <{TAD/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`:
+
 <div class=example>
-  Get filtered `TransportActivityData` where the <{TAD/energyCarriers}> include <{EnergyCarrier|EnergyCarriers}> with <{Feedstock/feedstock}> `"Fossil"`
 
   ```http
   GET /v1/ileap/tad?energyCarriers.feedstocks.feedstock=fossil HTTP/1.1
   ```
 </div>
 
+To retrieve `TransportActivityData` with [=Feedstock=] equal to `"Fossil"` and with <{TAD/packagingOrTrEqType}> equal to `"Pallet"`:
+
 <div class=example>
-  Get filtered `TransportActivityData` with [=Feedstock=] `"Fossil"` and <{TAD/packagingOrTrEqType}> `"Pallet"`
 
   ```http
   GET /v1/ileap/tad?feedstock=Fossil&packagingOrTrEqType=pallet HTTP/1.1
-  ```
-</div>
-
-<div class=example>
-  Get a limited amount of `TransportActivityData` (2)
-
-  ```http
-  GET /v1/ileap/tad?limit=2 HTTP/1.1
   ```
 </div>
 
@@ -3554,13 +3528,9 @@ Paginated response ([[#pagination]]):
 
 Lists the [=data owner=]'s <{AggregatedReports}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
-To retrieve only one <{AggregatedReport}>, the [=data recipient=] SHOULD use the [=Filter=]
-parameter with filter pair `reportId=$reportId`, where `$reportId` is the identifier of the report
-as defined in <{AggregatedReport/reportId}>.
-
-To retrieve <{AggregatedReport|AggregatedReports}> based on embedded properties (regardless of the
-level of nesting), such as those of their embedded <{ModeSpecificReport|ModeSpecificReports}>, the
-[=data recipient=] CAN use [=dot notation=] in the [=Filter=] parameter.
+Note:
+  To retrieve AggregatedReports based on embedded properties (regardless of the level of nesting),
+  [=data recipients=] SHOULD use [[#filtering]]. See [[#action-aed-request-examples]] for examples.
 
 ### Request Syntax ### {#action-aed-request}
 
@@ -3572,43 +3542,28 @@ level of nesting), such as those of their embedded <{ModeSpecificReport|ModeSpec
 
 #### Examples #### {#action-aed-request-examples}
 
+To retrieve all `AggregatedReports`:
+
 <div class=example>
-  Get all `AggregatedReports`
 
   ```http
   GET /v1/ileap/aed HTTP/1.1
   ```
 </div>
 
-<div class=example>
-  Get the `AggregatedReport` with <{AggregatedReport/reportId}> equal to `"report-1"`
+To retrieve a single `AggregatedReport`, identified by <{AggregatedReport/reportId}> equal to `"report-1"`:
 
+<div class=example>
   ```http
   GET /v1/ileap/aed?reportId=report-1 HTTP/1.1
   ```
 </div>
 
-<div class=example>
-  Get filtered `AggregatedReports` <{AggregatedReport/reportId}> `"report-1"`
-
-  ```http
-  GET /v1/ileap/aed?reportId=report-1 HTTP/1.1
-  ```
-</div>
+To retrieve all `AggregatedReports` with <{AggregatedReport/perModeEmissions}> including the <{ModeSpecificReport/transportMode}> `"Rail"`
 
 <div class=example>
-  Get filtered `AggregatedReports` with <{AggregatedReport/perModeEmissions}> with <{ModeSpecificReport/transportMode}> equal to `"Rail"`
-
   ```http
   GET /v1/ileap/aed?perModeEmissions.mode=rail HTTP/1.1
-  ```
-</div>
-
-<div class=example>
-  Get a limited amount of `AggregatedReports` (2)
-
-  ```http
-  GET /v1/ileap/aed?limit=2 HTTP/1.1
   ```
 </div>
 
