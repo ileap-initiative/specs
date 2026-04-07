@@ -3051,7 +3051,7 @@ To filter for `ShipmentFootprints` where at least one TCE has the origin <{Locat
 
 ### Response Syntax ### {#action-sd-response}
 
-Response without a link header:
+Non-paginated response:
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3061,7 +3061,7 @@ Response without a link header:
   <l>[=ResponseBody=]</l>
 </pre>
 
-Paginated response with a link header:
+Paginated response ([[#pagination]]):
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3190,7 +3190,7 @@ in the [=Filter=] parameter.
 
 ### Response Syntax ### {#action-tocd-response}
 
-Response without a link header:
+Non-paginated response:
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3200,7 +3200,7 @@ Response without a link header:
   <l>[=ResponseBody=]</l>
 </pre>
 
-Paginated response with a link header:
+Paginated response ([[#pagination]]):
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3315,7 +3315,7 @@ their embedded <{HOC/energyCarriers}>, the [=data recipient=] CAN use [=dot nota
 
 ### Response Syntax ### {#action-hocd-response}
 
-Response without a link header:
+Non-paginated response:
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3325,7 +3325,7 @@ Response without a link header:
   <l>[=ResponseBody=]</l>
 </pre>
 
-Paginated response with a link header:
+Paginated response ([[#pagination]]):
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3446,7 +3446,7 @@ endpoint. Below, only the new version is documented.
 
 ### Response Syntax ### {#action-tad-response}
 
-Response without a `link` header:
+Non-paginated response:
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3456,7 +3456,7 @@ Response without a `link` header:
   <l>[=ResponseBody=]</l>
 </pre>
 
-Paginated response with a `link` header:
+Paginated response ([[#pagination]]):
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3606,7 +3606,7 @@ level of nesting), such as those of their embedded <{ModeSpecificReport|ModeSpec
 
 ### Response Syntax ### {#action-aed-response}
 
-Response without a `link` header:
+Non-paginated response:
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
@@ -3616,7 +3616,7 @@ Response without a `link` header:
   <l>[=ResponseBody=]</l>
 </pre>
 
-Paginated response with a `link` header:
+Paginated response ([[#pagination]]):
 
 <pre highlight=http>
   HTTP/1.1 <l>[=StatusCode=]</l> <l>[=StatusText=]</l>
