@@ -3001,13 +3001,9 @@ Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRE
 A [=Host system=] MUST implement an access management system to return only the <{ShipmentFootprint|ShipmentFootprints}>
 intended for the requesting [=data recipient=].
 
-To retrieve only one shipment footprint related to a specific shipment, the [=data recipient=]
-SHOULD use the [=Filter=] parameter with filter pair `shipmentId=$shipmentId`, where `$shipmentId`
-is the identifier of the shipment as defined in <{ShipmentFootprint/shipmentId}>.
-
-To retrieve shipment footprints based on embedded properties (regardless of the level of nesting),
-such as those of their embedded [=TCEs=], the [=data recipient=] CAN use [=dot notation=] in the
-[=Filter=] parameter.
+Note:
+  To retrieve shipment footprints based on embedded properties (regardless of the level of nesting),
+  [=data recipients=] SHOULD use [[#filtering]]. See [[#action-sd-request-examples]] for examples.
 
 ### Request Syntax ### {#action-sd-request}
 
@@ -3019,32 +3015,34 @@ such as those of their embedded [=TCEs=], the [=data recipient=] CAN use [=dot n
 
 #### Examples #### {#action-sd-request-examples}
 
-<div class=example>
-  Get all `ShipmentFootprints`
+To retrieve all shipment footprints, the [=data recipient=] can call the endpoint as follows:
 
+<div class=example>
   ```http
   GET /v1/ileap/shipments HTTP/1.1
   ```
 </div>
 
-<div class=example>
-  Get the `ShipmentFootprint` with <{ShipmentFootprint/shipmentId}> equal to `"shipment-1"`
+To retrieve a single shipment for the shipment with <{ShipmentFootprint/shipmentId}> equal to `47389557`,
+the [=data recipient=] can use the [=Filter=] parameter with filter pair `shipmentId=$shipmentId` as follows:
 
+<div class=example>
   ```http
-  GET /v1/ileap/shipments?shipmentId=shipment-1 HTTP/1.1
+  GET /v1/ileap/shipments?shipmentId=47389557 HTTP/1.1
   ```
 </div>
 
-<div class=example>
-  Get filtered `ShipmentFootprints` where at least one TCE has <{TCE/tceId}> equal to `"40t-diesel-2023"`
+To get `ShipmentFootprints` where at least one TCE has <{TCE/tceId}> equal to `"40t-diesel-2023"`:
 
+<div class=example>
   ```http
   GET /v1/ileap/shipments?tces.tceId=40t-diesel-2023 HTTP/1.1
   ```
 </div>
 
+To filter for `ShipmentFootprints` where at least one TCE has the origin <{Location/city}> equal to `"Berlin"`:
+
 <div class=example>
-  Get filtered `ShipmentFootprints` where at least one TCE has the origin <{Location/city}> equal to `"Berlin"`
 
   ```http
   GET /v1/ileap/shipments?tces.origin.city=berlin HTTP/1.1
