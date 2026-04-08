@@ -2653,7 +2653,7 @@ The iLEAP Technical Specifications define two REST API families:
       1. [[#action-tocd]] for the exchange of <{TOC|TOCs}>
       1. [[#action-hocd]] for the exchange of <{HOC|HOCs}>
       1. [[#action-tad]] for the exchange of <{TAD}>
-      1. [[#action-aed]] for the exchange of <{AR|Aggregated Reports}> 
+      1. [[#action-aed]] for the exchange of <{AR|Aggregated Reports}>
 
     Except for [[#action-authenticate|Action Authenticate]], all actions share characteristics
     regarding the [[#access-control|access control]], [[#filtering|filtering]], and [[#pagination|pagination]] of results,
@@ -3005,10 +3005,10 @@ Upon a [=host system=] returning a [=pagination link=]:
 
 A [=data recipient=] CAN trigger pagination by supplying a [=Limit=] request parameter.
 
-Irrespective of whether a [=Limit=] parameter is supplied, a [=data recipient=] MUST
-be able to process paginated responses, such that
-1. it MUST be able to process responses containing a pagination link, and
-1. it MUST be able to call pagination links until no more pagination link are
+Irrespective of whether a [=Limit=] parameter is supplied, a [=data recipient=] SHOULD
+be able to process paginated responses, such that it is able
+1. to process responses containing a pagination link, and
+1. to call pagination links until no more pagination link are
     provided by the host system.
 
 [=Data recipients=] SHOULD implement a strategy to deal with pagination links no
