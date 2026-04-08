@@ -3793,7 +3793,7 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>CarbonFootprint
         <td>`productMassPerDeclaredUnit`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] Data Model but will become mandatory in v3.
+              This property is optional in the [[!PACTDX]] Data Model but will become mandatory in v3.
 
               MUST equal the mass of the shipment (<{ShipmentFootprint/mass}>).
 
@@ -3810,7 +3810,7 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>CarbonFootprint
         <td>`pCfIncludingBiogenic`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] Data Model.
+              This property is optional in the [[!PACTDX]] Data Model.
 
               It SHOULD be kept undefined.
 
@@ -4006,7 +4006,7 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>CarbonFootprint
         <td>`productMassPerDeclaredUnit`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] Data Model but will become mandatory in v3.
+              This property is optional in the [[!PACTDX]] Data Model but will become mandatory in v3.
 
               MUST be set to `"1"`.
 
@@ -4023,7 +4023,7 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>CarbonFootprint
         <td>`pCfIncludingBiogenic`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] Data Model.
+              This property is optional in the [[!PACTDX]] Data Model.
 
               It SHOULD be kept undefined.
 
@@ -4220,7 +4220,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>CarbonFootprint
         <td>`productMassPerDeclaredUnit`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] Data Model but will become mandatory in v3.
+              This property is optional in the [[!PACTDX]] Data Model but will become mandatory in v3.
 
               MUST be set to `"1000"`.
 
@@ -4241,7 +4241,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>CarbonFootprint
         <td>`pCfIncludingBiogenic`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] data Model.
+              This property is optional in the [[!PACTDX]] data Model.
 
               It SHOULD be kept undefined.
 
