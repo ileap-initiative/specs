@@ -3021,7 +3021,7 @@ or completely re-starting the data retrieval process from the beginning.
 Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
 
 Note:
-  To retrieve shipment footprints based on embedded properties (regardless of the level of nesting),
+  To retrieve <{ShipmentFootprint|ShipmentFootprints}> based on embedded properties (regardless of the level of nesting),
   [=data recipients=] SHOULD use [[#filtering]]. See [[#action-sd-request-examples]] for examples.
 
 ### Request Syntax ### {#action-sd-request}
@@ -3034,7 +3034,7 @@ Note:
 
 #### Examples #### {#action-sd-request-examples}
 
-To retrieve all shipment footprints, the [=data recipient=] can call the endpoint as follows:
+To retrieve all `ShipmentFootprints`, the [=data recipient=] can call the endpoint as follows:
 
 <div class=example>
   ```http
@@ -3042,7 +3042,7 @@ To retrieve all shipment footprints, the [=data recipient=] can call the endpoin
   ```
 </div>
 
-To retrieve a single shipment for the shipment with <{ShipmentFootprint/shipmentId}> equal to `47389557`,
+To retrieve the `ShipmentFootprint` for the shipment with <{ShipmentFootprint/shipmentId}> equal to `47389557`,
 the [=data recipient=] can use the [=Filter=] parameter with filter pair `shipmentId=$shipmentId` as follows:
 
 <div class=example>
@@ -3145,7 +3145,7 @@ Issue: example needs revision
 
 ## Action TOCData ## {#action-tocd}
 
-Lists the [=data owner=]'s <{TOC|TOCs}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
+Lists the [=data owner=]'s <{TOC|TOCs}> with REQUIRED [[#access-control]], REQUIRED [[#pagination]], and OPTIONAL [[#filtering]].
 
 Note:
   To retrieve TOCs based on embedded properties (regardless of the level of nesting),
@@ -3258,7 +3258,7 @@ Issue: example needs revision
 
 ## Action HOCData ## {#action-hocd}
 
-Lists the [=data owner=]'s <{HOC|HOCs}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
+Lists the [=data owner=]'s <{HOC|HOCs}> with REQUIRED [[#access-control]], REQUIRED [[#pagination]], and OPTIONAL [[#filtering]].
 
 Note:
   To retrieve HOCs based on embedded properties (regardless of the level of nesting),
@@ -3372,10 +3372,10 @@ Issue: example needs revision
 
 ## Action TransportActivityData ## {#action-tad}
 
-Lists the [=data owner=]'s [=Transport Activity Data=] with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
+Lists the [=data owner=]'s [=Transport Activity Data=] with REQUIRED [[#access-control]], REQUIRED [[#pagination]], and OPTIONAL [[#filtering]].
 
 Note:
-  To retrieve shipment footprints based on embedded properties (regardless of the level of nesting),
+  To retrieve `TransportActivityData` based on embedded properties (regardless of the level of nesting),
   [=data recipients=] SHOULD use [[#filtering]]. See [[#action-tad-request-examples]] for examples.
 
 ### Request Syntax ### {#action-tad-request}
@@ -3525,10 +3525,10 @@ Paginated response ([[#pagination]]):
 
 ## Action AggregatedEmissionsData ## {#action-aed}
 
-Lists the [=data owner=]'s <{AggregatedReports}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
+Lists the [=data owner=]'s <{AggregatedReports}> with REQUIRED [[#access-control]], REQUIRED [[#pagination]], and OPTIONAL [[#filtering]].
 
 Note:
-  To retrieve AggregatedReports based on embedded properties (regardless of the level of nesting),
+  To retrieve `AggregatedReports` based on embedded properties (regardless of the level of nesting),
   [=data recipients=] SHOULD use [[#filtering]]. See [[#action-aed-request-examples]] for examples.
 
 ### Request Syntax ### {#action-aed-request}
@@ -3558,7 +3558,7 @@ To retrieve a single `AggregatedReport`, identified by <{AggregatedReport/report
   ```
 </div>
 
-To retrieve all `AggregatedReports` with <{AggregatedReport/perModeEmissions}> including the <{ModeSpecificReport/transportMode}> `"Rail"`
+To retrieve `AggregatedReports` with <{AggregatedReport/perModeEmissions}> including the <{ModeSpecificReport/transportMode}> `"Rail"`
 
 <div class=example>
   ```http
@@ -4510,7 +4510,7 @@ apply for additional support, materials, and marketing opportunities.
 First draft release of Version 1.1.0, containing the following changes:
 - addition of new data transaction 4 ([[#txn4]]) and corresponding data type ([[#dt-ar]])
 - addition of [=iLEAP standalone protocol=] and [=iLEAP standalone api=] ([[#http-rest-api]])
-    - this new protocol has common behavior as specified in [[#http-rest-api-common-behaviors]]
+    - including common behavior specified in [[#http-rest-api-common-behaviors]]
 - deprecation of PACT technical interoperability (see [[#pact-interop]] and [=PACT-based API=])
 - updated definitions
 - updated introductions for data types <{ShipmentFootprint}> and <{TAD}>
