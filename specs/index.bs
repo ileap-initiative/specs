@@ -740,8 +740,8 @@ data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIO
 
 
 <div class="advisement" id="M*" style="text-align: center">
-  <strong>Properties marked with `M*` are required when using the [=iLEAP standalone protocol=], but
-  optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already required in
+  <strong>Properties marked with `M*` are mandatory when using the [=iLEAP standalone protocol=], but
+  optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already mandatory in
   the PACT Data Model (see [[#pcf-mapping]]).</strong>
 </div>
 
