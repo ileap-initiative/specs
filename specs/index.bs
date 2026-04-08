@@ -350,13 +350,13 @@ Note: Non-normative section
 
 A data transaction is an abstraction for the exchange of data between two parties, serving one or more business cases ([[#business-cases]]).
 
-It facilitates interoperability between different parties by explaining the context and their intention(s).
+It facilitates interoperability between different parties by explaining the context and their intentions.
 
-Each transaction enables interoperability between [=host systems=], exchanging data in the format
-defined by the iLEAP data model ([[#data-model]]) through the protocol defined in
-[[#http-rest-api]] or the PACT Data Exchange Protocol ([[#pcf-mapping]]).
+Each transaction enables interoperability between [=host systems=] by exchanging data in the format
+defined by the iLEAP data model ([[#data-model]]) through the protocols defined in
+[[#http-rest-api]] and the PACT Data Exchange Protocol ([[#pcf-mapping]]).
 
-The following diagram shows how the three data transactions (defined below) are related:
+The following diagram shows how data transactions 1, 2, and 3 are related:
 
 Issue: A new diagram reflecting Data Transaction 4 is needed.
 
@@ -365,21 +365,21 @@ Issue: A new diagram reflecting Data Transaction 4 is needed.
   <figcaption>Transactions diagram</figcaption>
 </figure>
 
-Note: A [=Tool Provider=] can assume various roles on behalf of the [=Transport Service User=], [=Transport Service Organizer=], or [=Transport Operator=], as outlined in the data transactions below. They can serve as mediators in activities involving data collection, calculation, and reporting.
+Note: A [=Tool Provider=] can assume various roles on behalf of the [=Transport Service User=], [=Transport Service Organizer=], or [=Transport Operator=]. They can serve as mediators in activities involving data collection, calculation, and reporting.
 
 ## Data Transaction 1: TCE Data Exchange ## {#txn1}
 
-This data transaction enables a [=Transport Service User=] (for example, a [=shipper=]) to receive [=Transport Chain Elements=]' emissions related data (encoded as <{TCE|TCEs}>) from a
+This data transaction enables a [=Transport Service User=] (for example, a [=shipper=]) to receive emissions from [=Transport Chain Elements=] from a
 [=Transport Operator=] or a [=Transport Service Organizer=] for a single [=shipment=].
 
 To execute this transaction, the [=Transport Operator=] or the [=Transport Service Organizer=] MUST
 
-1. calculate 1 or more TCEs' emissions data in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
+1. calculate the emissions of 1 or more [=Transport Chain Elements=] in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
 2. make the resulting <{ShipmentFootprint}> available to the [=Transport Service User=]
-    through the [=iLEAP standalone protocol=] ([[#action-sd]]) and through the PACT Network API (see [[#pcf-mapping-sf]]).
+    through the (recommended) [=iLEAP standalone protocol=] ([[#action-sd]]) and through the (deprecated) PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
 
-The [=Transport Service User=] CAN then derive the Transport Chain ([=TC=]) using the [=shipment id=], by
-1. collecting the <{TCE|TCEs}> from all the [=Transport Operators=] and the [=Transport Service Organizers=] involved in the shipment;
+The [=Transport Service User=] CAN then derive emissions using the [=shipment id=], by
+1. collecting the <{TCE|TCEs}> from the <{ShipmentFootprint|ShipmentFootprints}> of all the [=Transport Operators=] and the [=Transport Service Organizers=] involved in the shipment;
 2. forming the [=TC=] from the collected TCEs;
 3. calculating the logistics emissions of the shipment in accordance with the [[!GLEC]] Framework and [[!ISO14083]].
 
@@ -388,40 +388,51 @@ Note: For an example exchange, see [[#example]].
 
 ## Data Transaction 2: TOC or HOC Data Exchange ## {#txn2}
 
-This data transaction enables a [=Transport Service Organizer=] to receive [=TOC=] or [=HOC=] emission intensity data from a [=Transport Operator=].
+This data transaction enables a [=Transport Service Organizer=] or a [=Transport Service User=] to receive [=TOC=] or [=HOC=] emission intensity data from a [=Transport Operator=].
 
-The provision of emission intensity data at the [=TOC=] or [=HOC=] level would enable the [=Transport Service Organizer=] to collect the necessary information to calculate emissions according to the GLEC Framework and [[!ISO14083]].
-It can also facilitate the inclusion of emission intensity in procurement processes, allowing for the provision of services that offer carbon-efficiency advantages (see Business Case 2).
+The provision of emission intensity data at the [=TOC=] or [=HOC=] level enables the [=Transport Service Organizer=] or [=Transport Service User=] to collect the necessary information to calculate emissions according to the GLEC Framework and [[!ISO14083]].
+It also facilitates the inclusion of emission intensity in procurement processes, allowing for the provision of services that offer carbon-efficiency advantages (see Business Case 2).
 
-To execute this transaction the [=Transport Operator=] or [=Transport Service Organizer=] MUST
+To execute this transaction, first the [=Transport Operator=] or [=Transport Service Organizer=] MUST
 
 1. calculate 1 or more TOC or HOC emission profiles in accordance with the [[!GLEC]] Framework and [[!ISO14083]], and then
 2. make the resulting <{TOC|TOCs}> or <{HOC|HOCs}> available through the [=iLEAP standalone protocol=] ([[#action-tocd]] and
-    [[#action-hocd]]) and through the PACT Network API (see [[#pcf-mapping]]).
+    [[#action-hocd]]) and through the PACT Data Exchange Protocol (see [[#pcf-mapping]]).
 
     Note: Details on the definition and calculation of [=TOCs=] and [=HOCs=] are specified in [[!ISO14083]]
     and guidance is provided in the [[!GLEC]] Framework.
 
+Then, a [=Transport Service Organizer=] or a [=Transport Service User=] can
+retrieve the <{TOC|TOCs}> or <{HOC|HOCs}> using the (recommended)
+[=iLEAP standalone protocol=] ([[#action-tocd]] and [[#action-hocd]])
+or the (deprecated) PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
+(see [[#pcf-mapping]] for details).
+
 
 ## Data Transaction 3: Transport Activity Data Exchange ## {#txn3}
 
-This data transaction enables a [=Transport Service Organizer=] or a [=Transport Service User=] to
-receive [=Transport Activity Data=] from a [=Transport Operator=], as described in [[#business-case-3]].
-
-<{TAD|TADs}> should only be used by [=Transport Operators=] who cannot yet provide <{ShipmentFootprint|ShipmentFootprints}>,
-<{TOC|TOCs}>, nor <{HOC|HOCs}>.
-
-To execute this transaction, the [=Transport Operator=] MUST
-
-1. collect Transport Activity Data belonging to a consignment identified by the [=consignment id=].
-2. make the <{TAD}> available through [[#action-tad]].
-
-The [=Transport Service Organizer=] or [=Transport Service User=] CAN then retrieve the <{TAD|TADs}> using the [=consignment ids=].
-
 Note:
-      This data transaction is considered necessary by logistics parties, especially for SMEs,
-      lacking the capabilities to make emissions data available. Through this transaction they can
-      provide activity data to their customers.
+      This data transaction is considered necessary by logistics parties, especially SMEs,
+      lacking the capabilities to make emissions data available. Yet, standardizing the
+      exchange of activity data can enable the use of primary data and facilitate the calculation of emissions data.
+
+This data transaction enables a [=Transport Service Organizer=] or a [=Transport Service User=] to
+receive [=Transport Activity Data=] from a [=Transport Operator=], as described in Business Case 3 ([[#business-case-3]]).
+
+Using Data Transaction 3 is recommended for the following cases:
+
+1. emissions data (at the level of <{ShipmentFootprint|ShipmentFootprints}>,
+    <{TOC|TOCs}>, or <{HOC|HOCs}>) is not (yet) available, or
+2. the data flow is used to calculate emissions data, e.g. by a [=Tool Provider=] on behalf of a [=Transport Service Organizer=] or a [=Transport Operator=].
+
+To enable this transaction, the data owner (a [=Transport Operator=] or [=Transport Service Organizer=]) must
+
+1. collect Transport Activity Data scoped by a single consignment, and then
+2. make the resulting <{TAD}> available through [[#action-tad]].
+
+Then, the [=Transport Service Organizer=] or [=Transport Service User=] can retrieve
+the <{TAD|TADs}> through the [=ileap standalone protocol=] using [[#action-tad]]).
+
 
 ## Data Transaction 4: Aggregated Emissions Data Exchange ## {#txn4}
 
@@ -434,7 +445,7 @@ information"j)").
 
 To execute this transaction, a [=Transport Operator=] or [=Transport Service Organizer=] MUST:
 
-1.  calculate all <{TCE|TCEs}>' emissions corresponding to the shipment(s) in accordance with the GLEC Framework and ISO 14083,
+1. calculate all <{TCE|TCEs}>' emissions corresponding to the shipment(s) in accordance with the GLEC Framework and ISO 14083,
 2. generate the <{AR|AggregatedReport}> from the collected <{TCE|TCEs}>, and
 3. make the <{AR|AggregatedReport}> available to a [=Transport Service Organizer=], [=Transport Service
     User=], or Public Body, through an iLEAP Conformant API.
@@ -530,7 +541,7 @@ The highlighted lines show the data exchanged according to the <{ShipmentFootpri
 Issue: Consider having an example with the iLEAP standalone protocol instead, moving this to the examples section.
 
 <div class=example>
-  Example HTTP Request (cURL) to collect TCE Data from Transport Operator A, using the PACT Network API (please note that an actual API call would require authentication):
+  Example HTTP Request (cURL) to collect TCE data from Transport Operator A, using the PACT Data Exchange Protocol (required authentication is omitted here):
   <pre highlight='sh'>
       curl -X 'GET' \
       'https://api.transport-operator-a.com/2/footprints' \
@@ -613,7 +624,7 @@ Note: The highlighted lines show 2 <{TCE|TCEs}> which `Carrier A` has collected 
 Issue: Consider having an example with the iLEAP standalone protocol instead, moving this to the examples section.
 
 <div class=example>
-  Example HTTP Request (cURL) to collect TCE Data using the PACT Network API (please note that an actual API call would require authentication):
+  Example HTTP Request (cURL) to collect TCE data using the PACT Data Exchange Protocol (required authentication is omitted):
   <pre highlight='sh'>
       curl -X 'GET' \
       'https://api.transport-organizer.com/2/footprints' \
@@ -1181,7 +1192,7 @@ The Data Type <{TOC}> contains transport operation category data.
 
 The [=Transport Operator=] or [=Transport Service Organizer=] MUST calculate the <{TOC}> in accordance with the [[!GLEC]] Framework.
 
-The [=Transport Operator=] or [=Transport Service Organizer=] SHOULD then make the <{TOC}> available through the PACT Network API as a `ProductFootprint` (see [[#pcf-mapping-toc]]).
+The [=Transport Operator=] or [=Transport Service Organizer=] SHOULD then make the <{TOC}> available through the RECOMMENDED [=iLEAP standalone protocol=] ([[#action-sd]]) and through the DEPRECATED PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
 
 Transport Operation Category data can be obtained from direct measurement
 (see `primary data` definition of [[!ISO14083]]) or other measurements
