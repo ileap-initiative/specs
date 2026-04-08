@@ -833,7 +833,7 @@ Issue: Consider adding
             : `Active`
             :: The default `status` of a <{ShipmentFootprint}> is `Active`. A <{ShipmentFootprint}> with status Active CAN be used by data recipients for logistics emissions calculations.
             : `Deprecated`
-            :: The <{ShipmentFootprint}> is deprecated and SHOULD NOT be used for logistics emissions calculations by data recipients.
+            :: The <{ShipmentFootprint}> SHOULD NOT be used for logistics emissions calculations by data recipients.
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
@@ -922,7 +922,7 @@ The emissions data represented in a <{TCE}> can be obtained from direct measurem
 (see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
 
 <{TCE|TCEs}> are typically calculated by [=Transport Operators=] and [=Transport Service Organizers=]. They are made available to [=Transport Service Users=] through
-the <{ShipmentFootprint}> data type (see [[#dt-sf]]), through the RECOMMENDED [=iLEAP standalone protocol=] (see [[#action-sd]]) and through the DEPRECATED
+the <{ShipmentFootprint}> data type (see [[#dt-sf]]), through the RECOMMENDED [=iLEAP standalone protocol=] (see [[#action-sd]]) and through the (deprecated)
 PACT Data Exchange Protocol (see [[#pcf-mapping]]).
 
 ### Ordering of TCEs ### {#tce-ordering}
@@ -1207,7 +1207,7 @@ The Data Type <{TOC}> contains transport operation category data.
 
 The [=Transport Operator=] or [=Transport Service Organizer=] MUST calculate the <{TOC}> in accordance with the [[!GLEC]] Framework.
 
-The [=Transport Operator=] or [=Transport Service Organizer=] SHOULD then make the <{TOC}> available through the RECOMMENDED [=iLEAP standalone protocol=] ([[#action-sd]]) and through the DEPRECATED PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
+The [=Transport Operator=] or [=Transport Service Organizer=] SHOULD then make the <{TOC}> available through the RECOMMENDED [=iLEAP standalone protocol=] ([[#action-sd]]) and through the (deprecated) PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
 
 Transport Operation Category data can be obtained from direct measurement
 (see `primary data` definition of [[!ISO14083]]) or other measurements
@@ -2700,8 +2700,8 @@ The iLEAP Technical Specifications define two REST API families:
     flow defined in [[!PACTDX]] chapter 6.3.
 
     Since April 1 2026, the v2 family of the PACT Technical Specifications, including [[PACTDX]],
-    is sunset. Consequently, the [=PACT-based API=] approach is DEPRECATED.
-    For backward compatibility reasons, a [=host system=] MUST implement the PACT-based API.
+    is sunset. Consequently, the [=PACT-based API=] approach SHOULD only
+    be used for backward compatibility reasons.
 
 
 Advisement: We recommend new implementations to use the [=iLEAP standalone API=] by default.
@@ -3803,7 +3803,7 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>CarbonFootprint
         <td>`productMassPerDeclaredUnit`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] data Model but will become MANDATORY in v3.
+              This property is optional in the [[!PACTDX]] Data Model but will become mandatory in v3.
 
               MUST equal the mass of the shipment (<{ShipmentFootprint/mass}>).
 
@@ -3820,7 +3820,7 @@ Note: Section [[#appendix-b-sf-example]] contains an example.
         <td>CarbonFootprint
         <td>`pCfIncludingBiogenic`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] data Model.
+              This property is optional in the [[!PACTDX]] Data Model.
 
               It SHOULD be kept undefined.
 
@@ -4016,7 +4016,7 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>CarbonFootprint
         <td>`productMassPerDeclaredUnit`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] data Model but will become MANDATORY in v3.
+              This property is optional in the [[!PACTDX]] Data Model but will become mandatory in v3.
 
               MUST be set to `"1"`.
 
@@ -4033,7 +4033,7 @@ Note: Section [[#appendix-b-toc-example]] contains an example.
         <td>CarbonFootprint
         <td>`pCfIncludingBiogenic`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] data Model.
+              This property is optional in the [[!PACTDX]] Data Model.
 
               It SHOULD be kept undefined.
 
@@ -4230,7 +4230,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>CarbonFootprint
         <td>`productMassPerDeclaredUnit`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] data Model but will become MANDATORY in v3.
+              This property is optional in the [[!PACTDX]] Data Model but will become mandatory in v3.
 
               MUST be set to `"1000"`.
 
@@ -4251,7 +4251,7 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>CarbonFootprint
         <td>`pCfIncludingBiogenic`
         <td>
-              This property is OPTIONAL in the [[!PACTDX]] data Model.
+              This property is optional in the [[!PACTDX]] data Model.
 
               It SHOULD be kept undefined.
 
@@ -4892,7 +4892,7 @@ In order to test the conformance of an iLEAP implementation, the following tests
 
 With the deprecation of PACT v2.2.0 interoperability, we have introduced new iLEAP-native actions
 and endpoints. Yet, for backward compatility reasons, [[!PACTDX]] v2.2.0 implementation will remain
-mandatory until the release of iLEAP v2.0.0. Accordingly, the mandatory tests documented in [PACT
+required until the release of iLEAP v2.0.0. Accordingly, the tests marked as "mandatory" in [PACT
 Tech Specs Test
 Cases](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
 should also be performed.
