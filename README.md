@@ -1,5 +1,7 @@
 # iLEAP Protocol Technical Specifications
 
+<img width="200" height="400" alt="iLEAP logo" align="right" src="https://github.com/user-attachments/assets/e3d0e5ad-8230-41e0-88bf-6a2f94f0a761" />
+
 This repository contains the Technical Specifications for the [iLEAP Protocol](#ileap-protocol).
 
 The [iLEAP initiative](https://ileap.global) is sponsored by [SINE Foundation](https://sine.foundation) and [Smart Freight Centre](https://smartfreightcentre.org/en/).
