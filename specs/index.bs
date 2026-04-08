@@ -740,8 +740,8 @@ data extensions in the PACT Data Model ([[!PACTDX]]) (see [[!DATA-MODEL-EXTENSIO
 
 
 <div class="advisement" id="M*" style="text-align: center">
-  <strong>Properties marked with `M*` are mandatory when using the [=iLEAP standalone protocol=], but
-  optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already mandatory in
+  <strong>Properties marked with `M*` are required when using the [=iLEAP standalone protocol=], but
+  optional when exchanging iLEAP data as a PACT Data Model Extension, as they are already required in
   the PACT Data Model (see [[#pcf-mapping]]).</strong>
 </div>
 
@@ -4881,7 +4881,7 @@ In order to test the conformance of an iLEAP implementation, the following tests
 
 With the deprecation of PACT v2.2.0 interoperability, we have introduced new iLEAP-native actions
 and endpoints. Yet, for backward compatility reasons, [[!PACTDX]] v2.2.0 implementation will remain
-mandatory until the release of iLEAP v2.0.0. Accordingly, the mandatory tests documented in [PACT
+required until the release of iLEAP v2.0.0. Accordingly, the tests marked as "mandatory" in [PACT
 Tech Specs Test
 Cases](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
 should also be performed.
