@@ -128,7 +128,7 @@ The iLEAP Technical Specifications are the result of a collaborative effort by n
 The authors would like to thank the many individuals and organizations for their contributions and their commitment to iLEAP in the various phases of its development.
 
 
-# Definitions # {#definitions}
+# Definitions and Conventions # {#definitions}
 
 ## ISO14083- and GLEC-Framework-related Definitions ## {#iso14083-definitions}
 : <dfn>Actual Distance</dfn>
@@ -252,6 +252,16 @@ Issue: Needs revision
 
 : <dfn data-lt="Smart Freight Center|SFC" data-noexport>Smart Freight Centre (SFC)</dfn>
 :: The [Smart Freight Centre](https://www.smartfreightcentre.org) Organization.
+
+## Conventions ## {#conventions}
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+"OPTIONAL" in this document are to be interpreted as described in
+[BCP14](https://www.rfc-editor.org/info/bcp14) [[!RFC2119]]
+[[!RFC8174]] when, and only when, they appear in all
+capitals, as shown here.
+
 
 # Business Cases # {#business-cases}
 
@@ -4537,6 +4547,7 @@ First draft release of Version 1.1.0, containing the following changes:
 - updated [[#test-case-027]] (formerly TC007) to accept 401 Unauthorized in addition to 403 Forbidden
 - remove references to SI units
 - use 'backward compatibility' instad of 'backwards compatibility' for consistency
+- addition of the normative language subchapter [[#conventions]]
 
 
 ## Version 1.0.1-20260326 (2026-03-26) ## {#version-1.0.1}
