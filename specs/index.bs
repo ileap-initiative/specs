@@ -4536,6 +4536,7 @@ First draft release of Version 1.1.0, containing the following changes:
 - addition of new test cases for iLEAP standalone protocol in [[#ileap-conformance-matrix]]
 - updated [[#test-case-027]] (formerly TC007) to accept 401 Unauthorized in addition to 403 Forbidden
 - remove references to SI units
+- use 'backward compatibility' instad of 'backwards compatibility' for consistency
 
 
 ## Version 1.0.1-20260326 (2026-03-26) ## {#version-1.0.1}
@@ -4879,7 +4880,7 @@ In order to test the conformance of an iLEAP implementation, the following tests
 ## PACT Conformance Tests ## {#pact-conformance-tests}
 
 With the deprecation of PACT v2.2.0 interoperability, we have introduced new iLEAP-native actions
-and endpoints. Yet, for backwards compatility reasons, [[!PACTDX]] v2.2.0 implementation will remain
+and endpoints. Yet, for backward compatility reasons, [[!PACTDX]] v2.2.0 implementation will remain
 mandatory until the release of iLEAP v2.0.0. Accordingly, the mandatory tests documented in [PACT
 Tech Specs Test
 Cases](https://docs.carbon-transparency.org/pact-conformance-service/v2-test-cases-expected-results.html)
