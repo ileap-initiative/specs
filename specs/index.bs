@@ -823,7 +823,7 @@ Issue: Consider adding
             : `Active`
             :: The default `status` of a <{ShipmentFootprint}> is `Active`. A <{ShipmentFootprint}> with status Active CAN be used by data recipients for logistics emissions calculations.
             : `Deprecated`
-            :: The <{ShipmentFootprint}> is deprecated and SHOULD NOT be used for logistics emissions calculations by data recipients.
+            :: The <{ShipmentFootprint}> SHOULD NOT be used for logistics emissions calculations by data recipients.
       <tr>
         <td><dfn>referencePeriodStart</dfn>
         <td>String
@@ -912,7 +912,7 @@ The emissions data represented in a <{TCE}> can be obtained from direct measurem
 (see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
 
 <{TCE|TCEs}> are typically calculated by [=Transport Operators=] and [=Transport Service Organizers=]. They are made available to [=Transport Service Users=] through
-the <{ShipmentFootprint}> data type (see [[#dt-sf]]), through the RECOMMENDED [=iLEAP standalone protocol=] (see [[#action-sd]]) and through the DEPRECATED
+the <{ShipmentFootprint}> data type (see [[#dt-sf]]), through the RECOMMENDED [=iLEAP standalone protocol=] (see [[#action-sd]]) and through the (deprecated)
 PACT Data Exchange Protocol (see [[#pcf-mapping]]).
 
 ### Ordering of TCEs ### {#tce-ordering}
@@ -1197,7 +1197,7 @@ The Data Type <{TOC}> contains transport operation category data.
 
 The [=Transport Operator=] or [=Transport Service Organizer=] MUST calculate the <{TOC}> in accordance with the [[!GLEC]] Framework.
 
-The [=Transport Operator=] or [=Transport Service Organizer=] SHOULD then make the <{TOC}> available through the RECOMMENDED [=iLEAP standalone protocol=] ([[#action-sd]]) and through the DEPRECATED PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
+The [=Transport Operator=] or [=Transport Service Organizer=] SHOULD then make the <{TOC}> available through the RECOMMENDED [=iLEAP standalone protocol=] ([[#action-sd]]) and through the (deprecated) PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
 
 Transport Operation Category data can be obtained from direct measurement
 (see `primary data` definition of [[!ISO14083]]) or other measurements
@@ -2690,8 +2690,8 @@ The iLEAP Technical Specifications define two REST API families:
     flow defined in [[!PACTDX]] chapter 6.3.
 
     Since April 1 2026, the v2 family of the PACT Technical Specifications, including [[PACTDX]],
-    is sunset. Consequently, the [=PACT-based API=] approach is DEPRECATED.
-    For backward compatibility reasons, a [=host system=] MUST implement the PACT-based API.
+    is sunset. Consequently, the [=PACT-based API=] approach SHOULD only
+    be used for backward compatibility reasons.
 
 
 Advisement: We recommend new implementations to use the [=iLEAP standalone API=] by default.
