@@ -2656,7 +2656,7 @@ The iLEAP Technical Specifications define two REST API families:
       1. [[#action-aed]] for the exchange of <{AR|Aggregated Reports}>
 
     Except for [[#action-authenticate|Action Authenticate]], all actions share characteristics
-    regarding the [[#access-control|access control]], [[#filtering|filtering]], and [[#pagination|pagination]] of results,
+    regarding [[#access-control|access control]], [[#filtering|filtering]], and [[#pagination|pagination]] of results,
     as well as the request and response syntax.
 
     A [=host system=] MUST implement the [=iLEAP standalone API=] which is now the preferred option for data exchange.
@@ -2675,7 +2675,7 @@ The iLEAP Technical Specifications define two REST API families:
     flow defined in [[!PACTDX]] chapter 6.3.
 
     Since April 1 2026, the v2 family of the PACT Technical Specifications, including [[PACTDX]],
-    is deprecated. Consequently, the [=PACT-based API=] approach is DEPRECATED.
+    is sunset. Consequently, the [=PACT-based API=] approach is DEPRECATED.
     For backward compatibility reasons, a [=host system=] MUST implement the PACT-based API.
 
 
@@ -2803,11 +2803,11 @@ The following defintions and parameters are used throughout this chapter:
     list of the respective data (<{ShipmentFootprint}> for [[#action-sd|Action ShipmentFootprintData]], <{TOC}> for [[#action-tocd|Action TOC]], etc. ). The list MUST be encoded as
     a JSON array.
 
-    If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#accessdenied).
+    If the host system does not accept the access token, the body MUST be an error response with code [AccessDenied](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#accessdenied).
 
-    If the host system does not accept the access token because it expired, the body SHOULD be an error response with code [TokenExpired](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#tokenexpired).
+    If the host system does not accept the access token because it expired, the body SHOULD be an error response with code [TokenExpired](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#tokenexpired).
 
-    In all other cases, for instance in case of a malformed value of the header authorization, the body SHOULD be an error response with code [BadRequest](https://wbcsd.github.io/tr/2023/data-exchange-protocol-20231207/#badrequest).
+    In all other cases, for instance in case of a malformed value of the header authorization, the body SHOULD be an error response with code [BadRequest](https://wbcsd.github.io/tr/2024/data-exchange-protocol-20240410/#badrequest).
 
 : <dfn>ContentLength</dfn>
 :: The length of the body. See [[!rfc9112]].
@@ -2837,7 +2837,7 @@ The iLEAP <dfn>authentication flow</dfn> consists of the following steps:
 
 Note:
   The iLEAP [=authentication flow=] follows the approach of [[!PACTDX]], Section 7.3.
-  This means, [=host systems=] that implement the PACT-based authentication flow are
+  This means that [=host systems=] implementing the PACT-based authentication flow are
   also conforming with the iLEAP authentication flow.
 
 
@@ -3018,7 +3018,7 @@ or completely re-starting the data retrieval process from the beginning.
 
 ## Action ShipmentFootprintData ## {#action-sd}
 
-Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRED [[#pagination]], OPTIONAL [[#filtering]], and REQUIRED [[#access-control]].
+Lists the [=data owner=]'s <{ShipmentFootprint|ShipmentFootprints}> with REQUIRED [[#access-control]], REQUIRED [[#pagination]], and OPTIONAL [[#filtering]].
 
 Note:
   To retrieve <{ShipmentFootprint|ShipmentFootprints}> based on embedded properties (regardless of the level of nesting),
