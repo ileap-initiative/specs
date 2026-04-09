@@ -1,14 +1,14 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.1.0-20260326)
+Title: iLEAP Technical Specifications (Version 1.1.0-draft.1)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
 ED: https://specs.ileap.global/
 TR: https://specs.ileap.global/TR/2025/ileap-extension-20250527/
 Canonical URL: ED
-Editor: Violetta Matzoros, https://www.smartfreightcentre.org, violetta.matzoros@smartfreightcentre.org
 Editor: Martin Pompéry, https://sine.foundation, martin@sine.foundation
 Editor: Raimundo Henriques, https://sine.foundation, raimundo@sine.foundation
+Editor: Violetta Matzoros, https://www.smartfreightcentre.org, violetta.matzoros@smartfreightcentre.org
 Former Editor: Gabriela Rubio Domingo
 Repository: sine-fdn/ileap-extension
 Abstract: The iLEAP Technical Specifications are designed to facilitate the automated, digital flow of accurate logistics emissions data among different parties in the global logistics value chain, following [[!ISO14083|ISO 14083:2023]] and the [[!GLEC|GLEC Framework V3.1]].
@@ -4530,7 +4530,7 @@ apply for additional support, materials, and marketing opportunities.
 # Appendix A: Changelog # {#changelog}
 
 
-## Version 1.1.0-20260326 ## {#version-1.1.0-20260326}
+## Version 1.1.0-draft.1 (2026-04-09) ## {#version-1.1.0-draft.1}
 
 First draft release of Version 1.1.0, containing the following changes:
 - addition of new data transaction 4 ([[#txn4]]) and corresponding data type ([[#dt-ar]])
@@ -4550,7 +4550,7 @@ First draft release of Version 1.1.0, containing the following changes:
 - addition of the normative language subchapter [[#conventions]]
 
 
-## Version 1.0.1-20260326 (2026-03-26) ## {#version-1.0.1}
+## Version 1.0.1-20260409 (2026-03-26) ## {#version-1.0.1}
 
 Summary of changes:
 - updated URL for iLEAP Technical Specifications to `https://specs.ileap.global`
