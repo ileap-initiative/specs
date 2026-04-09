@@ -3646,13 +3646,13 @@ Paginated response ([[#pagination]]):
         "noxTTW": "2.5",
         "perModeEmissions": [
           {
-            "mode": "Road",
+            "transportMode": "Road",
             "co2eWTW": "400",
             "co2eTTW": "360",
             "noxTTW": "1.8"
           },
           {
-            "mode": "Rail",
+            "transportMode": "Rail",
             "co2eWTW": "200",
             "co2eTTW": "190",
             "noxTTW": "0.7"
