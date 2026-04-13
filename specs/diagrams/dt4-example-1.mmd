@@ -1,0 +1,18 @@
+---
+config:
+    theme: forest
+---
+
+sequenceDiagram
+
+    participant A as Transport Service Operator
+    participant C as GHG Calculation Tool
+    participant U as Transport Service User
+
+
+    note over A: ShipmentFootprint <br> TOC
+    A ->>+ C: Data Transactions 1 & 2
+    note over C: ShipmentFootprint <br> TOC
+    C ->>- C: Data aggregation
+    C ->> U: Data Transaction 4
+    note over U: AggregatedReport
