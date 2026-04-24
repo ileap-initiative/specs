@@ -2374,6 +2374,8 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>
               The relative share of this energy carrier. Its value MUST be between `0` (excluding) and `1` (including).
 
+              The relative share of each energy carrier MUST be computed relative to the transport or hub activity.
+
               Note:
                   See the respective use in <{TOC/energyCarriers|TOC}>,
                   <{HOC/energyCarriers|HOC}>, <{TAD/energyCarriers|TAD}>, and
