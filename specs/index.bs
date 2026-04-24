@@ -258,7 +258,7 @@ Issue: Needs revision
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
 "OPTIONAL" in this document are to be interpreted as described in
-[BCP14](https://www.rfc-editor.org/info/bcp14) [[!RFC2119]]
+(BCP14)[https://www.rfc-editor.org/info/bcp14] [[!RFC2119]]
 [[!RFC8174]] when, and only when, they appear in all
 capitals, as shown here.
 
@@ -2374,9 +2374,12 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>
               The relative share of this energy carrier. Its value MUST be between `0` (excluding) and `1` (including).
 
+              The relative share of each energy carrier MUST be computed relative to the transport or hub activity.
+
               Note:
-                  See the respective use in (<{TOC/energyCarriers|TOC}>,
-                  <{HOC/energyCarriers|HOC}>, and <{TAD/energyCarriers|TAD}>)
+                  See the respective use in <{TOC/energyCarriers|TOC}>,
+                  <{HOC/energyCarriers|HOC}>, <{TAD/energyCarriers|TAD}>, and
+                  <{ModeSpecificReport/energyCarriers|ModeSpecificReport}>
                   for further details.
 
       <tr>
@@ -2595,6 +2598,20 @@ Advisement: The enumeration of packaging or transport equipment units above will
 
             : Hub
             :: Refers to hub operations in general
+      <tr>
+        <td><dfn>energyCarriers</dfn>
+        <td><{EnergyCarrier}>[]
+        <td>O
+        <td>
+              The non-empty array of [=EnergyCarriers=] used to generate mechanical movement or heat and to generate
+              chemical or physical processes, as defined in the [[!GLEC]] Framework.
+
+              The sum of the relative shares of the energy carriers used MUST equal 1. The relative share of each energy
+              carrier MUST be computed relative to the aggregated transport or hub activity.
+
+              To represent a single EnergyCarrierType produced from multiple feedstocks, each feedstock MUST be
+              represented by a separate entry in the EnergyCarriers array. For each EnergyCarrier, the combined value of
+              feedstockShares must be less than or equal to 1.
       <tr>
         <td><dfn>distanceTypes</dfn>
         <td>String[]
