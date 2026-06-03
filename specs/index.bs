@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: iLEAP Technical Specifications (Version 1.1.0-draft.1)
+Title: iLEAP Technical Specifications (Version 1.1.0-draft.2)
 Shortname: ileap-extension
 Status: LD
 Status Text: Technical Specification Pre-Release
@@ -2612,6 +2612,9 @@ Advisement: The enumeration of packaging or transport equipment units above will
               To represent a single EnergyCarrierType produced from multiple feedstocks, each feedstock MUST be
               represented by a separate entry in the EnergyCarriers array. For each EnergyCarrier, the combined value of
               feedstockShares must be less than or equal to 1.
+
+              Note: See [[#appendix-b-ar-example]] for an example of how this property can be used to represent an
+              scenario of progressive electrification.
       <tr>
         <td><dfn>distanceTypes</dfn>
         <td>String[]
@@ -4546,6 +4549,11 @@ apply for additional support, materials, and marketing opportunities.
 
 # Appendix A: Changelog # {#changelog}
 
+## Version 1.1.0-draft.2 (2026-06-03) ## {#version-1.1.0-draft.2}
+
+- addition of <{ModeSpecificReport/energyCarriers}> to `ModeSpecificReport`
+- addition of [[#appendix-b-ar-example]]
+- reorganization of [[#appendix-b]] into subchapters
 
 ## Version 1.1.0-draft.1 (2026-04-09) ## {#version-1.1.0-draft.1}
 
@@ -4656,9 +4664,50 @@ Summary of changes:
 
 Initial release of the specification.
 
-# Appendix B: Example PCFs with iLEAP Data embedded # {#appendix-b}
+# Appendix B: Examples # {#appendix-b}
 
-## ShipmentFootprint example ## {#appendix-b-sf-example}
+## Example iLEAP Data ## {#appendix-b-ileap}
+
+### Aggregated Report example ### {#appendix-b-ar-example}
+
+An aggregated report for one shipment, with 70% of the transport activity powered by electricity and
+30% by diesel (highlighted).
+
+<div class=example>
+  <pre highlight='json' line-highlight="10-26" line-numbers>
+    {
+      "specVersion": "1.1.0",
+      "createdAt": "2026-04-24T00:00:00Z",
+      "reportId": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "standardsUsed": ["ISO14083:2023"],
+      "shipmentIds": ["shipment-001"],
+      "status": "Active",
+      "totalTransportActivity": "1500.00",
+      "co2eWTW": "210.50",
+      "perModeEmissions": [
+        {
+          "transportMode": "Road",
+          "energyCarriers": [
+            {
+              "energyCarrier": "Diesel",
+              "relativeShare": "0.3"
+            },
+            {
+              "energyCarrier": "Electricity",
+              "relativeShare": "0.7"
+            }
+          ],
+          "distanceTypes": ["actual"],
+          "co2eWTW": "120.00"
+        }
+      ]
+    }
+  </pre>
+</div>
+
+## Example PCFs with iLEAP Data embedded ## {#appendix-b-pcfs}
+
+### ShipmentFootprint example ### {#appendix-b-sf-example}
 
 A Product Footprint with a <{ShipmentFootprint}> highlighted:
 
@@ -4740,7 +4789,7 @@ A Product Footprint with a <{ShipmentFootprint}> highlighted:
   </pre>
 </div>
 
-## TOC example ## {#appendix-b-toc-example}
+### TOC example ### {#appendix-b-toc-example}
 
 A Product Footprint with a <{TOC}> highlighted:
 
@@ -4820,7 +4869,7 @@ A Product Footprint with a <{TOC}> highlighted:
   </pre>
 </div>
 
-## HOC example ## {#appendix-b-hoc-example}
+### HOC example ### {#appendix-b-hoc-example}
 
 A Product Footprint with a <{HOC}> highlighted:
 
