@@ -2609,6 +2609,9 @@ Advisement: The enumeration of packaging or transport equipment units above will
               The sum of the relative shares of the energy carriers used MUST equal 1. The relative share of each energy
               carrier MUST be computed relative to the aggregated transport or hub activity.
 
+              Advisement: If this property is defined for more than one mode, the same transport or hub activity
+              unit MUST be used across all modes.
+
               To represent a single EnergyCarrierType produced from multiple feedstocks, each feedstock MUST be
               represented by a separate entry in the EnergyCarriers array. For each EnergyCarrier, the combined value of
               feedstockShares must be less than or equal to 1.
