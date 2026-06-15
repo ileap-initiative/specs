@@ -2081,11 +2081,11 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             Number of packaging or transport equipment units utilized in the shipments referenced in
             <{AggregatedReport/shipmentIds}>.
       <tr>
-        <td><dfn>totalTransportActivity</dfn> : [=Decimal=]
+        <td><dfn>totalActivity</dfn> : [=Decimal=]
         <td>String
         <td>M
         <td>
-            The sum total of the transport activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
+            The sum total of the transport and hub activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
             (in `tonne-kilometers`).
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
@@ -2607,10 +2607,8 @@ Advisement: The enumeration of packaging or transport equipment units above will
               chemical or physical processes, as defined in the [[!GLEC]] Framework.
 
               The sum of the relative shares of the energy carriers used MUST equal 1. The relative share of each energy
-              carrier MUST be computed relative to the aggregated transport or hub activity.
-
-              Advisement: If this property is defined for more than one mode, the same transport or hub activity
-              unit MUST be used across all modes.
+              carrier MUST be computed relative to the <{AggregatedReport/totalActivity}> of the <{AggregatedReport}>,
+              in `tonne-kilometers`.
 
               To represent a single EnergyCarrierType produced from multiple feedstocks, each feedstock MUST be
               represented by a separate entry in the EnergyCarriers array. For each EnergyCarrier, the combined value of
@@ -4552,8 +4550,9 @@ apply for additional support, materials, and marketing opportunities.
 
 # Appendix A: Changelog # {#changelog}
 
-## Version 1.1.0-draft.2 (2026-06-03) ## {#version-1.1.0-draft.2}
+## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
+- renaming of `totalTransportActivty` to <{AggregatedReport/totalActivity}> and updated definition accordingly
 - addition of <{ModeSpecificReport/energyCarriers}> to `ModeSpecificReport`
 - addition of [[#appendix-b-ar-example]]
 - reorganization of [[#appendix-b]] into subchapters
