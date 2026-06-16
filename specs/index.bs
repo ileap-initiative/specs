@@ -1073,7 +1073,7 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>String
         <td>M
         <td>
-            The [=transport activity=] of the TCE (in `tonne-kilometers`)
+            The [=transport activity=] of the TCE with unit `tonne-kilometers`.
 
             <div class=example>
                 If the transport [=distance=] is `700` `kilometers` and the mass is `230` `kilograms`,
@@ -2086,7 +2086,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>M
         <td>
             The sum total of the transport and hub activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
-            (in `tonne-kilometers`).
+            with unit `tonne-kilometers`.
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
@@ -2608,7 +2608,7 @@ Advisement: The enumeration of packaging or transport equipment units above will
 
               The sum of the relative shares of the energy carriers used MUST equal 1. The relative share of each energy
               carrier MUST be computed relative to the <{AggregatedReport/totalActivity}> of the <{AggregatedReport}>,
-              in `tonne-kilometers`.
+              with unit `tonne-kilometers`.
 
               To represent a single EnergyCarrierType produced from multiple feedstocks, each feedstock MUST be
               represented by a separate entry in the EnergyCarriers array. For each EnergyCarrier, the combined value of
