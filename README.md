@@ -28,7 +28,7 @@ The demo implementation is written in Rust and includes:
 - the iLEAP data model, conforming to the iLEAP v1.0.0 Technical Specifications; and
 - a demo API, conforming to the iLEAP v1.0.0 Technical Specifications.
 
-The demo API can be accessed at [https://api.ileap.sine.dev](https://api.ileap.sine.dev).
+The demo API can be accessed at [https://api.ileap.dev](https://api.ileap.dev).
 
 ## SQL Example Implementation
 

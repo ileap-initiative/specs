@@ -179,7 +179,7 @@ As mentioned above, the iLEAP Tech Specs are defined here (and will be updated s
 
 ### iLEAP Demo API
 
-In addition, there is a public demo endpoint which you can use for your own internal software-testing and development works:  [https://api.ileap.sine.dev/](https://api.ileap.sine.dev)
+In addition, there is a public demo endpoint which you can use for your own internal software-testing and development works:  [https://api.ileap.dev/](https://api.ileap.dev)
 You can authenticate against above api using the following credentials:
 
 | client_id                     | client_secret | Data                                                           |
@@ -189,7 +189,7 @@ You can authenticate against above api using the following credentials:
 | `transport_service_organizer` | `ileap`       | User is (demo) LSP. Access to TOCs, HOCs, and TAD              |
 | `random_data`                 | `random_data` | Access to randomly generated iLEAP data                        |
 
-Furthermore, you can find a Swagger UI related to above here: [https://api.ileap.sine.dev/swagger-ui/index.html](https://api.ileap.sine.dev/swagger-ui/index.html)
+Furthermore, you can find a Swagger UI related to above here: [https://api.ileap.dev/swagger-ui/index.html](https://api.ileap.dev/swagger-ui/index.html)
 
 ### ACT (Automated Conformance Testing)
 
