@@ -5201,7 +5201,7 @@ Issue: We're still refering to PACT Methodology v2. We should move to v3, but ma
           "Verena Ehrler",
           "Andrea Schön"
         ],
-        "href": "https://smart-freight-centre-media.s3.amazonaws.com/documents/GLEC_FRAMEWORK_v3.1_March_2025_1-3.pdf",
+        "href": "https://specs.ileap.global/TR/2025/glec-framework-v3.1/GLEC_FRAMEWORK_v3.1_March_2025_1-3.pdf",
         "title": "Global Logistics Emissions Council Framework; V3.1 (2025)",
         "status": "LS",
         "publisher": "Smart Freight Centre (SFC)"
@@ -5225,14 +5225,14 @@ Issue: We're still refering to PACT Methodology v2. We should move to v3, but ma
     },
     "PACT-V2": {
       "authors": [],
-      "href": "https://www.wbcsd.org/wp-content/uploads/2023/01/Pathfinder-Framework-Version-2.0.pdf",
+      "href": "https://wbcsd.github.io/tr/methodology/2.0/framework.pdf",
       "title": "Pathfinder Framework: Guidance for the Accounting and Exchange of Product Life Cycle Emissions (Version 2.0)",
       "status": "LS",
       "publisher": "WBCSD"
     },
     "PACT-V3": {
       "authors": [ "World Business Council for Sustainable Development (WBCSD) PACT Team" ],
-      "href": "https://github.com/wbcsd/tr/blob/main/2025/methodology-20250625/pact-methodology-v3.0.pdf",
+      "href": "https://wbcsd.github.io/tr/methodology/3.0/pact-methodology-v3.0.pdf",
       "title": "PACT Methodology: Methodology for Calculating and Exchanging Cradle-to-Gate Product Carbon Footprints (PCFs)",
       "status": "LS",
       "publisher": "WBCSD"
