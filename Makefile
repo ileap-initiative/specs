@@ -2,6 +2,8 @@ RELEASE_DIR:=out
 MMDC := ./node_modules/.bin/mmdc
 DIAGRAMS := $(patsubst %.mmd,%.svg,$(wildcard specs/diagrams/*.mmd))
 
+BIKESHED := uvx bikeshed@7.1.2
+
 AZURE_STORAGE_ACCOUNT := ghpreview
 AZURE_STORAGE_CONTAINER := preview
 
@@ -14,13 +16,13 @@ build: specs/index.html specs/faq.html
 	cp -r TR ${RELEASE_DIR}/
 
 specs/index.html: specs/index.bs ${DIAGRAMS}
-	bikeshed spec $< $@
+	${BIKESHED} spec $< $@
 
 specs/faq.html: specs/faq.bs
-	bikeshed spec $< $@
+	${BIKESHED} spec $< $@
 
 serve: ${DIAGRAMS}
-	cd specs && bikeshed serve
+	cd specs && ${BIKESHED} serve
 
 clean:
 	rm -f ${DIAGRAMS}
