@@ -1821,12 +1821,36 @@ Issue: Consider adding
         <td><dfn>inboundTransportMode</dfn>
         <td>{{TransportMode}}
         <td>O
-        <td>Indicates the transport mode upstream the hub for this HOC.
+        <td>
+            Indicates the transport mode upstream the hub for this HOC.
+
+            Advisement: This property is deprecated and will be removed in v2. Use
+            <{HOC/inboundTransportModes}> instead. If both are defined, the value of this property
+            MUST be an element of <{HOC/inboundTransportModes}>.
+      <tr>
+        <td><dfn>inboundTransportModes</dfn>
+        <td>{{TransportMode}}[]
+        <td>O
+        <td>
+            The non-empty set (without duplicates) of transport modes by which freight arrives at
+            the hub for this HOC (see [[!ISO14083]], Section 6.3.3.1).
       <tr>
         <td><dfn>outboundTransportMode</dfn>
         <td>{{TransportMode}}
         <td>O
-        <td>Indicates the transport mode downstream the hub for this HOC.
+        <td>
+            Indicates the transport mode downstream the hub for this HOC.
+
+            Advisement: This property is deprecated and will be removed in v2. Use
+            <{HOC/outboundTransportModes}> instead. If both are defined, the value of this property
+            MUST be an element of <{HOC/outboundTransportModes}>.
+      <tr>
+        <td><dfn>outboundTransportModes</dfn>
+        <td>{{TransportMode}}[]
+        <td>O
+        <td>
+            The non-empty set (without duplicates) of transport modes by which freight leaves the
+            hub for this HOC (see [[!ISO14083]], Section 6.3.3.1).
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
         <td><{PackagingOrTrEqType}>
@@ -2469,9 +2493,10 @@ It MUST be encoded as a String using one of the following values:
 
 </dl>
 
-Note: {{TransportMode}} is used by <{TOC/mode}>, <{TAD/mode}>, <{HOC/inboundTransportMode}>,
-<{HOC/outboundTransportMode}>, and <{ModeSpecificReport/transportMode}>. The transport modes cable
-car and pipeline are out of scope (see [[#out-of-scope]]).
+Note: {{TransportMode}} is used by <{TOC/mode}>, <{TAD/mode}>, <{HOC/inboundTransportModes}>,
+<{HOC/outboundTransportModes}> (and their deprecated singular forms), and
+<{ModeSpecificReport/transportMode}>. The transport modes cable car and pipeline are out of scope
+(see [[#out-of-scope]]).
 
 ### Data Type <dfn enum>HubType</dfn> ### {#dt-hub-type}
 
@@ -4799,6 +4824,7 @@ apply for additional support, materials, and marketing opportunities.
 - corrected the description of <{HOC/comment}> (previously referring to the TOC)
 - addition of data type {{TemperatureControl}}, used by <{TOC/temperatureControl}>, <{HOC/temperatureControl}>, and the new property <{TCE/temperatureControl}>; new values `chilled`, `frozen`, and `heated`; `mixed` now covers any two or more temperature conditions (semantic change)
 - addition of <{HOC/temperatureSpecificIntensities}> for temperature-specific GHG emission intensities within one HOC ([[!ISO14083]], Section 9.5.3); hub TCEs use the intensity matching their temperature condition
+- addition of <{HOC/inboundTransportModes}> and <{HOC/outboundTransportModes}>; deprecation of <{HOC/inboundTransportMode}> and <{HOC/outboundTransportMode}>
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
