@@ -1817,7 +1817,13 @@ Issue: Consider adding
         <td><dfn>hubLocation</dfn>
         <td><{Location}>
         <td>O
-        <td>The address of the hub.
+        <td>
+            The location of the hub.
+
+            If the hub is part of a transport node such as a port, an airport, or a railway station
+            (see [[!ISO14083]], Annex H.4.1), <{HOC/hubLocation}> SHOULD include the UN/LOCODE
+            (<{Location/locode}>), IATA code (<{Location/iata}>), or UIC code (<{Location/uic}>) of
+            the transport node.
       <tr>
         <td><dfn>inboundTransportMode</dfn>
         <td>{{TransportMode}}
@@ -2453,8 +2459,8 @@ Properties of data type <dfn element>Location</dfn>:
         <td><dfn>iata</dfn>
         <td>iataCode
         <td>O
-        <td>IATA code of airport. Applies only to (i) <{TCE|TCEs}> referring to a <{TOC}> with <{TOC/mode}> `Air`
-            and (ii) <{TAD}> with <{TAD/mode}> `Air`.
+        <td>IATA code of airport. Applies only to (i) <{TCE|TCEs}> referring to a <{TOC}> with <{TOC/mode}> `Air`,
+            (ii) <{TAD}> with <{TAD/mode}> `Air`, and (iii) <{HOC/hubLocation}>.
       <tr>
         <td><dfn>locode</dfn>
         <td>locode
@@ -2464,8 +2470,8 @@ Properties of data type <dfn element>Location</dfn>:
         <td><dfn>uic</dfn>
         <td>uic
         <td>O
-        <td>UIC Code of the location. Applies only to (i) <{TCE|TCEs}> referring to a <{TOC}> with <{TOC/mode}> `Rail`
-            and (ii) <{TAD}> with <{TAD/mode}> `Rail`.
+        <td>UIC Code of the location. Applies only to (i) <{TCE|TCEs}> referring to a <{TOC}> with <{TOC/mode}> `Rail`,
+            (ii) <{TAD}> with <{TAD/mode}> `Rail`, and (iii) <{HOC/hubLocation}>.
       <tr>
         <td><dfn>lat</dfn>
         <td>[=Decimal=]
@@ -4934,6 +4940,7 @@ apply for additional support, materials, and marketing opportunities.
 - addition of [[#electricity-emission-factors]]: emission factors of electricity MUST be determined using the location-based approach of [[!ISO14083]], Annex J.3 (semantic change)
 - addition of <{EnergyCarrier/emissionFactorMethod}> with value `LocationBased`
 - clarified the <{Feedstock/feedstock}> values `Grid` and `Renewable electricity`: grid electricity covered by contractual instruments is `Grid` (semantic change)
+- <{HOC/hubLocation}>: IATA and UIC codes may be used; hubs that are part of a transport node SHOULD carry the code of the transport node
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
