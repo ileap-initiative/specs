@@ -1056,6 +1056,8 @@ the following applies (see [[!ISO14083]], Clause 11, and [[#activity-convention]
     Section 11.5). An element with value `refrigerated` applies to a TCE with value `chilled` or
     `frozen` if the HOC defines no element for that value.
 
+See [[#hoc-intensity-example]] for an example of a hub TCE.
+
 
 ### Data Attributes ### {#tce-attributes}
 
@@ -1948,6 +1950,8 @@ Issue: Consider adding
             each temperature condition, [[!ISO14083]], Section 5.6.4, requires allocation by hub
             activity, with each entity of freight quantified with a unit of equivalence based on
             ambient freight.
+
+            Note: See [[#hoc-intensity-example]] for an example.
       <tr>
         <td><dfn>refrigerantLeakageIncluded</dfn>
         <td>Boolean
@@ -2001,6 +2005,76 @@ Issue: Consider adding
   </table>
   <figcaption>Properties of data type `HOC`</figcaption>
 </figure>
+
+### GHG Emission Intensity Example ### {#hoc-intensity-example}
+
+<div class=example>
+  This example is based on the container terminal example of the GLEC Framework v3.2 (Module 4,
+  Sections 5.1 and 5.2). The terminal handles 4,250,000 tonnes of freight per year (outbound), of
+  which 50,000 tonnes are refrigerated. The GHG emissions of the HOC are 991,519 `kgCO2e` (WTW) and
+  283,920 `kgCO2e` (TTW). The reefer station causes 66,000 `kgCO2e` (WTW) and 0 `kgCO2e` (TTW), as
+  it uses electricity only.
+
+  The average GHG emission intensities are calculated in accordance with [[!ISO14083]], Section 9.5.2:
+
+  - <{HOC/co2eIntensityWTW}>: 991,519 `kgCO2e` / 4,250,000 `tonnes` = 0.2333 `kgCO2e` per `tonnes`
+  - <{HOC/co2eIntensityTTW}>: 283,920 `kgCO2e` / 4,250,000 `tonnes` = 0.0668 `kgCO2e` per `tonnes`
+
+  The temperature-specific GHG emission intensities are calculated in accordance with
+  [[!ISO14083]], Section 9.5.3:
+
+  - `ambient`: 925,519 `kgCO2e` / 4,250,000 `tonnes` = 0.2178 (WTW); 0.0668 (TTW)
+  - `refrigerated`: 0.2178 + 66,000 `kgCO2e` / 50,000 `tonnes` = 1.5378 (WTW); 0.0668 + 0 = 0.0668 (TTW)
+
+  The TTW values are derived from the TTW emission factors used in the GLEC Framework v3.2
+  (Module 4, Table 13): electricity 0, diesel 2.68 `kgCO2e` per `l`, diesel with 5% biodiesel 2.54
+  `kgCO2e` per `l`, and natural gas 0.21 `kgCO2e` per `kWh`.
+
+  Excerpt of the resulting <{HOC}>:
+
+  ```json
+  {
+    "hocId": "container-terminal-de",
+    "hubType": "IntermodalTerminal",
+    "temperatureControl": "mixed",
+    "co2eIntensityWTW": "0.2333",
+    "co2eIntensityTTW": "0.0668",
+    "temperatureSpecificIntensities": [
+      {
+        "temperatureControl": "ambient",
+        "co2eIntensityWTW": "0.2178",
+        "co2eIntensityTTW": "0.0668"
+      },
+      {
+        "temperatureControl": "refrigerated",
+        "co2eIntensityWTW": "1.5378",
+        "co2eIntensityTTW": "0.0668"
+      }
+    ],
+    "hubActivityUnit": "tonnes"
+  }
+  ```
+
+  Excerpt of a [=hub TCE=] for 87 tonnes of ambient freight handled at this terminal (see
+  [[#hub-tces]]). Its GHG emissions are 87 `tonnes` × 0.2178 = 18.95 `kgCO2e` (WTW) and
+  87 `tonnes` × 0.0668 = 5.81 `kgCO2e` (TTW):
+
+  ```json
+  {
+    "tceId": "tce-hub-1",
+    "hocId": "container-terminal-de",
+    "shipmentId": "shipment-1",
+    "mass": "87000",
+    "temperatureControl": "ambient",
+    "distance": {
+      "actual": "0"
+    },
+    "transportActivity": "0",
+    "co2eWTW": "18.95",
+    "co2eTTW": "5.81"
+  }
+  ```
+</div>
 
 
 ## Transport Activity Data (<dfn element>TAD</dfn>) ## {#dt-tad}
@@ -4941,6 +5015,7 @@ apply for additional support, materials, and marketing opportunities.
 - addition of <{EnergyCarrier/emissionFactorMethod}> with value `LocationBased`
 - clarified the <{Feedstock/feedstock}> values `Grid` and `Renewable electricity`: grid electricity covered by contractual instruments is `Grid` (semantic change)
 - <{HOC/hubLocation}>: IATA and UIC codes may be used; hubs that are part of a transport node SHOULD carry the code of the transport node
+- addition of [[#hoc-intensity-example]]: a HOC with average and temperature-specific GHG emission intensities and a hub TCE, based on the GLEC Framework v3.2
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
