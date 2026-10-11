@@ -1049,6 +1049,11 @@ the following applies (see [[!ISO14083]], Clause 11, and [[#activity-convention]
     with <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> of the referenced <{HOC}>,
     respectively (see [[!ISO14083]], Section 11.4). They cover hub equipment operation and hub
     equipment energy provision, not vehicle operation.
+1. If <{TCE/temperatureControl}> is defined and the referenced <{HOC}> defines
+    <{HOC/temperatureSpecificIntensities}> with an element for the same temperature condition,
+    the GHG emission intensities of this element MUST be used instead (see [[!ISO14083]],
+    Section 11.5). An element with value `refrigerated` applies to a TCE with value `chilled` or
+    `frozen` if the HOC defines no element for that value.
 
 
 ### Data Attributes ### {#tce-attributes}
@@ -1144,6 +1149,13 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
               }
               ```
         </div>
+      <tr>
+        <td><dfn>temperatureControl</dfn>
+        <td>{{TemperatureControl}}
+        <td>O
+        <td>
+            The temperature condition of the freight of this TCE. If defined, the value MUST NOT be
+            `mixed`. For [=hub TCEs=], see [[#hub-tces]].
       <tr>
         <td><dfn>distance</dfn>
         <td><{GLECDistance}>
@@ -1484,20 +1496,10 @@ Issue: Consider adding
 
       <tr>
         <td><dfn>temperatureControl</dfn>
-        <td>String
+        <td>{{TemperatureControl}}
         <td>O
         <td>
-            Temperature control status of the TOC.
-
-             If defined, the value of this property MUST be set to one of the following:
-            : `ambient`
-            :: For TOCs comprising the handling of non-temperature controlled freight only.
-
-            : `refrigerated`
-            :: For TOCs comprising the handling of refrigerated freight only.
-
-            : `mixed`
-            :: For TOCs comprising the handling of both ambient and refrigerated freight.
+            The temperature condition of the freight transported in the TOC.
       <tr>
         <td><dfn>truckLoadingSequence</dfn>
         <td>String
@@ -1804,20 +1806,11 @@ Issue: Consider adding
         <td>Type of Hub.
       <tr>
         <td><dfn>temperatureControl</dfn>
-        <td>String
+        <td>{{TemperatureControl}}
         <td>O
         <td>
-            Temperature control status of the hub.
-
-            If defined, the value of this property MUST be set to one of the following:
-            : `ambient`
-            :: For HOCs comprising the handling of non-temperature controlled freight only.
-
-            : `refrigerated`
-            :: For HOCs comprising the handling of refrigerated freight only.
-
-            : `mixed`
-            :: For HOCs comprising the handling of both ambient and refrigerated freight.
+            The temperature condition of the freight handled in the HOC. If
+            <{HOC/temperatureSpecificIntensities}> is defined, the value SHOULD be `mixed`.
 
        <tr>
         <td><dfn>hubLocation</dfn>
@@ -1898,6 +1891,32 @@ Issue: Consider adding
         <td>M
         <td>
               The Coefficient relating hub activity and TTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+      <tr>
+        <td><dfn>temperatureSpecificIntensities</dfn>
+        <td>Object[]
+        <td>O
+        <td>
+            If defined, the non-empty array of the GHG emission intensities of the freight of each
+            temperature condition handled in the HOC, calculated in accordance with [[!ISO14083]],
+            Section 9.5.3.
+
+            Each element of the array MUST be an object with the following properties:
+
+            - `temperatureControl`: {{TemperatureControl}}, M, The temperature condition of the
+                freight. The value MUST NOT be `mixed` and MUST occur at most once in the array.
+            - `co2eIntensityWTW`: [=Decimal=], M, The WTW GHG emission intensity of the freight of
+                this temperature condition, with unit `kgCO2e` per <{HOC/hubActivityUnit}>.
+            - `co2eIntensityTTW`: [=Decimal=], M, The TTW GHG emission intensity of the freight of
+                this temperature condition, with unit `kgCO2e` per <{HOC/hubActivityUnit}>.
+
+            <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> remain the average GHG emission
+            intensities over all freight of the HOC. Temperature-specific intensities do not split
+            the HOC into several HOCs (see [[!ISO14083]], Section 6.3.3.1).
+
+            Note: If the GHG activity data related to temperature control cannot be associated with
+            each temperature condition, [[!ISO14083]], Section 5.6.4, requires allocation by hub
+            activity, with each entity of freight quantified with a unit of equivalence based on
+            ambient freight.
       <tr>
         <td><dfn>refrigerantLeakageIncluded</dfn>
         <td>Boolean
@@ -2478,6 +2497,45 @@ It MUST be encoded as a String using one of the following values:
 :: Refers to hubs where maritime containers are handled
 
 </dl>
+
+### Data Type <dfn enum>TemperatureControl</dfn> ### {#dt-temperature-control}
+
+The Data Type {{TemperatureControl}} is an enumeration of the temperature conditions of freight
+(see [[!ISO14083]], Sections 5.6.4 and 9.5.3, and Annex H.2). It is used by
+<{TOC/temperatureControl}>, <{HOC/temperatureControl}>, <{HOC/temperatureSpecificIntensities}>,
+and <{TCE/temperatureControl}>.
+
+It MUST be encoded as a String using one of the following values:
+
+<dl dfn-type="enum-value" dfn-for="TemperatureControl">
+
+: <dfn>ambient</dfn>
+:: Freight that is not temperature-controlled.
+
+: <dfn>chilled</dfn>
+:: Freight that is cooled to temperatures above freezing.
+
+: <dfn>frozen</dfn>
+:: Freight that is kept frozen.
+
+: <dfn>heated</dfn>
+:: Freight that is heated above ambient temperature.
+
+: <dfn>refrigerated</dfn>
+:: Freight that is cooled, without a distinction between `chilled` and `frozen`. The use of this
+    value is discouraged when the distinction is known.
+
+: <dfn>mixed</dfn>
+:: Freight of two or more of the temperature conditions above, with a single average GHG emission
+    intensity. SHOULD NOT be used when temperature-specific GHG emission intensities can be provided
+    (see [[!ISO14083]], Section 9.5.3, and <{HOC/temperatureSpecificIntensities}>).
+
+</dl>
+
+Note: These specifications do not define temperature ranges for these values. Data owners SHOULD
+state the temperature ranges used in the `comment` property of the respective data type.
+
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
 ### Data Type <dfn>Decimal</dfn> ### {#dt-decimal}
 
@@ -4739,6 +4797,8 @@ apply for additional support, materials, and marketing opportunities.
 - addition of <{TOC/refrigerantLeakageIncluded}> and <{HOC/refrigerantLeakageIncluded}>: TOC and HOC intensities MUST include GHG emissions from refrigerant leakage unless the omission is stated (semantic change)
 - addition of [[#hoc-system-boundary]]: HOCs follow the system boundary of [[!ISO14083]]; the allocation of energy supplied to vehicles at the hub and the inclusion of optional processes MUST be stated in <{HOC/comment}>
 - corrected the description of <{HOC/comment}> (previously referring to the TOC)
+- addition of data type {{TemperatureControl}}, used by <{TOC/temperatureControl}>, <{HOC/temperatureControl}>, and the new property <{TCE/temperatureControl}>; new values `chilled`, `frozen`, and `heated`; `mixed` now covers any two or more temperature conditions (semantic change)
+- addition of <{HOC/temperatureSpecificIntensities}> for temperature-specific GHG emission intensities within one HOC ([[!ISO14083]], Section 9.5.3); hub TCEs use the intensity matching their temperature condition
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
