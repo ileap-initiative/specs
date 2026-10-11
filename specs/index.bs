@@ -292,6 +292,22 @@ converted into each other, or used interchangeably.
 Issue: The semantics of <{TCE/distance}> and <{TCE/transportActivity}> for TCEs representing hub
 operations will be specified in a future revision.
 
+## Forward Compatibility ## {#forward-compatibility}
+
+To allow these specifications to evolve in minor versions (see [[#document-statuses]]):
+
+1. A [=data recipient=] MUST ignore properties not defined in the version of these specifications
+    it implements and MUST NOT reject a data object for this reason alone.
+1. New enumeration values MAY be added in minor versions. Enumeration values are only removed or
+    renamed in major versions; they are deprecated in a minor version first.
+1. [=Host systems=] MUST only use enumeration values defined in these specifications.
+1. A [=data recipient=] receiving an unknown enumeration value MUST NOT reject the response or
+    other data objects contained in it, MUST NOT map the value to a known value, SHOULD treat the
+    affected property as not interpretable, and SHOULD inform its user accordingly.
+
+These rules apply to all enumerations of these specifications, including those defined inline
+in property descriptions.
+
 
 # Business Cases # {#business-cases}
 
@@ -1383,7 +1399,7 @@ Issue: Consider adding
             : GLECv3.1
             :: Indicates that the calculation methodology has been evaluated as compliant with [[!GLEC]] Framework v3.1, as declared in a certification certificate.
 
-            Advisement: The enumeration of certifications will be evolved in future revisions. Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
       <tr>
         <td><dfn>description</dfn>
         <td>String
@@ -1534,7 +1550,7 @@ To represent a single <{EnergyCarrierType}> produced from multiple feedstocks, e
             : tkm
             :: For everything else.
 
-            Advisement: The enumeration of denominators will be evolved in future revisions. Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
   </table>
   <figcaption>Properties of data type `TOC`</figcaption>
@@ -1691,7 +1707,7 @@ Issue: Consider adding
             : GLECv3.1
             :: Indicates that the calculation methodology has been evaluated as compliant with [[!GLEC]] Framework v3.1, as declared in a certification certificate.
 
-            Advisement: The enumeration of certifications will be evolved in future revisions. Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
       <tr>
         <td><dfn>hubType</dfn>
         <td>{{HubType}}
@@ -1807,7 +1823,7 @@ Issue: Consider adding
             : `tonnes`
             :: Leaving the hub.
 
-            Advisement: The enumeration of denominators will be evolved in future revisions. Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
   </table>
   <figcaption>Properties of data type `HOC`</figcaption>
@@ -1967,8 +1983,7 @@ encoded as a JSON object.
             : `refrigerated`
             :: The consignment comprises the handling of refrigerated freight only.
 
-            Advisement: The enumeration of temperature control status will be evolved in future revisions. Account for
-            this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
     </table>
     <figcaption><{TAD}> properties</figcaption>
 </figure>
@@ -2023,8 +2038,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             :: Indicates that the calculation methodology has been evaluated as compliant with ISO14083:2023. MUST
                 be included for [[!ISO14083]] conformance.
 
-            Advisement: The enumeration of standards will be evolved in future revisions. Account for this when
-            implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
       <tr>
         <td><dfn>shipmentIds</dfn>
         <td>String[]
@@ -2447,8 +2461,7 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
             : `MJ`
             :: For MegaJoules
 
-            Advisement: The enumeration of energy consumption units will be evolved in future revisions.
-            Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
       <tr>
         <td><dfn>emissionFactorWTW</dfn> : [=Decimal=]
         <td>String
@@ -2475,8 +2488,7 @@ movement or heat and to generate chemical or physical processes as per the [[!GL
 
 It MUST be encoded as a String using one of the following values:
 
-Advisement: The enumeration of energy carrier types will be evolved in future revisions.
-Account for this when implementing the validation of this property.
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
 : Diesel
 :: Refers to diesel
@@ -2538,8 +2550,7 @@ The following properties are defined for data type <dfn element>Feedstock</dfn>:
             : Cooking oil
             :: Refers to cooking (e.g., vegetable) oil
 
-            Advisement: The enumeration of feedstocks will be evolved in future revisions.
-            Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
         <tr>
           <td><dfn>feedstockShare</dfn> : [0..1]
@@ -2563,8 +2574,7 @@ Service Organizer=].
 
 It MUST be encoded as a String using one of the following values:
 
-Advisement: The enumeration of packaging or transport equipment units below will be evolved in future revisions. Account for this when
-implementing the validation of this property.
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
 : Box
 :: Refers to boxes
@@ -2579,9 +2589,6 @@ implementing the validation of this property.
 
 Note: The use of value `Container` is discouraged, as it does not provide any information about the
 container equivalent unit.
-
-Advisement: The enumeration of packaging or transport equipment units above will be evolved in
-  future revisions.
 
 ### Data Type <dfn element>ModeSpecificReport</dfn> ### {#dt-mode-specific-report}
 
@@ -4456,6 +4463,9 @@ Advisement: Currently, iLEAP Conformance ensures interoperability and syntactic 
 updates will extend coverage to include semantic correctness, ensuring that emissions calculations
 are performed accurately in end-to-end scenarios.
 
+Conformance tests, including the Automated Conformance Testing, MUST apply the rules in
+[[#forward-compatibility]].
+
 ## Conformance Matrix ## {#ileap-conformance-matrix}
 
 Issue: Matrix needs revision
@@ -4596,6 +4606,8 @@ apply for additional support, materials, and marketing opportunities.
 - aligned the definitions of [=Hub Operator=], [=Transport Operator=], [=Transport Operation Category|TOC=], and [=Primary Data=] with [[!ISO14083]] (freight only)
 - [[#out-of-scope]]: emissions from electricity are quantified using the location-based approach ([[!ISO14083]], Annex J.3); market-based figures remain out of scope (semantic change)
 - [[#out-of-scope]]: refrigerant leakage is part of the system boundary of [[!ISO14083]] (Section 5.2.2); only the exchange of refrigerant-specific data remains out of scope (semantic change)
+- addition of [[#forward-compatibility]]: data recipients ignore unknown properties and do not reject unknown enumeration values; enumeration values may be added in minor versions
+- replaced the advisements on evolving enumerations with a reference to [[#forward-compatibility]]
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
