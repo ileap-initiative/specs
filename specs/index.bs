@@ -87,7 +87,8 @@ These specifications do not cover the following topics or aspects, as they are c
 1. Market-based accounting approaches (e.g., based on contractual instruments such as energy
       attribute certificates), project accounting, and book and claim approaches.
       Emissions from electricity exchanged under these specifications are quantified using the
-      location-based approach as specified in [[!ISO14083]], Annex J.3. Market-based figures,
+      location-based approach as specified in [[!ISO14083]], Annex J.3 (see
+      [[#electricity-emission-factors]]). Market-based figures,
       which [[!ISO14083]], Annex J.3 permits only in addition to location-based figures and to be
       reported separately, are expected to be included in future versions of these technical
       specifications, as are book and claim-related approaches.
@@ -2713,8 +2714,45 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
              The TTW fuel emission factor (certified) with unit `kgCO2e / energy consumption unit` (<{EnergyCarrier/energyConsumptionUnit}>).
 
             This property MUST be defined when <{EnergyCarrier}> is used in the context of a <{TOC}> or <{HOC}>.
+      <tr>
+        <td><dfn>emissionFactorMethod</dfn>
+        <td>String
+        <td>O
+        <td>
+            The method used to determine <{EnergyCarrier/emissionFactorWTW}> and
+            <{EnergyCarrier/emissionFactorTTW}>. This property MUST only be defined if
+            <{EnergyCarrier/energyCarrier}> is `Electric`.
+
+            If defined, the value MUST be one of the following:
+
+            : `LocationBased`
+            :: The emission factors characterize the pertinent grid, irrespective of contractual
+                instruments (location-based approach, see [[!ISO14083]], Annex J.3, and
+                [[#electricity-emission-factors]]).
+
+            If undefined, the method is not declared.
+
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
     </table>
 </figure>
+
+#### Emission Factors of Electricity #### {#electricity-emission-factors}
+
+For an <{EnergyCarrier}> with <{EnergyCarrier/energyCarrier}> `Electric`, the following applies:
+
+1. <{EnergyCarrier/emissionFactorWTW}> and <{EnergyCarrier/emissionFactorTTW}> MUST be determined
+    using the location-based approach of [[!ISO14083]], Annex J.3, i.e. with the GHG emission
+    factor that best characterizes the pertinent grid: a dedicated transmission line, or the local,
+    regional, or national grid average.
+1. <{EnergyCarrier/emissionFactorWTW}> MUST include all relevant GHG emissions associated with the
+    generation of electricity, including transmission and distribution losses and other life cycle
+    processes (see [[!ISO14083]], Annex J.3). Emission factors conveyed by contractual instruments
+    (e.g. energy attribute certificates) MUST NOT be used.
+1. <{EnergyCarrier/emissionFactorMethod}> SHOULD be set to `LocationBased`.
+
+Note: Market-based approaches are out of scope (see [[#out-of-scope]]). [[!ISO14083]], Annex J.3,
+permits them only in addition to the location-based approach, subject to quality criteria for
+contractual instruments, and requires their separate reporting.
 
 ### Data Type <dfn element>EnergyCarrierType</dfn> ### {#dt-energy-carrier-type}
 
@@ -2796,9 +2834,14 @@ The following properties are defined for data type <dfn element>Feedstock</dfn>:
             : Natural gas
             :: Refers to natural gas
             : Grid
-            :: Refers to grid electricity
+            :: Refers to electricity drawn from the public grid, irrespective of any contractual
+                instruments (e.g. energy attribute certificates or guarantees of origin) held for it.
             : Renewable electricity
-            :: Refers to renewable sources of electricity
+            :: Refers to electricity from renewable sources that is generated on site or delivered
+                through a dedicated transmission line, and whose energy attribute certificates have not
+                been sold or transferred to a third party. Electricity drawn from the public grid MUST
+                NOT be declared as `Renewable electricity`, even if it is covered by contractual
+                instruments.
             : Cooking oil
             :: Refers to cooking (e.g., vegetable) oil
 
@@ -4888,6 +4931,9 @@ apply for additional support, materials, and marketing opportunities.
 - <{TOC/transportActivityUnit}>: `TEUkm` is no longer restricted to sea and inland waterways
 - {{HubType}}: addition of `IntermodalTerminal` and alignment of the descriptions with the hub types of the GLEC Framework v3.2; `IntermodalTerminal` added to <{ModeSpecificReport/hubOperations}>
 - <{PackagingOrTrEqType}>: addition of `SwapBody` and `Trailer`
+- addition of [[#electricity-emission-factors]]: emission factors of electricity MUST be determined using the location-based approach of [[!ISO14083]], Annex J.3 (semantic change)
+- addition of <{EnergyCarrier/emissionFactorMethod}> with value `LocationBased`
+- clarified the <{Feedstock/feedstock}> values `Grid` and `Renewable electricity`: grid electricity covered by contractual instruments is `Grid` (semantic change)
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
