@@ -1618,7 +1618,7 @@ To represent a single <{EnergyCarrierType}> produced from multiple feedstocks, e
             Indicates the freight transport activity unit at the denominator of the <{TOC/co2eIntensityWTW}> and at the denominator of the <{TOC/co2eIntensityTTW}>. The value MUST be one of the following:
 
             : `TEUkm`
-            :: For sea and inland waterways.
+            :: For containerized transport, irrespective of the transport mode (see [[!ISO14083]], Section 5.4.2).
 
             : tkm
             :: For everything else.
@@ -1971,12 +1971,25 @@ Issue: Consider adding
             Indicates the freight hub activity unit at the denominator of the <{HOC/co2eIntensityWTW}> and at the denominator of the <{HOC/co2eIntensityTTW}>. At the HOC level, the possible values are
 
             : `TEU`
-            :: Leaving the hub for sea and inland waterways as outbound transport mode.
+            :: Number of twenty-foot equivalent units leaving the hub (outbound), irrespective of
+                the outbound transport mode (see [[!ISO14083]], Sections 3.1.34 and 5.5.2).
+                <{HOC/freightMassPerTEU}> SHOULD be defined.
 
             : `tonnes`
-            :: Leaving the hub.
+            :: Mass of freight in tonnes leaving the hub (outbound) (see [[!ISO14083]], Sections 5.5.2
+                and 9.4.1, and Annex H.3).
 
             Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
+      <tr>
+        <td><dfn>freightMassPerTEU</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            The average mass of freight per TEU leaving the hub (in `kilograms`), based on the actual
+            mass of freight if known (see [[!ISO14083]], Section 5.4.2).
+
+            SHOULD be defined if <{HOC/hubActivityUnit}> is `TEU`. It is used for the conversion of
+            the GHG emission intensities to a per tonne basis (see [[#pcf-mapping-hoc]]).
 
   </table>
   <figcaption>Properties of data type `HOC`</figcaption>
@@ -2500,28 +2513,43 @@ Note: {{TransportMode}} is used by <{TOC/mode}>, <{TAD/mode}>, <{HOC/inboundTran
 
 ### Data Type <dfn enum>HubType</dfn> ### {#dt-hub-type}
 
-The Data Type {{HubType}} is an enumeration of the main hub types as defined in the [[!GLEC]] Framework.
+The Data Type {{HubType}} is an enumeration of the main hub types as defined in the [[!GLEC]] Framework
+and aligned with the five hub types of the GLEC Framework v3.2 (Module 2).
 
 It MUST be encoded as a String using one of the following values:
 
 <dl dfn-type="enum-value" dfn-for="HubType">
 
 : <dfn>Transshipment</dfn>
-:: Refers to hubs where transshipment is the main service (>80% of goods handled)
+:: Refers to hubs where transshipment is the main service (>80% of goods handled). Hub type 1 of the
+    GLEC Framework v3.2.
 
 : <dfn>StorageAndTransshipment</dfn>
-:: Refers to hubs where both transshipment and warehousing are relevant services
+:: Refers to hubs where both transshipment and warehousing are relevant services. Hub type 2 of the
+    GLEC Framework v3.2.
 
 : <dfn>Warehouse</dfn>
-:: Refers to hubs where warehousing is the main service (>80% of goods handled)
+:: Refers to hubs where warehousing is the main service (>80% of goods handled). Hub type 3 of the
+    GLEC Framework v3.2.
 
 : <dfn>LiquidBulkTerminal</dfn>
-:: Refers to terminals equiped to handle cargo in liquid and gaseous forms
+:: Refers to terminals equipped to handle cargo in liquid and gaseous forms. Hub type 4 of the GLEC
+    Framework v3.2.
+
+: <dfn>IntermodalTerminal</dfn>
+:: Refers to intermodal terminals at seaports or inland ports (hinterland). Hub type 5 of the GLEC
+    Framework v3.2, which replaces the maritime container terminals of the GLEC Framework v3.0.
 
 : <dfn>MaritimeContainerTerminal</dfn>
-:: Refers to hubs where maritime containers are handled
+:: Refers to hubs where maritime containers are handled. Hub type 5 of the GLEC Framework v3.0.
 
 </dl>
+
+Issue: The GLEC Framework v3.2 is not yet a normative reference of these specifications (see
+[[#interop]]). The deprecation of `MaritimeContainerTerminal` in favour of `IntermodalTerminal`
+will be decided in a future revision.
+
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
 ### Data Type <dfn enum>TemperatureControl</dfn> ### {#dt-temperature-control}
 
@@ -2810,6 +2838,10 @@ Note: This enumeration may be extended in minor versions (see [[#forward-compati
 :: Refers to containers as the `PackagingOrTrEqAmount` is in FEU (Forty-foot Equivalent Unit).
 : Container
 :: Refers to containers where the size is unknown. `PackagingOrTrEqAmount` will be the number of container.
+: SwapBody
+:: Refers to swap bodies. `PackagingOrTrEqAmount` is the number of swap bodies.
+: Trailer
+:: Refers to trailers. `PackagingOrTrEqAmount` is the number of trailers.
 
 Note: The use of value `Container` is discouraged, as it does not provide any information about the
 container equivalent unit.
@@ -2858,6 +2890,9 @@ container equivalent unit.
 
             : LiquidBulkTerminal
             :: Refers to terminals equiped to handle cargo in liquid and gaseous forms
+
+            : IntermodalTerminal
+            :: Refers to intermodal terminals at seaports or inland ports (hinterland)
 
             : Hub
             :: Refers to hub operations in general
@@ -4525,11 +4560,17 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>CarbonFootprint
         <td>`pCfExcludingBiogenic`
         <td>
-              MUST be set to the logistics emissions intensity of the HOC defined in <{HOC/co2eIntensityWTW}>.
+              MUST be set to the logistics emissions intensity of the HOC per tonne leaving the hub, derived from
+              <{HOC/co2eIntensityWTW}>:
 
-              Note: The average weight of a container can be considered as 10 tonnes per `TEU`. For light containers, an
-              estimate of 6 tonnes per `TEU` is appropriate, while heavy containers can be assumed to average 14.5 tonnes
-              per `TEU`.
+              - if <{HOC/hubActivityUnit}> is `tonnes`, the value of <{HOC/co2eIntensityWTW}>;
+              - if <{HOC/hubActivityUnit}> is `TEU`, the value of <{HOC/co2eIntensityWTW}> multiplied by `1000` and
+                  divided by <{HOC/freightMassPerTEU}> or, if <{HOC/freightMassPerTEU}> is undefined, divided by `10`
+                  (10 tonnes per `TEU`, see [[!ISO14083]], Section 5.4.2).
+
+              Note: [[!ISO14083]], Section 5.4.2, also permits 6 tonnes per `TEU` for lightweight cargo and 14.5 tonnes
+              per `TEU` for heavyweight cargo if the use of these categories can be justified. In this case,
+              <{HOC/freightMassPerTEU}> SHOULD be set accordingly.
 
               Advisement: Version 4 of the GLEC Framework will provide guidance on biogenic emissions. Updates to this property
               will be made after its release.
@@ -4843,6 +4884,10 @@ apply for additional support, materials, and marketing opportunities.
 - addition of <{HOC/temperatureSpecificIntensities}> for temperature-specific GHG emission intensities within one HOC ([[!ISO14083]], Section 9.5.3); hub TCEs use the intensity matching their temperature condition
 - addition of <{HOC/inboundTransportModes}> and <{HOC/outboundTransportModes}>; deprecation of <{HOC/inboundTransportMode}> and <{HOC/outboundTransportMode}>
 - addition of the <{EnergyCarrierType}> values `Biodiesel`, `Natural gas` (stationary combustion, hub operations only), and `Heat` (purchased heat, hub operations only)
+- <{HOC/hubActivityUnit}>: `TEU` is no longer restricted to sea and inland waterway outbound transport; addition of <{HOC/freightMassPerTEU}>; in [[#pcf-mapping-hoc]], the intensity of TEU-based HOCs is converted to a per tonne basis (semantic change)
+- <{TOC/transportActivityUnit}>: `TEUkm` is no longer restricted to sea and inland waterways
+- {{HubType}}: addition of `IntermodalTerminal` and alignment of the descriptions with the hub types of the GLEC Framework v3.2; `IntermodalTerminal` added to <{ModeSpecificReport/hubOperations}>
+- <{PackagingOrTrEqType}>: addition of `SwapBody` and `Trailer`
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
