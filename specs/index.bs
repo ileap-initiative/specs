@@ -2389,7 +2389,9 @@ It MUST be encoded as a String using one of the following values:
 
 </dl>
 
-NOTE: These transport modes are defined for TOC only. HOC transport modes are defined seperately.
+Note: {{TransportMode}} is used by <{TOC/mode}>, <{TAD/mode}>, <{HOC/inboundTransportMode}>,
+<{HOC/outboundTransportMode}>, and <{ModeSpecificReport/transportMode}>. The transport modes cable
+car and pipeline are out of scope (see [[#out-of-scope]]).
 
 ### Data Type <dfn enum>HubType</dfn> ### {#dt-hub-type}
 
@@ -2487,8 +2489,18 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>String
         <td>O
         <td>
-            Amount of energy carrier consumed per unit of transport activity (<{TOC}>) or per unit of hub activity (<{HOC}>). If defined, <{EnergyCarrier/energyConsumptionUnit}>
-            MUST be defined as well.
+            Quantity of the energy carrier consumed, with unit <{EnergyCarrier/energyConsumptionUnit}>.
+            The reference quantity depends on the context in which the <{EnergyCarrier}> is used:
+
+            - <{TOC}>: quantity per unit of <{TOC/transportActivityUnit}>, relative to the transport
+                activity of the TOC as a whole (e.g. `l` per `tkm`);
+            - <{HOC}>: quantity per unit of <{HOC/hubActivityUnit}>, relative to the [=hub activity=]
+                of the HOC as a whole (e.g. `kWh` per `tonnes`);
+            - <{TAD}>: total quantity consumed for the transport activity of the TAD;
+            - <{ModeSpecificReport}>: total quantity consumed for the activity covered by the
+                <{ModeSpecificReport}>.
+
+            If defined, <{EnergyCarrier/energyConsumptionUnit}> MUST be defined as well.
       <tr>
         <td><dfn>energyConsumptionUnit</dfn>
         <td>String
@@ -2496,6 +2508,8 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>
             Unit of the energy consumed corresponding to the <{EnergyCarrier/energyConsumption}>.
             <{EnergyCarrier/energyConsumptionUnit}> MUST be defined if <{EnergyCarrier/energyConsumption}> is defined.
+            It SHOULD be defined if <{EnergyCarrier/emissionFactorWTW}> or <{EnergyCarrier/emissionFactorTTW}>
+            is defined, as the unit of the emission factors refers to it.
 
             Possible values are:
             : `l`
@@ -4659,6 +4673,8 @@ apply for additional support, materials, and marketing opportunities.
 - replaced the advisements on evolving enumerations with a reference to [[#forward-compatibility]]
 - addition of the definitions of [=Default Value=], [=Hub=], [=Hub Equipment=], [=Hub Operation=], [=Hub Service=], [=Hub TCE=], [=Modeled Data=], [=Throughput=], [=Transport Operation=], and [=Transport Service=]; updated definitions of [=Hub Activity=], [=Hub Operation Category|HOC=], and [=Secondary Data=] (aligned with [[!ISO14083]], freight only)
 - addition of [[#hub-tces]]: hub TCEs have zero distance and zero transport activity; their emissions are derived from the HOC intensities and the hub activity of the TCE (semantic change)
+- rewrote the note on {{TransportMode}}: the enumeration is used by TOCs, TADs, HOCs, and ModeSpecificReports
+- <{EnergyCarrier/energyConsumption}>: the reference quantity is specified per context (per unit of transport activity for TOCs, per unit of hub activity for HOCs, total quantity for TADs and ModeSpecificReports); <{EnergyCarrier/energyConsumptionUnit}> SHOULD be defined when emission factors are defined
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
