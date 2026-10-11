@@ -1634,6 +1634,24 @@ The Data Type <{HOC}> contains [=HOC=] data. It is referenced in a [=Transport C
 
 [=HOCs=] are the building blocks for the calculation of a [=Transport Chain Element=] with hub operations.
 
+### System Boundary ### {#hoc-system-boundary}
+
+The GHG emissions represented in a <{HOC}> MUST follow the system boundary of [[!ISO14083]]
+(Section 5.2 and Annex H.1). In particular:
+
+1. The GHG emissions of all [=hub operations=] of the HOC that consume energy or cause refrigerant
+    leakage are included (see [[!ISO14083]], Annex H.1.2, and <{HOC/refrigerantLeakageIncluded}>).
+1. The GHG emissions of inbound and outbound transport operations, including grid electricity used
+    to charge vehicles leaving the hub and refills of refrigerants into refrigerated containers or
+    vehicles, are not included. They are accounted for in the respective TCEs (see [[!ISO14083]],
+    Annex H.1.3).
+1. GHG emissions from energy used by vehicles or vessels while temporarily at the hub (e.g. ground
+    power units at airports or shore power in ports) are allocated to the transport operation by
+    default in [[!ISO14083]] (Annex H.1.3), while the GLEC Framework v3.2 includes shore power in
+    the hub emissions unless otherwise agreed with the shipping company. If the hub supplies such
+    energy, the data owner MUST state in <{HOC/comment}> whether the related GHG emissions are
+    included in the HOC.
+
 ### Data Attributes ### {#hoc-attributes}
 
 The Data Type <{HOC}> has the following properties:
@@ -1742,7 +1760,7 @@ Issue: Consider adding
         <td>String
         <td>O
         <td>
-            Additional information related to the TOC.
+            Additional information related to the HOC.
 
             SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
 
@@ -4719,6 +4737,8 @@ apply for additional support, materials, and marketing opportunities.
 - rewrote the note on {{TransportMode}}: the enumeration is used by TOCs, TADs, HOCs, and ModeSpecificReports
 - <{EnergyCarrier/energyConsumption}>: the reference quantity is specified per context (per unit of transport activity for TOCs, per unit of hub activity for HOCs, total quantity for TADs and ModeSpecificReports); <{EnergyCarrier/energyConsumptionUnit}> SHOULD be defined when emission factors are defined
 - addition of <{TOC/refrigerantLeakageIncluded}> and <{HOC/refrigerantLeakageIncluded}>: TOC and HOC intensities MUST include GHG emissions from refrigerant leakage unless the omission is stated (semantic change)
+- addition of [[#hoc-system-boundary]]: HOCs follow the system boundary of [[!ISO14083]]; the allocation of energy supplied to vehicles at the hub and the inclusion of optional processes MUST be stated in <{HOC/comment}>
+- corrected the description of <{HOC/comment}> (previously referring to the TOC)
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
