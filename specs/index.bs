@@ -153,7 +153,7 @@ The authors would like to thank the many individuals and organizations for their
     The shortest distance between two points by crow-line, including the curving of the Earth. It is an approach used in air transport. [[!GLEC]] Framework.
 
 : <dfn data-noexport>Hub Activity</dfn>
-:: The operations carried out at a hub, measured in the hub's throughput. [[!GLEC]] Framework.
+:: Parameter that quantifies the throughput of a hub. Hub activity is not transport activity (see [[#activity-convention]]). See [[!ISO14083]], Sections 3.1.9 and 3.1.21, and the [[!GLEC]] Framework.
 
 : <dfn data-lt="Hub Operation Category|HOC">Hub Operation Category (HOC)</dfn>
 :: Represents a grouping of hub operations sharing similar characteristics.  [[!GLEC]] Framework.
@@ -198,7 +198,7 @@ The authors would like to thank the many individuals and organizations for their
 :: A Transport Chain as defined in the [[!GLEC]] Framework. A TC consists of 1 or more [=Transport Chain Elements=]. A TC corresponds to a shipment.
 
 : <dfn data-lt="Transport Chain Element">Transport Chain Element (TCE)</dfn>
-:: Represents one element of the transport chain. It can consist of a transport activity or a hub activity. [[!GLEC]] Framework.
+:: Section of a transport chain within which the freight is carried by a single vehicle or transits through a single hub. A TCE therefore relates either to transport activity or to hub activity. See [[!ISO14083]], Section 3.1.26, and the [[!GLEC]] Framework.
 
 : <dfn>Transport Distance</dfn>
 :: Refers to the distance covered from the consignor to the consignee during the transportation of the freight. [[!GLEC]] Framework. See also [[!ISO14083]] 3.1.27.
@@ -262,6 +262,25 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 (BCP14)[https://www.rfc-editor.org/info/bcp14] [[!RFC2119]]
 [[!RFC8174]] when, and only when, they appear in all
 capitals, as shown here.
+
+## Transport Activity and Hub Activity ## {#activity-convention}
+
+[=Transport Activity=] and [=Hub Activity=] are distinct quantities. They MUST NOT be summed,
+converted into each other, or used interchangeably.
+
+1. [=Transport Activity=] quantifies the transport of freight by vehicles. Its unit is
+    `tonne-kilometer` unless stated otherwise (see <{TOC/transportActivityUnit}>).
+1. [=Hub Activity=] quantifies the throughput of a hub. Its unit is the one given in
+    <{HOC/hubActivityUnit}>, e.g. `tonnes` leaving the hub.
+1. The transport activity of a [=transport chain=] or of a set of shipments is the sum of the
+    transport activity of its TCEs representing transport operations only. TCEs representing
+    hub operations contribute GHG emissions, but no transport activity
+    (see [[!ISO14083]], Sections 12.1.2 and 12.2.3).
+1. GHG emissions of hub operations result from hub equipment operation and hub equipment energy
+    provision (see [[!ISO14083]], Sections 3.2.8.1 and 3.2.8.2), not from vehicle operation.
+
+Issue: The semantics of <{TCE/distance}> and <{TCE/transportActivity}> for TCEs representing hub
+operations will be specified in a future revision.
 
 
 # Business Cases # {#business-cases}
@@ -1722,7 +1741,7 @@ Issue: Consider adding
         <td>
             The non-empty array of [=EnergyCarriers=] used to generate mechanical movement or heat and to generate chemical or physical processes, as defined in the [[!GLEC]] Framework.
 
-            The sum of the relative shares of the energy carriers used in the HOC MUST equal `1`. The relative share of each energy carrier MUST be computed relative to (total) transport activity (with unit at the denominator of <{HOC/hubActivityUnit}>) of the HOC.
+            The sum of the relative shares of the energy carriers used in the HOC MUST equal `1`. The relative share of each energy carrier MUST be computed relative to the [=hub activity=] (with unit <{HOC/hubActivityUnit}>) of the HOC.
 
             <div class=example>
               Assuming the HOC represents terminal where 75% of the (representative) hub activity uses `diesel` and the remaining 25% uses electricity (grid) to generate movements, the value of <{HOC/energyCarriers}> would be:
@@ -1757,13 +1776,13 @@ Issue: Consider adding
         <td>String
         <td>M
         <td>
-             The Coefficient relating specified transport activity and WTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+             The Coefficient relating hub activity and WTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
  <tr>
         <td><dfn>co2eIntensityTTW</dfn> : [=Decimal=]
         <td>String
         <td>M
         <td>
-              The Coefficient relating specified transport activity and TTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+              The Coefficient relating hub activity and TTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
 
       <tr>
         <td><dfn>hubActivityUnit</dfn>
@@ -2086,24 +2105,24 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>String
         <td>M
         <td>
-            The sum total of the transport and hub activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
-            with unit `tonne-kilometers`.
+            The sum total of the [=transport activity=] of the shipments referenced in <{AggregatedReport/shipmentIds}>,
+            with unit `tonne-kilometers`. Hub activity is not included (see [[#activity-convention]]).
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
         <td>M
         <td>
             GHG emissions released to atmosphere during the process of producing, storing, processing and distributing
-            an energy carrier for vehicle operation + GHG emissions released to atmosphere as a result of vehicle
-            operation. The value MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}>
-            with unit `kgCO2e`.
+            an energy carrier for vehicle operation and hub equipment operation + GHG emissions released to atmosphere
+            as a result of vehicle operation and hub equipment operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
       <tr>
         <td><dfn>co2eTTW</dfn> : [=Decimal=]
         <td>String
         <td>O
         <td>
-            GHG emissions released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
-            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
+            GHG emissions released to atmosphere as a result of vehicle operation and hub equipment operation. The value
+            MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
       <tr>
         <td><dfn>noxTTW</dfn> : [=Decimal=]
         <td>String
@@ -2375,7 +2394,9 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>
               The relative share of this energy carrier. Its value MUST be between `0` (excluding) and `1` (including).
 
-              The relative share of each energy carrier MUST be computed relative to the transport or hub activity.
+              The relative share of each energy carrier MUST be computed relative to the transport activity
+              (<{TOC}>, <{TAD}>, <{ModeSpecificReport}>) or as specified for the <{HOC}> in <{HOC/energyCarriers}>.
+              Transport activity and hub activity MUST NOT be mixed (see [[#activity-convention]]).
 
               Note:
                   See the respective use in <{TOC/energyCarriers|TOC}>,
@@ -2393,7 +2414,7 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>String
         <td>O
         <td>
-            Amount of energy carrier consumed per transport activity, as defined for the TOC or HOC. If defined, <{EnergyCarrier/energyConsumptionUnit}>
+            Amount of energy carrier consumed per unit of transport activity (<{TOC}>) or per unit of hub activity (<{HOC}>). If defined, <{EnergyCarrier/energyConsumptionUnit}>
             MUST be defined as well.
       <tr>
         <td><dfn>energyConsumptionUnit</dfn>
@@ -2607,9 +2628,12 @@ Advisement: The enumeration of packaging or transport equipment units above will
               The non-empty array of [=EnergyCarriers=] used to generate mechanical movement or heat and to generate
               chemical or physical processes, as defined in the [[!GLEC]] Framework.
 
-              The sum of the relative shares of the energy carriers used MUST equal 1. The relative share of each energy
-              carrier MUST be computed relative to the <{AggregatedReport/totalActivity}> of the <{AggregatedReport}>,
-              with unit `tonne-kilometers`.
+              The sum of the relative shares of the energy carriers used MUST equal 1. For a <{ModeSpecificReport}>
+              relating to a transport mode, the relative share of each energy carrier MUST be computed relative to the
+              transport activity of this transport mode, with unit `tonne-kilometers` (see [[#activity-convention]]).
+
+              Issue: The basis of the relative share for a <{ModeSpecificReport}> relating to hub operations
+              (see <{ModeSpecificReport/hubOperations}>) will be specified in a future revision.
 
               To represent a single EnergyCarrierType produced from multiple feedstocks, each feedstock MUST be
               represented by a separate entry in the EnergyCarriers array. For each EnergyCarrier, the combined value of
@@ -2641,16 +2665,16 @@ Advisement: The enumeration of packaging or transport equipment units above will
         <td>M
         <td>
             GHG emissions released to atmosphere during the process of producing, storing, processing and distributing
-            an energy carrier for vehicle operation + GHG emissions released to atmosphere as a result of vehicle
-            operation. The value MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}>
-            with unit `kgCO2e`.
+            an energy carrier for vehicle operation or hub equipment operation + GHG emissions released to atmosphere
+            as a result of vehicle operation or hub equipment operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
       <tr>
         <td><dfn>co2eTTW</dfn> : [=Decimal=]
         <td>String
         <td>O
         <td>
-            GHG emissions released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
-            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
+            GHG emissions released to atmosphere as a result of vehicle operation or hub equipment operation. The value
+            MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
       <tr>
         <td><dfn>noxTTW</dfn> : [=Decimal=]
         <td>String
@@ -4550,6 +4574,15 @@ apply for additional support, materials, and marketing opportunities.
 
 
 # Appendix A: Changelog # {#changelog}
+
+## Version 1.1.0-draft.3 (unreleased) ## {#version-1.1.0-draft.3}
+
+- addition of [[#activity-convention]]: transport activity and hub activity are distinct and MUST NOT be mixed
+- updated definitions of [=Hub Activity=], [=Transport Chain Element|TCE=], and [=Transport Activity=]
+- <{AggregatedReport/totalActivity}> no longer includes hub activity (transport activity in `tonne-kilometers` only)
+- <{AggregatedReport}> and <{ModeSpecificReport}>: `co2eWTW` and `co2eTTW` cover hub equipment operation in addition to vehicle operation
+- relative shares of <{ModeSpecificReport/energyCarriers}> are computed relative to the transport activity of the respective transport mode
+- removed references to transport activity from <{HOC/energyCarriers}>, <{HOC/co2eIntensityWTW}>, and <{HOC/co2eIntensityTTW}>
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
