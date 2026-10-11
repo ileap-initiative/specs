@@ -159,11 +159,11 @@ The authors would like to thank the many individuals and organizations for their
 :: Represents a grouping of hub operations sharing similar characteristics.  [[!GLEC]] Framework.
 
 : <dfn data-noexport>Hub Operator</dfn>
-:: Refers to the party that is offering hub services, including warehousing and transshipment services. See [[!ISO14083]], Section 3.1.13.
+:: Refers to the entity that carries out hub operations involving freight. See [[!ISO14083]], Section 3.1.13.
 
 : <dfn>Primary Data</dfn>
 ::
-    Data based on direct measurements of energy consumption. Also see [[!GLEC]] Framework.
+    Quantified value of a process or an activity obtained from a direct measurement or a calculation based on direct measurements. Primary data can include GHG emission factors and/or GHG activity data. See [[!ISO14083]], Section 3.3.3, and the [[!GLEC]] Framework.
 
 : <dfn>Secondary Data</dfn>
 ::
@@ -192,7 +192,7 @@ The authors would like to thank the many individuals and organizations for their
 : <dfn>Transport Activity</dfn>
 ::
     Transport activity for each consignment is calculated by multiplying the consignment's mass by the TCE distance.
-    It is measured with unit `tonne-kilometer`. See [[!ISO14083]] Section 3.1.24 and the [[!GLEC]] Framework.
+    It is measured with unit `tonne-kilometer`. See [[!ISO14083]] Section 3.1.24 and the [[!GLEC]] Framework. It does not include hub activity (see [[#activity-convention]]).
 
 : <dfn data-lt="Transport Chain|TC">Transport Chain (TC)</dfn>
 :: A Transport Chain as defined in the [[!GLEC]] Framework. A TC consists of 1 or more [=Transport Chain Elements=]. A TC corresponds to a shipment.
@@ -204,10 +204,10 @@ The authors would like to thank the many individuals and organizations for their
 :: Refers to the distance covered from the consignor to the consignee during the transportation of the freight. [[!GLEC]] Framework. See also [[!ISO14083]] 3.1.27.
 
 : <dfn data-lt="Transport Operation Category|TOC" id='toc-dfn'>Transport Operation Category (TOC)</dfn>
-:: Represents a grouping of transport services sharing similar characteristics.  [[!GLEC]] Framework.
+:: Represents a group of transport operations sharing similar characteristics. See [[!ISO14083]], Section 3.1.29, and the [[!GLEC]] Framework.
 
 : <dfn>Transport Operator</dfn>
-:: Refers to the party that carries out the transport service. See [[!ISO14083]], Section 3.1.30.
+:: Refers to the entity that carries out transport operations involving the carriage of freight. See [[!ISO14083]], Section 3.1.30.
 
 : <dfn>Transport Service Organizer</dfn>
 :: Refers to the party providing transport services, where some of the operations are subcontracted to a third party, usually a Transport Operator. See [[!ISO14083]], Section 3.1.32.
@@ -4583,6 +4583,7 @@ apply for additional support, materials, and marketing opportunities.
 - <{AggregatedReport}> and <{ModeSpecificReport}>: `co2eWTW` and `co2eTTW` cover hub equipment operation in addition to vehicle operation
 - relative shares of <{ModeSpecificReport/energyCarriers}> are computed relative to the transport activity of the respective transport mode
 - removed references to transport activity from <{HOC/energyCarriers}>, <{HOC/co2eIntensityWTW}>, and <{HOC/co2eIntensityTTW}>
+- aligned the definitions of [=Hub Operator=], [=Transport Operator=], [=Transport Operation Category|TOC=], and [=Primary Data=] with [[!ISO14083]] (freight only)
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
