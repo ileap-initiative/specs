@@ -84,11 +84,21 @@ These specifications do not cover the following topics or aspects, as they are c
 1. Contracts or legal aspect of data exchange between parties, including third party entities offering digital services or tools.
 1. Auditing and verification of actual emissions calculations beyond systems-level accreditation.
       Verification-related properties are expected to be included in future versions of these technical specifications.
-1. Transparency relating to market-based or project accounting approaches and measures.
-      Book and claim-related approaches are expected to be included in future versions of these technical specifications.
+1. Market-based accounting approaches (e.g., based on contractual instruments such as energy
+      attribute certificates), project accounting, and book and claim approaches.
+      Emissions from electricity exchanged under these specifications are quantified using the
+      location-based approach as specified in [[!ISO14083]], Annex J.3. Market-based figures,
+      which [[!ISO14083]], Annex J.3 permits only in addition to location-based figures and to be
+      reported separately, are expected to be included in future versions of these technical
+      specifications, as are book and claim-related approaches.
 1. Variables for detailed GHG emissions modeling, as described in [[!ISO14083]], Section 13.4.3 and Annex M. The current data model focuses on enabling primary data collection. Basic use of modeled and default data is supported, but detailed parameters remain excluded.
 1. Modes of transport "cable car" and "pipeline".
-1. Refrigerant emissions, as described in [[!ISO14083]], Annex I. These will be incorporated in future versions of these technical specifications.
+1. The exchange of refrigerant-specific data, such as refrigerant type, leaked quantity, and
+      global warming potential. Leakage of refrigerants used by vehicles or hubs is part of the
+      system boundary of [[!ISO14083]] (Section 5.2.2; see also Section 9.2, Annex H.1.2 and, for
+      transport operations, Annex I); emission values exchanged under these specifications follow
+      it, including the requirement to state any omission (Section 5.2.3). Data model support for
+      refrigerant data is expected in future versions of these technical specifications.
 1. Reporting with per-modality transparency as defined in Section 13.3 of [[!ISO14083]].
     The key difference between this approach and iLEAP is that the former also <i>allows</i> for a) aggregating over more than 1 shipment, and b) disclosing emissions per modality.
     The iLEAP Technical Specifications operate on a per-shipment and per-TCE basis.
@@ -4584,6 +4594,8 @@ apply for additional support, materials, and marketing opportunities.
 - relative shares of <{ModeSpecificReport/energyCarriers}> are computed relative to the transport activity of the respective transport mode
 - removed references to transport activity from <{HOC/energyCarriers}>, <{HOC/co2eIntensityWTW}>, and <{HOC/co2eIntensityTTW}>
 - aligned the definitions of [=Hub Operator=], [=Transport Operator=], [=Transport Operation Category|TOC=], and [=Primary Data=] with [[!ISO14083]] (freight only)
+- [[#out-of-scope]]: emissions from electricity are quantified using the location-based approach ([[!ISO14083]], Annex J.3); market-based figures remain out of scope (semantic change)
+- [[#out-of-scope]]: refrigerant leakage is part of the system boundary of [[!ISO14083]] (Section 5.2.2); only the exchange of refrigerant-specific data remains out of scope (semantic change)
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
