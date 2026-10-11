@@ -155,6 +155,9 @@ The authors would like to thank the many individuals and organizations for their
 ::
     A digital identifier which uniquely identifies a [=Consignment=] relative to the [=Host system=] and to the [=data recipient=].
 
+: <dfn>Default Value</dfn>
+:: [=Secondary data=] value taken from a published source, e.g. a default value of the [[!GLEC]] Framework. A default value does not necessarily correspond to the parameters of the [=transport operation=] or [=hub operation=] being evaluated. See [[!ISO14083]], Section 3.3.4.2 and Annex Q.
+
 : <dfn>Distance</dfn>
 :: See [=Transport Distance=] and [=Actual Distance=]
 
@@ -162,14 +165,32 @@ The authors would like to thank the many individuals and organizations for their
 ::
     The shortest distance between two points by crow-line, including the curving of the Earth. It is an approach used in air transport. [[!GLEC]] Framework.
 
+: <dfn>Hub</dfn>
+:: Location where freight is transferred from one vehicle or transport mode to another before, after, or between the elements of a [=transport chain=], e.g. cross-docking sites, distribution centres, warehouses, rail/road terminals, and terminals at seaports, inland ports, and airports. See [[!ISO14083]], Section 3.1.8 and Annex H.
+
 : <dfn data-noexport>Hub Activity</dfn>
-:: Parameter that quantifies the throughput of a hub. Hub activity is not transport activity (see [[#activity-convention]]). See [[!ISO14083]], Sections 3.1.9 and 3.1.21, and the [[!GLEC]] Framework.
+:: Parameter that quantifies the [=throughput=] of a [=hub=]. For freight, hub activity is the quantity of freight leaving the hub (outbound), expressed in the unit given by <{HOC/hubActivityUnit}>. Hub activity is not transport activity (see [[#activity-convention]]). See [[!ISO14083]], Sections 3.1.9, 5.5.2 and 9.4.1, and the [[!GLEC]] Framework.
+
+: <dfn data-noexport>Hub Equipment</dfn>
+:: Equipment and facilities used at a [=hub=] to transfer freight, e.g. handling, on-site transportation, and transhipment equipment, including heating and temperature control. See [[!ISO14083]], Sections 3.1.10 and 5.2.2.
+
+: <dfn data-noexport>Hub Operation</dfn>
+:: Operation to transfer freight through a [=hub=]. See [[!ISO14083]], Section 3.1.11.
 
 : <dfn data-lt="Hub Operation Category|HOC">Hub Operation Category (HOC)</dfn>
-:: Represents a grouping of hub operations sharing similar characteristics.  [[!GLEC]] Framework.
+:: Represents a group of [=hub operations=] sharing similar characteristics. See [[!ISO14083]], Section 3.1.12, and the [[!GLEC]] Framework.
 
 : <dfn data-noexport>Hub Operator</dfn>
-:: Refers to the entity that carries out hub operations involving freight. See [[!ISO14083]], Section 3.1.13.
+:: Refers to the entity that carries out [=hub operations=] involving freight. See [[!ISO14083]], Section 3.1.13.
+
+: <dfn data-noexport>Hub Service</dfn>
+:: Service provided within a [=hub TCE=]. See [[!ISO14083]], Section 3.1.14.
+
+: <dfn data-noexport>Hub TCE</dfn>
+:: A [=Transport Chain Element|TCE=] within which the freight transits through a single [=hub=], i.e. a TCE taking place within a [=hub operation=]. A hub TCE is represented by a <{TCE}> that references a <{HOC}> through <{TCE/hocId}> (see [[#hub-tces]]). See [[!ISO14083]], Clause 11.
+
+: <dfn>Modeled Data</dfn>
+:: [=Secondary data=] established by use of a model that takes into account [=primary data=] and/or GHG emission-relevant parameters of a [=transport operation=] or [=hub operation=], such as vehicle size, load factor, or fuel type. See [[!ISO14083]], Section 3.3.4.1.
 
 : <dfn>Primary Data</dfn>
 ::
@@ -177,7 +198,7 @@ The authors would like to thank the many individuals and organizations for their
 
 : <dfn>Secondary Data</dfn>
 ::
-    Any data that is not primary data. It applies to modeled and default data. [[!GLEC]] Framework.
+    Data that do not meet the requirements for [=primary data=]. Secondary data are either [=modeled data=] or [=default values=]. See [[!ISO14083]], Section 3.3.4, and the [[!GLEC]] Framework.
 
 : <dfn>Shipment</dfn>
 ::
@@ -199,6 +220,9 @@ The authors would like to thank the many individuals and organizations for their
 ::
     Represents the shortest practical route between two places taking into account the real operating conditions. [[!GLEC]] Framework.
 
+: <dfn data-noexport>Throughput</dfn>
+:: The quantity of freight that is handled, sorted, cross-docked, or transferred at a [=hub=], within or between transport modes. See [[!ISO14083]], Section 3.1.21.
+
 : <dfn>Transport Activity</dfn>
 ::
     Transport activity for each consignment is calculated by multiplying the consignment's mass by the TCE distance.
@@ -213,14 +237,20 @@ The authors would like to thank the many individuals and organizations for their
 : <dfn>Transport Distance</dfn>
 :: Refers to the distance covered from the consignor to the consignee during the transportation of the freight. [[!GLEC]] Framework. See also [[!ISO14083]] 3.1.27.
 
+: <dfn>Transport Operation</dfn>
+:: Operation of a vehicle to transport freight. See [[!ISO14083]], Section 3.1.28.
+
 : <dfn data-lt="Transport Operation Category|TOC" id='toc-dfn'>Transport Operation Category (TOC)</dfn>
-:: Represents a group of transport operations sharing similar characteristics. See [[!ISO14083]], Section 3.1.29, and the [[!GLEC]] Framework.
+:: Represents a group of [=transport operations=] sharing similar characteristics. See [[!ISO14083]], Section 3.1.29, and the [[!GLEC]] Framework.
 
 : <dfn>Transport Operator</dfn>
-:: Refers to the entity that carries out transport operations involving the carriage of freight. See [[!ISO14083]], Section 3.1.30.
+:: Refers to the entity that carries out [=transport operations=] involving the carriage of freight. See [[!ISO14083]], Section 3.1.30.
+
+: <dfn>Transport Service</dfn>
+:: Service provided to a [=Transport Service User=] for the transport of freight from an origin to a destination. A transport service can comprise several [=Transport Chain Elements=] and require both [=transport operations=] and [=hub operations=]. See [[!ISO14083]], Section 3.1.31.
 
 : <dfn>Transport Service Organizer</dfn>
-:: Refers to the party providing transport services, where some of the operations are subcontracted to a third party, usually a Transport Operator. See [[!ISO14083]], Section 3.1.32.
+:: Refers to the party providing [=transport services=], where some of the operations are subcontracted to a third party, usually a Transport Operator. See [[!ISO14083]], Section 3.1.32.
 
 : <dfn>Transport Service User</dfn>
 :: Refers to the party that purchases and/or utilizes a transport service. It could be a [=shipper=] or a [=Transport Service Organizer=]. See [[!ISO14083]], Section 3.1.33.
@@ -283,14 +313,11 @@ converted into each other, or used interchangeably.
 1. [=Hub Activity=] quantifies the throughput of a hub. Its unit is the one given in
     <{HOC/hubActivityUnit}>, e.g. `tonnes` leaving the hub.
 1. The transport activity of a [=transport chain=] or of a set of shipments is the sum of the
-    transport activity of its TCEs representing transport operations only. TCEs representing
-    hub operations contribute GHG emissions, but no transport activity
-    (see [[!ISO14083]], Sections 12.1.2 and 12.2.3).
-1. GHG emissions of hub operations result from hub equipment operation and hub equipment energy
+    transport activity of its TCEs representing transport operations only. [=Hub TCEs=]
+    contribute GHG emissions, but no transport activity (see [[#hub-tces]] and [[!ISO14083]],
+    Sections 12.1.2 and 12.2.3).
+1. GHG emissions of hub operations result from [=hub equipment=] operation and hub equipment energy
     provision (see [[!ISO14083]], Sections 3.2.8.1 and 3.2.8.2), not from vehicle operation.
-
-Issue: The semantics of <{TCE/distance}> and <{TCE/transportActivity}> for TCEs representing hub
-operations will be specified in a future revision.
 
 ## Forward Compatibility ## {#forward-compatibility}
 
@@ -965,7 +992,7 @@ Issue: Consider adding
 The <{TCE}> data type models information related to a single [=Transport Chain Element=] and its emissions data.
 
 The emissions data represented in a <{TCE}> can be obtained from direct measurement
-(see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
+(see [=Primary Data=]) or from [=secondary data=] ([=modeled data=] or [=default values=]).
 
 <{TCE|TCEs}> are typically calculated by [=Transport Operators=] and [=Transport Service Organizers=]. They are made available to [=Transport Service Users=] through
 the <{ShipmentFootprint}> data type (see [[#dt-sf]]), through the RECOMMENDED [=iLEAP standalone protocol=] (see [[#action-sd]]) and through the (deprecated)
@@ -1002,6 +1029,24 @@ If the property is defined and the array is empty, the current TCE MUST be the f
 </figure>
 
 </div>
+
+### Hub TCEs ### {#hub-tces}
+
+A <{TCE}> that references a <{HOC}> through <{TCE/hocId}> represents a [=hub TCE=]. For hub TCEs,
+the following applies (see [[!ISO14083]], Clause 11, and [[#activity-convention]]):
+
+1. Hub TCEs are associated with zero distance (see the [[!GLEC]] Framework). Each defined property
+    of <{TCE/distance}> MUST be `0`.
+1. <{TCE/transportActivity}> MUST be `0`, as hub TCEs contribute no transport activity.
+1. The hub activity of a hub TCE is quantified in the <{HOC/hubActivityUnit}> of the referenced
+    <{HOC}> (see [[!ISO14083]], Section 11.2). If the unit is `tonnes`, the hub activity is the
+    value of <{TCE/mass}> divided by `1000`. If the unit is `TEU`, the hub activity is the number of
+    TEUs; in this case, <{TCE/packagingOrTrEqType}> SHOULD be `Container-TEU` and
+    <{TCE/packagingOrTrEqAmount}> SHOULD be defined.
+1. <{TCE/co2eWTW}> and <{TCE/co2eTTW}> are calculated by multiplying the hub activity of the TCE
+    with <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> of the referenced <{HOC}>,
+    respectively (see [[!ISO14083]], Section 11.4). They cover hub equipment operation and hub
+    equipment energy provision, not vehicle operation.
 
 
 ### Data Attributes ### {#tce-attributes}
@@ -1046,7 +1091,8 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>String
         <td>
         <td>
-              If defined, the id of the [=HOC=] used for the calculation of this <{TCE}>.
+              If defined, the id of the [=HOC=] used for the calculation of this <{TCE}>. A <{TCE}>
+              with <{TCE/hocId}> defined is a [=hub TCE=] (see [[#hub-tces]]).
 
               Either <{TCE/tocId}> or <{TCE/hocId}> MUST be defined.
 
@@ -1101,6 +1147,7 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td><{GLECDistance}>
         <td>M
         <td>The [=distance=] between the origin and the destination of the activity related to the TCE.
+            For [=hub TCEs=], see [[#hub-tces]].
 
       <tr>
         <td><dfn>origin</dfn>
@@ -1120,6 +1167,7 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>M
         <td>
             The [=transport activity=] of the TCE with unit `tonne-kilometers`.
+            For [=hub TCEs=], the value MUST be `0` (see [[#hub-tces]]).
 
             <div class=example>
                 If the transport [=distance=] is `700` `kilometers` and the mass is `230` `kilograms`,
@@ -1199,7 +1247,8 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>
               GHG emissions released to atmosphere during the process of producing, storing,
               processing and distributing an energy carrier for vehicle operation + GHG emissions
-              released to atmosphere as a result of vehicle operation.
+              released to atmosphere as a result of vehicle operation. For [=hub TCEs=], hub
+              equipment operation applies instead of vehicle operation (see [[#hub-tces]]).
               The value MUST be calculated for the TCE with unit `kgCO2e`.
 
       <tr>
@@ -1207,7 +1256,8 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>String
         <td>M
         <td>
-              GHG emissions released to atmosphere as a result of vehicle operation
+              GHG emissions released to atmosphere as a result of vehicle operation. For [=hub
+              TCEs=], hub equipment operation applies instead of vehicle operation (see [[#hub-tces]]).
               The value MUST be calculated for the TCE with unit `kgCO2e`.
 
       <tr>
@@ -1256,9 +1306,8 @@ The [=Transport Operator=] or [=Transport Service Organizer=] MUST calculate the
 The [=Transport Operator=] or [=Transport Service Organizer=] SHOULD then make the <{TOC}> available through the RECOMMENDED [=iLEAP standalone protocol=] ([[#action-sd]]) and through the (deprecated) PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
 
 Transport Operation Category data can be obtained from direct measurement
-(see `primary data` definition of [[!ISO14083]]) or other measurements
-(see `secondary data` definition of [[!ISO14083]]) such as modeled data
-or default values.
+(see [=Primary Data=]) or from [=secondary data=], i.e. [=modeled data=]
+or [=default values=].
 
 ### Data Attributes ### {#toc-attributes}
 
@@ -4608,6 +4657,8 @@ apply for additional support, materials, and marketing opportunities.
 - [[#out-of-scope]]: refrigerant leakage is part of the system boundary of [[!ISO14083]] (Section 5.2.2); only the exchange of refrigerant-specific data remains out of scope (semantic change)
 - addition of [[#forward-compatibility]]: data recipients ignore unknown properties and do not reject unknown enumeration values; enumeration values may be added in minor versions
 - replaced the advisements on evolving enumerations with a reference to [[#forward-compatibility]]
+- addition of the definitions of [=Default Value=], [=Hub=], [=Hub Equipment=], [=Hub Operation=], [=Hub Service=], [=Hub TCE=], [=Modeled Data=], [=Throughput=], [=Transport Operation=], and [=Transport Service=]; updated definitions of [=Hub Activity=], [=Hub Operation Category|HOC=], and [=Secondary Data=] (aligned with [[!ISO14083]], freight only)
+- addition of [[#hub-tces]]: hub TCEs have zero distance and zero transport activity; their emissions are derived from the HOC intensities and the hub activity of the TCE (semantic change)
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
