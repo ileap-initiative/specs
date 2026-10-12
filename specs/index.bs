@@ -1595,7 +1595,7 @@ To represent a single <{EnergyCarrierType}> produced from multiple feedstocks, e
               The Coefficient relating specified transport activity with TTW GHG emissions with unit `kgCO2e` per <{TOC/transportActivityUnit}> as defined in the [[!GLEC]] Framework.
       <tr>
         <td><dfn>refrigerantLeakageCoverage</dfn>
-        <td>String
+        <td>{{RefrigerantLeakageCoverage}}
         <td>O
         <td>
             Indicates to which extent <{TOC/co2eIntensityWTW}> and <{TOC/co2eIntensityTTW}> include the
@@ -1603,26 +1603,13 @@ To represent a single <{EnergyCarrierType}> produced from multiple feedstocks, e
             temperature-controlled freight units such as refrigerated containers (see [[!ISO14083]],
             Sections 5.2.2 and 8.2, and Annex I).
 
-            If defined, the value MUST be one of the following:
-
-            : `Included`
-            :: The GHG emissions from leakage of all refrigerants used are included.
-            : `PartiallyIncluded`
-            :: The GHG emissions from leakage of some refrigerants or of some equipment are included,
-                others are omitted. The omitted sources and the reasons for their omission MUST be
-                stated in <{TOC/comment}> (see [[!ISO14083]], Section 5.2.3).
-            : `Omitted`
-            :: The GHG emissions from refrigerant leakage are omitted. The reasons for the omission
-                MUST be stated in <{TOC/comment}> (see [[!ISO14083]], Section 5.2.3).
-            : `NotApplicable`
-            :: No refrigerants are used by the vehicles of the TOC.
-
             <{TOC/co2eIntensityWTW}> and <{TOC/co2eIntensityTTW}> MUST include the GHG emissions from
-            refrigerant leakage, unless this property is set to `PartiallyIncluded` or `Omitted`. Data
-            owners SHOULD define this property. If it is undefined, [=data recipients=] MUST NOT assume
-            that the GHG emissions from refrigerant leakage are included.
-
-            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
+            refrigerant leakage, unless this property is set to
+            {{RefrigerantLeakageCoverage/PartiallyIncluded}} or {{RefrigerantLeakageCoverage/Omitted}}.
+            In these cases, the statements required by {{RefrigerantLeakageCoverage}} MUST be made in
+            <{TOC/comment}>. Data owners SHOULD define this property. If it is undefined,
+            [=data recipients=] MUST NOT assume that the GHG emissions from refrigerant leakage are
+            included.
       <tr>
         <td><dfn>transportActivityUnit</dfn>
         <td>String
@@ -1964,7 +1951,7 @@ Issue: Consider adding
             Note: See [[#hoc-intensity-example]] for an example.
       <tr>
         <td><dfn>refrigerantLeakageCoverage</dfn>
-        <td>String
+        <td>{{RefrigerantLeakageCoverage}}
         <td>O
         <td>
             Indicates to which extent <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> include the
@@ -1973,26 +1960,13 @@ Issue: Consider adding
             refrigerated containers or vehicles are accounted for in the respective transport
             operations, not in the HOC (see [[!ISO14083]], Annex H.1.3).
 
-            If defined, the value MUST be one of the following:
-
-            : `Included`
-            :: The GHG emissions from leakage of all refrigerants used are included.
-            : `PartiallyIncluded`
-            :: The GHG emissions from leakage of some refrigerants or of some equipment are included,
-                others are omitted. The omitted sources and the reasons for their omission MUST be
-                stated in <{HOC/comment}> (see [[!ISO14083]], Section 5.2.3).
-            : `Omitted`
-            :: The GHG emissions from refrigerant leakage are omitted. The reasons for the omission
-                MUST be stated in <{HOC/comment}> (see [[!ISO14083]], Section 5.2.3).
-            : `NotApplicable`
-            :: No refrigerants are used by the hub equipment of the HOC.
-
             <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> MUST include the GHG emissions from
-            refrigerant leakage, unless this property is set to `PartiallyIncluded` or `Omitted`. Data
-            owners SHOULD define this property. If it is undefined, [=data recipients=] MUST NOT assume
-            that the GHG emissions from refrigerant leakage are included.
-
-            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
+            refrigerant leakage, unless this property is set to
+            {{RefrigerantLeakageCoverage/PartiallyIncluded}} or {{RefrigerantLeakageCoverage/Omitted}}.
+            In these cases, the statements required by {{RefrigerantLeakageCoverage}} MUST be made in
+            <{HOC/comment}>. Data owners SHOULD define this property. If it is undefined,
+            [=data recipients=] MUST NOT assume that the GHG emissions from refrigerant leakage are
+            included.
 
       <tr>
         <td><dfn>hubActivityUnit</dfn>
@@ -2688,6 +2662,35 @@ It MUST be encoded as a String using one of the following values:
 
 Note: These specifications do not define temperature ranges for these values. Data owners SHOULD
 state the temperature ranges used in the `comment` property of the respective data type.
+
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
+
+### Data Type <dfn enum>RefrigerantLeakageCoverage</dfn> ### {#dt-refrigerant-leakage-coverage}
+
+The Data Type {{RefrigerantLeakageCoverage}} is an enumeration of the extent to which GHG emission
+intensities include the GHG emissions from leakage of refrigerants (see [[!ISO14083]], Sections 5.2.2
+and 5.2.3). It is used by <{TOC/refrigerantLeakageCoverage}> and <{HOC/refrigerantLeakageCoverage}>.
+
+It MUST be encoded as a String using one of the following values:
+
+<dl dfn-type="enum-value" dfn-for="RefrigerantLeakageCoverage">
+
+: <dfn>Included</dfn>
+:: The GHG emissions from leakage of all refrigerants used are included.
+
+: <dfn>PartiallyIncluded</dfn>
+:: The GHG emissions from leakage of some refrigerants or of some equipment are included, others are
+    omitted. The omitted sources and the reasons for their omission MUST be stated in the `comment`
+    property of the respective data type (see [[!ISO14083]], Section 5.2.3).
+
+: <dfn>Omitted</dfn>
+:: The GHG emissions from refrigerant leakage are omitted. The reasons for the omission MUST be stated
+    in the `comment` property of the respective data type (see [[!ISO14083]], Section 5.2.3).
+
+: <dfn>NotApplicable</dfn>
+:: No refrigerants are used within the scope of the respective property.
+
+</dl>
 
 Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
@@ -5020,7 +5023,7 @@ apply for additional support, materials, and marketing opportunities.
 - addition of [[#hub-tces]]: hub TCEs have zero distance and zero transport activity; their emissions are derived from the HOC intensities and the hub activity of the TCE (semantic change)
 - rewrote the note on {{TransportMode}}: the enumeration is used by TOCs, TADs, HOCs, and ModeSpecificReports
 - <{EnergyCarrier/energyConsumption}>: the reference quantity is specified per context (per unit of transport activity for TOCs, per unit of hub activity for HOCs, total quantity for TADs and ModeSpecificReports); <{EnergyCarrier/energyConsumptionUnit}> SHOULD be defined when emission factors are defined
-- addition of <{TOC/refrigerantLeakageCoverage}> and <{HOC/refrigerantLeakageCoverage}>: TOC and HOC intensities MUST include GHG emissions from refrigerant leakage unless partial coverage or omission is stated (semantic change)
+- addition of data type {{RefrigerantLeakageCoverage}}, used by the new properties <{TOC/refrigerantLeakageCoverage}> and <{HOC/refrigerantLeakageCoverage}>: TOC and HOC intensities MUST include GHG emissions from refrigerant leakage unless partial coverage or omission is stated (semantic change)
 - addition of [[#hoc-system-boundary]]: HOCs follow the system boundary of [[!ISO14083]]; the allocation of energy supplied to vehicles at the hub and the inclusion of optional processes MUST be stated in <{HOC/comment}>
 - corrected the description of <{HOC/comment}> (previously referring to the TOC)
 - addition of data type {{TemperatureControl}}, used by <{TOC/temperatureControl}>, <{HOC/temperatureControl}>, and the new property <{TCE/temperatureControl}>; new values `chilled`, `frozen`, and `heated`; `mixed` now covers any two or more temperature conditions (semantic change)
