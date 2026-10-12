@@ -84,11 +84,24 @@ These specifications do not cover the following topics or aspects, as they are c
 1. Contracts or legal aspect of data exchange between parties, including third party entities offering digital services or tools.
 1. Auditing and verification of actual emissions calculations beyond systems-level accreditation.
       Verification-related properties are expected to be included in future versions of these technical specifications.
-1. Transparency relating to market-based or project accounting approaches and measures.
-      Book and claim-related approaches are expected to be included in future versions of these technical specifications.
+1. Market-based accounting approaches (e.g., based on contractual instruments such as energy
+      attribute certificates), project accounting, and book and claim approaches.
+      Emissions from electricity exchanged under these specifications are quantified using the
+      location-based approach as specified in [[!ISO14083]], Annex J.3 (see
+      [[#electricity-emission-factors]]). Market-based figures,
+      which [[!ISO14083]], Annex J.3 permits only in addition to location-based figures and to be
+      reported separately, are expected to be included in future versions of these technical
+      specifications, as are book and claim-related approaches.
 1. Variables for detailed GHG emissions modeling, as described in [[!ISO14083]], Section 13.4.3 and Annex M. The current data model focuses on enabling primary data collection. Basic use of modeled and default data is supported, but detailed parameters remain excluded.
 1. Modes of transport "cable car" and "pipeline".
-1. Refrigerant emissions, as described in [[!ISO14083]], Annex I. These will be incorporated in future versions of these technical specifications.
+1. The exchange of refrigerant-specific data, such as refrigerant type, leaked quantity, and
+      global warming potential. Leakage of refrigerants used by vehicles or hubs is part of the
+      system boundary of [[!ISO14083]] (Section 5.2.2; see also Section 9.2, Annex H.1.2 and, for
+      transport operations, Annex I); emission values exchanged under these specifications follow
+      it, including the requirement to state any omission (Section 5.2.3). The extent to which emission
+      values include refrigerant leakage is stated with <{TOC/refrigerantLeakageCoverage}> and
+      <{HOC/refrigerantLeakageCoverage}>. Data model support for refrigerant data is expected in
+      future versions of these technical specifications.
 1. Reporting with per-modality transparency as defined in Section 13.3 of [[!ISO14083]].
     The key difference between this approach and iLEAP is that the former also <i>allows</i> for a) aggregating over more than 1 shipment, and b) disclosing emissions per modality.
     The iLEAP Technical Specifications operate on a per-shipment and per-TCE basis.
@@ -145,6 +158,9 @@ The authors would like to thank the many individuals and organizations for their
 ::
     A digital identifier which uniquely identifies a [=Consignment=] relative to the [=Host system=] and to the [=data recipient=].
 
+: <dfn>Default Value</dfn>
+:: [=Secondary data=] value taken from a published source, e.g. a default value of the [[!GLEC]] Framework. A default value does not necessarily correspond to the parameters of the [=transport operation=] or [=hub operation=] being evaluated. See [[!ISO14083]], Section 3.3.4.2 and Annex Q.
+
 : <dfn>Distance</dfn>
 :: See [=Transport Distance=] and [=Actual Distance=]
 
@@ -152,22 +168,40 @@ The authors would like to thank the many individuals and organizations for their
 ::
     The shortest distance between two points by crow-line, including the curving of the Earth. It is an approach used in air transport. [[!GLEC]] Framework.
 
+: <dfn>Hub</dfn>
+:: Location where freight is transferred from one vehicle or transport mode to another before, after, or between the elements of a [=transport chain=], e.g. cross-docking sites, distribution centres, warehouses, rail/road terminals, and terminals at seaports, inland ports, and airports. See [[!ISO14083]], Section 3.1.8 and Annex H.
+
 : <dfn data-noexport>Hub Activity</dfn>
-:: The operations carried out at a hub, measured in the hub's throughput. [[!GLEC]] Framework.
+:: Parameter that quantifies the [=throughput=] of a [=hub=]. For freight, hub activity is the quantity of freight leaving the hub (outbound), expressed in the unit given by <{HOC/hubActivityUnit}>. Hub activity is not transport activity (see [[#activity-convention]]). See [[!ISO14083]], Sections 3.1.9, 5.5.2 and 9.4.1, and the [[!GLEC]] Framework.
+
+: <dfn data-noexport>Hub Equipment</dfn>
+:: Equipment and facilities used at a [=hub=] to transfer freight, e.g. handling, on-site transportation, and transhipment equipment, including heating and temperature control. See [[!ISO14083]], Sections 3.1.10 and 5.2.2.
+
+: <dfn data-noexport>Hub Operation</dfn>
+:: Operation to transfer freight through a [=hub=]. See [[!ISO14083]], Section 3.1.11.
 
 : <dfn data-lt="Hub Operation Category|HOC">Hub Operation Category (HOC)</dfn>
-:: Represents a grouping of hub operations sharing similar characteristics.  [[!GLEC]] Framework.
+:: Represents a group of [=hub operations=] sharing similar characteristics. See [[!ISO14083]], Section 3.1.12, and the [[!GLEC]] Framework.
 
 : <dfn data-noexport>Hub Operator</dfn>
-:: Refers to the party that is offering hub services, including warehousing and transshipment services. See [[!ISO14083]], Section 3.1.13.
+:: Refers to the entity that carries out [=hub operations=] involving freight. See [[!ISO14083]], Section 3.1.13.
+
+: <dfn data-noexport>Hub Service</dfn>
+:: Service provided within a [=hub TCE=]. See [[!ISO14083]], Section 3.1.14.
+
+: <dfn data-noexport>Hub TCE</dfn>
+:: A [=Transport Chain Element|TCE=] within which the freight transits through a single [=hub=], i.e. a TCE taking place within a [=hub operation=]. A hub TCE is represented by a <{TCE}> that references a <{HOC}> through <{TCE/hocId}> (see [[#hub-tces]]). See [[!ISO14083]], Clause 11.
+
+: <dfn>Modeled Data</dfn>
+:: [=Secondary data=] established by use of a model that takes into account [=primary data=] and/or GHG emission-relevant parameters of a [=transport operation=] or [=hub operation=], such as vehicle size, load factor, or fuel type. See [[!ISO14083]], Section 3.3.4.1.
 
 : <dfn>Primary Data</dfn>
 ::
-    Data based on direct measurements of energy consumption. Also see [[!GLEC]] Framework.
+    Quantified value of a process or an activity obtained from a direct measurement or a calculation based on direct measurements. Primary data can include GHG emission factors and/or GHG activity data. See [[!ISO14083]], Section 3.3.3, and the [[!GLEC]] Framework.
 
 : <dfn>Secondary Data</dfn>
 ::
-    Any data that is not primary data. It applies to modeled and default data. [[!GLEC]] Framework.
+    Data that do not meet the requirements for [=primary data=]. Secondary data are either [=modeled data=] or [=default values=]. See [[!ISO14083]], Section 3.3.4, and the [[!GLEC]] Framework.
 
 : <dfn>Shipment</dfn>
 ::
@@ -189,28 +223,37 @@ The authors would like to thank the many individuals and organizations for their
 ::
     Represents the shortest practical route between two places taking into account the real operating conditions. [[!GLEC]] Framework.
 
+: <dfn data-noexport>Throughput</dfn>
+:: The quantity of freight that is handled, sorted, cross-docked, or transferred at a [=hub=], within or between transport modes. See [[!ISO14083]], Section 3.1.21.
+
 : <dfn>Transport Activity</dfn>
 ::
     Transport activity for each consignment is calculated by multiplying the consignment's mass by the TCE distance.
-    It is measured with unit `tonne-kilometer`. See [[!ISO14083]] Section 3.1.24 and the [[!GLEC]] Framework.
+    It is measured with unit `tonne-kilometer`. See [[!ISO14083]] Section 3.1.24 and the [[!GLEC]] Framework. It does not include hub activity (see [[#activity-convention]]).
 
 : <dfn data-lt="Transport Chain|TC">Transport Chain (TC)</dfn>
 :: A Transport Chain as defined in the [[!GLEC]] Framework. A TC consists of 1 or more [=Transport Chain Elements=]. A TC corresponds to a shipment.
 
 : <dfn data-lt="Transport Chain Element">Transport Chain Element (TCE)</dfn>
-:: Represents one element of the transport chain. It can consist of a transport activity or a hub activity. [[!GLEC]] Framework.
+:: Section of a transport chain within which the freight is carried by a single vehicle or transits through a single hub. A TCE therefore relates either to transport activity or to hub activity. See [[!ISO14083]], Section 3.1.26, and the [[!GLEC]] Framework.
 
 : <dfn>Transport Distance</dfn>
 :: Refers to the distance covered from the consignor to the consignee during the transportation of the freight. [[!GLEC]] Framework. See also [[!ISO14083]] 3.1.27.
 
+: <dfn>Transport Operation</dfn>
+:: Operation of a vehicle to transport freight. See [[!ISO14083]], Section 3.1.28.
+
 : <dfn data-lt="Transport Operation Category|TOC" id='toc-dfn'>Transport Operation Category (TOC)</dfn>
-:: Represents a grouping of transport services sharing similar characteristics.  [[!GLEC]] Framework.
+:: Represents a group of [=transport operations=] sharing similar characteristics. See [[!ISO14083]], Section 3.1.29, and the [[!GLEC]] Framework.
 
 : <dfn>Transport Operator</dfn>
-:: Refers to the party that carries out the transport service. See [[!ISO14083]], Section 3.1.30.
+:: Refers to the entity that carries out [=transport operations=] involving the carriage of freight. See [[!ISO14083]], Section 3.1.30.
+
+: <dfn>Transport Service</dfn>
+:: Service provided to a [=Transport Service User=] for the transport of freight from an origin to a destination. A transport service can comprise several [=Transport Chain Elements=] and require both [=transport operations=] and [=hub operations=]. See [[!ISO14083]], Section 3.1.31.
 
 : <dfn>Transport Service Organizer</dfn>
-:: Refers to the party providing transport services, where some of the operations are subcontracted to a third party, usually a Transport Operator. See [[!ISO14083]], Section 3.1.32.
+:: Refers to the party providing [=transport services=], where some of the operations are subcontracted to a third party, usually a Transport Operator. See [[!ISO14083]], Section 3.1.32.
 
 : <dfn>Transport Service User</dfn>
 :: Refers to the party that purchases and/or utilizes a transport service. It could be a [=shipper=] or a [=Transport Service Organizer=]. See [[!ISO14083]], Section 3.1.33.
@@ -262,6 +305,38 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 (BCP14)[https://www.rfc-editor.org/info/bcp14] [[!RFC2119]]
 [[!RFC8174]] when, and only when, they appear in all
 capitals, as shown here.
+
+## Transport Activity and Hub Activity ## {#activity-convention}
+
+[=Transport Activity=] and [=Hub Activity=] are distinct quantities. They MUST NOT be summed,
+converted into each other, or used interchangeably.
+
+1. [=Transport Activity=] quantifies the transport of freight by vehicles. Its unit is
+    `tonne-kilometer` unless stated otherwise (see <{TOC/transportActivityUnit}>).
+1. [=Hub Activity=] quantifies the throughput of a hub. Its unit is the one given in
+    <{HOC/hubActivityUnit}>, e.g. `tonnes` leaving the hub.
+1. The transport activity of a [=transport chain=] or of a set of shipments is the sum of the
+    transport activity of its TCEs representing transport operations only. [=Hub TCEs=]
+    contribute GHG emissions, but no transport activity (see [[#hub-tces]] and [[!ISO14083]],
+    Sections 12.1.2 and 12.2.3).
+1. GHG emissions of hub operations result from [=hub equipment=] operation and hub equipment energy
+    provision (see [[!ISO14083]], Sections 3.2.8.1 and 3.2.8.2), not from vehicle operation.
+
+## Forward Compatibility ## {#forward-compatibility}
+
+To allow these specifications to evolve in minor versions (see [[#document-statuses]]):
+
+1. A [=data recipient=] MUST ignore properties not defined in the version of these specifications
+    it implements and MUST NOT reject a data object for this reason alone.
+1. New enumeration values MAY be added in minor versions. Enumeration values are only removed or
+    renamed in major versions; they are deprecated in a minor version first.
+1. [=Host systems=] MUST only use enumeration values defined in these specifications.
+1. A [=data recipient=] receiving an unknown enumeration value MUST NOT reject the response or
+    other data objects contained in it, MUST NOT map the value to a known value, SHOULD treat the
+    affected property as not interpretable, and SHOULD inform its user accordingly.
+
+These rules apply to all enumerations of these specifications, including those defined inline
+in property descriptions.
 
 
 # Business Cases # {#business-cases}
@@ -920,7 +995,7 @@ Issue: Consider adding
 The <{TCE}> data type models information related to a single [=Transport Chain Element=] and its emissions data.
 
 The emissions data represented in a <{TCE}> can be obtained from direct measurement
-(see [=Primary Data=]) or other measurements (see [=Secondary Data=]).
+(see [=Primary Data=]) or from [=secondary data=] ([=modeled data=] or [=default values=]).
 
 <{TCE|TCEs}> are typically calculated by [=Transport Operators=] and [=Transport Service Organizers=]. They are made available to [=Transport Service Users=] through
 the <{ShipmentFootprint}> data type (see [[#dt-sf]]), through the RECOMMENDED [=iLEAP standalone protocol=] (see [[#action-sd]]) and through the (deprecated)
@@ -957,6 +1032,31 @@ If the property is defined and the array is empty, the current TCE MUST be the f
 </figure>
 
 </div>
+
+### Hub TCEs ### {#hub-tces}
+
+A <{TCE}> that references a <{HOC}> through <{TCE/hocId}> represents a [=hub TCE=]. For hub TCEs,
+the following applies (see [[!ISO14083]], Clause 11, and [[#activity-convention]]):
+
+1. Hub TCEs are associated with zero distance (see the [[!GLEC]] Framework). Each defined property
+    of <{TCE/distance}> MUST be `0`.
+1. <{TCE/transportActivity}> MUST be `0`, as hub TCEs contribute no transport activity.
+1. The hub activity of a hub TCE is quantified in the <{HOC/hubActivityUnit}> of the referenced
+    <{HOC}> (see [[!ISO14083]], Section 11.2). If the unit is `tonnes`, the hub activity is the
+    value of <{TCE/mass}> divided by `1000`. If the unit is `TEU`, the hub activity is the number of
+    TEUs; in this case, <{TCE/packagingOrTrEqType}> SHOULD be `Container-TEU` and
+    <{TCE/packagingOrTrEqAmount}> SHOULD be defined.
+1. <{TCE/co2eWTW}> and <{TCE/co2eTTW}> are calculated by multiplying the hub activity of the TCE
+    with <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> of the referenced <{HOC}>,
+    respectively (see [[!ISO14083]], Section 11.4). They cover hub equipment operation and hub
+    equipment energy provision, not vehicle operation.
+1. If <{TCE/temperatureControl}> is defined and the referenced <{HOC}> defines
+    <{HOC/temperatureSpecificIntensities}> with an element for the same temperature condition,
+    the GHG emission intensities of this element MUST be used instead (see [[!ISO14083]],
+    Section 11.5). An element with value `refrigerated` applies to a TCE with value `chilled` or
+    `frozen` if the HOC defines no element for that value.
+
+See [[#hoc-intensity-example]] for an example of a hub TCE.
 
 
 ### Data Attributes ### {#tce-attributes}
@@ -1001,7 +1101,8 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>String
         <td>
         <td>
-              If defined, the id of the [=HOC=] used for the calculation of this <{TCE}>.
+              If defined, the id of the [=HOC=] used for the calculation of this <{TCE}>. A <{TCE}>
+              with <{TCE/hocId}> defined is a [=hub TCE=] (see [[#hub-tces]]).
 
               Either <{TCE/tocId}> or <{TCE/hocId}> MUST be defined.
 
@@ -1052,10 +1153,18 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
               ```
         </div>
       <tr>
+        <td><dfn>temperatureControl</dfn>
+        <td>{{TemperatureControl}}
+        <td>O
+        <td>
+            The temperature condition of the freight of this TCE. If defined, the value MUST NOT be
+            `mixed`. For [=hub TCEs=], see [[#hub-tces]].
+      <tr>
         <td><dfn>distance</dfn>
         <td><{GLECDistance}>
         <td>M
         <td>The [=distance=] between the origin and the destination of the activity related to the TCE.
+            For [=hub TCEs=], see [[#hub-tces]].
 
       <tr>
         <td><dfn>origin</dfn>
@@ -1075,6 +1184,7 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>M
         <td>
             The [=transport activity=] of the TCE with unit `tonne-kilometers`.
+            For [=hub TCEs=], the value MUST be `0` (see [[#hub-tces]]).
 
             <div class=example>
                 If the transport [=distance=] is `700` `kilometers` and the mass is `230` `kilograms`,
@@ -1154,7 +1264,8 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>
               GHG emissions released to atmosphere during the process of producing, storing,
               processing and distributing an energy carrier for vehicle operation + GHG emissions
-              released to atmosphere as a result of vehicle operation.
+              released to atmosphere as a result of vehicle operation. For [=hub TCEs=], hub
+              equipment operation applies instead of vehicle operation (see [[#hub-tces]]).
               The value MUST be calculated for the TCE with unit `kgCO2e`.
 
       <tr>
@@ -1162,7 +1273,8 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td>String
         <td>M
         <td>
-              GHG emissions released to atmosphere as a result of vehicle operation
+              GHG emissions released to atmosphere as a result of vehicle operation. For [=hub
+              TCEs=], hub equipment operation applies instead of vehicle operation (see [[#hub-tces]]).
               The value MUST be calculated for the TCE with unit `kgCO2e`.
 
       <tr>
@@ -1211,9 +1323,8 @@ The [=Transport Operator=] or [=Transport Service Organizer=] MUST calculate the
 The [=Transport Operator=] or [=Transport Service Organizer=] SHOULD then make the <{TOC}> available through the RECOMMENDED [=iLEAP standalone protocol=] ([[#action-sd]]) and through the (deprecated) PACT Data Exchange Protocol ([[#pcf-mapping-sf]]).
 
 Transport Operation Category data can be obtained from direct measurement
-(see `primary data` definition of [[!ISO14083]]) or other measurements
-(see `secondary data` definition of [[!ISO14083]]) such as modeled data
-or default values.
+(see [=Primary Data=]) or from [=secondary data=], i.e. [=modeled data=]
+or [=default values=].
 
 ### Data Attributes ### {#toc-attributes}
 
@@ -1354,7 +1465,7 @@ Issue: Consider adding
             : GLECv3.1
             :: Indicates that the calculation methodology has been evaluated as compliant with [[!GLEC]] Framework v3.1, as declared in a certification certificate.
 
-            Advisement: The enumeration of certifications will be evolved in future revisions. Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
       <tr>
         <td><dfn>description</dfn>
         <td>String
@@ -1388,20 +1499,10 @@ Issue: Consider adding
 
       <tr>
         <td><dfn>temperatureControl</dfn>
-        <td>String
+        <td>{{TemperatureControl}}
         <td>O
         <td>
-            Temperature control status of the TOC.
-
-             If defined, the value of this property MUST be set to one of the following:
-            : `ambient`
-            :: For TOCs comprising the handling of non-temperature controlled freight only.
-
-            : `refrigerated`
-            :: For TOCs comprising the handling of refrigerated freight only.
-
-            : `mixed`
-            :: For TOCs comprising the handling of both ambient and refrigerated freight.
+            The temperature condition of the freight transported in the TOC.
       <tr>
         <td><dfn>truckLoadingSequence</dfn>
         <td>String
@@ -1493,6 +1594,23 @@ To represent a single <{EnergyCarrierType}> produced from multiple feedstocks, e
         <td>
               The Coefficient relating specified transport activity with TTW GHG emissions with unit `kgCO2e` per <{TOC/transportActivityUnit}> as defined in the [[!GLEC]] Framework.
       <tr>
+        <td><dfn>refrigerantLeakageCoverage</dfn>
+        <td>{{RefrigerantLeakageCoverage}}
+        <td>O
+        <td>
+            Indicates to which extent <{TOC/co2eIntensityWTW}> and <{TOC/co2eIntensityTTW}> include the
+            GHG emissions from leakage of refrigerants used by the vehicles of the TOC, including
+            temperature-controlled freight units such as refrigerated containers (see [[!ISO14083]],
+            Sections 5.2.2 and 8.2, and Annex I).
+
+            <{TOC/co2eIntensityWTW}> and <{TOC/co2eIntensityTTW}> MUST include the GHG emissions from
+            refrigerant leakage, unless this property is set to
+            {{RefrigerantLeakageCoverage/PartiallyIncluded}} or {{RefrigerantLeakageCoverage/Omitted}}.
+            In these cases, the statements required by {{RefrigerantLeakageCoverage}} MUST be made in
+            <{TOC/comment}>. Data owners SHOULD define this property. If it is undefined,
+            [=data recipients=] MUST NOT assume that the GHG emissions from refrigerant leakage are
+            included.
+      <tr>
         <td><dfn>transportActivityUnit</dfn>
         <td>String
         <td>M
@@ -1500,12 +1618,12 @@ To represent a single <{EnergyCarrierType}> produced from multiple feedstocks, e
             Indicates the freight transport activity unit at the denominator of the <{TOC/co2eIntensityWTW}> and at the denominator of the <{TOC/co2eIntensityTTW}>. The value MUST be one of the following:
 
             : `TEUkm`
-            :: For sea and inland waterways.
+            :: For containerized transport, irrespective of the transport mode (see [[!ISO14083]], Section 5.4.2).
 
             : tkm
             :: For everything else.
 
-            Advisement: The enumeration of denominators will be evolved in future revisions. Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
   </table>
   <figcaption>Properties of data type `TOC`</figcaption>
@@ -1517,6 +1635,24 @@ To represent a single <{EnergyCarrierType}> produced from multiple feedstocks, e
 The Data Type <{HOC}> contains [=HOC=] data. It is referenced in a [=Transport Chain Element=] through the <{TCE/hocId}> property.
 
 [=HOCs=] are the building blocks for the calculation of a [=Transport Chain Element=] with hub operations.
+
+### System Boundary ### {#hoc-system-boundary}
+
+The GHG emissions represented in a <{HOC}> MUST follow the system boundary of [[!ISO14083]]
+(Section 5.2 and Annex H.1). In particular:
+
+1. The GHG emissions of all [=hub operations=] of the HOC that consume energy or cause refrigerant
+    leakage are included (see [[!ISO14083]], Annex H.1.2, and <{HOC/refrigerantLeakageCoverage}>).
+1. The GHG emissions of inbound and outbound transport operations, including grid electricity used
+    to charge vehicles leaving the hub and refills of refrigerants into refrigerated containers or
+    vehicles, are not included. They are accounted for in the respective TCEs (see [[!ISO14083]],
+    Annex H.1.3).
+1. GHG emissions from energy used by vehicles or vessels while temporarily at the hub (e.g. ground
+    power units at airports or shore power in ports) are allocated to the transport operation by
+    default in [[!ISO14083]] (Annex H.1.3), while the GLEC Framework v3.2 includes shore power in
+    the hub emissions unless otherwise agreed with the shipping company. If the hub supplies such
+    energy, the data owner MUST state in <{HOC/comment}> whether the related GHG emissions are
+    included in the HOC.
 
 ### Data Attributes ### {#hoc-attributes}
 
@@ -1626,7 +1762,7 @@ Issue: Consider adding
         <td>String
         <td>O
         <td>
-            Additional information related to the TOC.
+            Additional information related to the HOC.
 
             SHOULD be used for information and instructions related to the calculation of the data, or other information which informs the ability to interpret, to audit or to verify it.
 
@@ -1662,7 +1798,7 @@ Issue: Consider adding
             : GLECv3.1
             :: Indicates that the calculation methodology has been evaluated as compliant with [[!GLEC]] Framework v3.1, as declared in a certification certificate.
 
-            Advisement: The enumeration of certifications will be evolved in future revisions. Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
       <tr>
         <td><dfn>hubType</dfn>
         <td>{{HubType}}
@@ -1670,36 +1806,57 @@ Issue: Consider adding
         <td>Type of Hub.
       <tr>
         <td><dfn>temperatureControl</dfn>
-        <td>String
+        <td>{{TemperatureControl}}
         <td>O
         <td>
-            Temperature control status of the hub.
-
-            If defined, the value of this property MUST be set to one of the following:
-            : `ambient`
-            :: For HOCs comprising the handling of non-temperature controlled freight only.
-
-            : `refrigerated`
-            :: For HOCs comprising the handling of refrigerated freight only.
-
-            : `mixed`
-            :: For HOCs comprising the handling of both ambient and refrigerated freight.
+            The temperature condition of the freight handled in the HOC. If
+            <{HOC/temperatureSpecificIntensities}> is defined, the value SHOULD be `mixed`.
 
        <tr>
         <td><dfn>hubLocation</dfn>
         <td><{Location}>
         <td>O
-        <td>The address of the hub.
+        <td>
+            The location of the hub.
+
+            If the hub is part of a transport node such as a port, an airport, or a railway station
+            (see [[!ISO14083]], Annex H.4.1), <{HOC/hubLocation}> SHOULD include the UN/LOCODE
+            (<{Location/locode}>), IATA code (<{Location/iata}>), or UIC code (<{Location/uic}>) of
+            the transport node.
       <tr>
         <td><dfn>inboundTransportMode</dfn>
         <td>{{TransportMode}}
         <td>O
-        <td>Indicates the transport mode upstream the hub for this HOC.
+        <td>
+            Indicates the transport mode upstream the hub for this HOC.
+
+            Advisement: This property is deprecated and will be removed in v2. Use
+            <{HOC/inboundTransportModes}> instead. If both are defined, the value of this property
+            MUST be an element of <{HOC/inboundTransportModes}>.
+      <tr>
+        <td><dfn>inboundTransportModes</dfn>
+        <td>{{TransportMode}}[]
+        <td>O
+        <td>
+            The non-empty set (without duplicates) of transport modes by which freight arrives at
+            the hub for this HOC (see [[!ISO14083]], Section 6.3.3.1).
       <tr>
         <td><dfn>outboundTransportMode</dfn>
         <td>{{TransportMode}}
         <td>O
-        <td>Indicates the transport mode downstream the hub for this HOC.
+        <td>
+            Indicates the transport mode downstream the hub for this HOC.
+
+            Advisement: This property is deprecated and will be removed in v2. Use
+            <{HOC/outboundTransportModes}> instead. If both are defined, the value of this property
+            MUST be an element of <{HOC/outboundTransportModes}>.
+      <tr>
+        <td><dfn>outboundTransportModes</dfn>
+        <td>{{TransportMode}}[]
+        <td>O
+        <td>
+            The non-empty set (without duplicates) of transport modes by which freight leaves the
+            hub for this HOC (see [[!ISO14083]], Section 6.3.3.1).
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
         <td><{PackagingOrTrEqType}>
@@ -1722,7 +1879,7 @@ Issue: Consider adding
         <td>
             The non-empty array of [=EnergyCarriers=] used to generate mechanical movement or heat and to generate chemical or physical processes, as defined in the [[!GLEC]] Framework.
 
-            The sum of the relative shares of the energy carriers used in the HOC MUST equal `1`. The relative share of each energy carrier MUST be computed relative to (total) transport activity (with unit at the denominator of <{HOC/hubActivityUnit}>) of the HOC.
+            The sum of the relative shares of the energy carriers used in the HOC MUST equal `1`. The relative share of each energy carrier MUST be computed relative to the [=hub activity=] (with unit <{HOC/hubActivityUnit}>) of the HOC.
 
             <div class=example>
               Assuming the HOC represents terminal where 75% of the (representative) hub activity uses `diesel` and the remaining 25% uses electricity (grid) to generate movements, the value of <{HOC/energyCarriers}> would be:
@@ -1757,13 +1914,59 @@ Issue: Consider adding
         <td>String
         <td>M
         <td>
-             The Coefficient relating specified transport activity and WTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+             The Coefficient relating hub activity and WTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
  <tr>
         <td><dfn>co2eIntensityTTW</dfn> : [=Decimal=]
         <td>String
         <td>M
         <td>
-              The Coefficient relating specified transport activity and TTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+              The Coefficient relating hub activity and TTW GHG emissions, with unit `kgCO2e` per <{HOC/hubActivityUnit}> as defined in the [[!GLEC]] Framework.
+      <tr>
+        <td><dfn>temperatureSpecificIntensities</dfn>
+        <td>Object[]
+        <td>O
+        <td>
+            If defined, the non-empty array of the GHG emission intensities of the freight of each
+            temperature condition handled in the HOC, calculated in accordance with [[!ISO14083]],
+            Section 9.5.3.
+
+            Each element of the array MUST be an object with the following properties:
+
+            - `temperatureControl`: {{TemperatureControl}}, M, The temperature condition of the
+                freight. The value MUST NOT be `mixed` and MUST occur at most once in the array.
+            - `co2eIntensityWTW`: [=Decimal=], M, The WTW GHG emission intensity of the freight of
+                this temperature condition, with unit `kgCO2e` per <{HOC/hubActivityUnit}>.
+            - `co2eIntensityTTW`: [=Decimal=], M, The TTW GHG emission intensity of the freight of
+                this temperature condition, with unit `kgCO2e` per <{HOC/hubActivityUnit}>.
+
+            <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> remain the average GHG emission
+            intensities over all freight of the HOC. Temperature-specific intensities do not split
+            the HOC into several HOCs (see [[!ISO14083]], Section 6.3.3.1).
+
+            Note: If the GHG activity data related to temperature control cannot be associated with
+            each temperature condition, [[!ISO14083]], Section 5.6.4, requires allocation by hub
+            activity, with each entity of freight quantified with a unit of equivalence based on
+            ambient freight.
+
+            Note: See [[#hoc-intensity-example]] for an example.
+      <tr>
+        <td><dfn>refrigerantLeakageCoverage</dfn>
+        <td>{{RefrigerantLeakageCoverage}}
+        <td>O
+        <td>
+            Indicates to which extent <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> include the
+            GHG emissions from leakage of refrigerants used by the [=hub equipment=] of the HOC (see
+            [[!ISO14083]], Sections 5.2.2 and 9.2, and Annex H.1.2). Refills of refrigerants into
+            refrigerated containers or vehicles are accounted for in the respective transport
+            operations, not in the HOC (see [[!ISO14083]], Annex H.1.3).
+
+            <{HOC/co2eIntensityWTW}> and <{HOC/co2eIntensityTTW}> MUST include the GHG emissions from
+            refrigerant leakage, unless this property is set to
+            {{RefrigerantLeakageCoverage/PartiallyIncluded}} or {{RefrigerantLeakageCoverage/Omitted}}.
+            In these cases, the statements required by {{RefrigerantLeakageCoverage}} MUST be made in
+            <{HOC/comment}>. Data owners SHOULD define this property. If it is undefined,
+            [=data recipients=] MUST NOT assume that the GHG emissions from refrigerant leakage are
+            included.
 
       <tr>
         <td><dfn>hubActivityUnit</dfn>
@@ -1773,16 +1976,99 @@ Issue: Consider adding
             Indicates the freight hub activity unit at the denominator of the <{HOC/co2eIntensityWTW}> and at the denominator of the <{HOC/co2eIntensityTTW}>. At the HOC level, the possible values are
 
             : `TEU`
-            :: Leaving the hub for sea and inland waterways as outbound transport mode.
+            :: Number of twenty-foot equivalent units leaving the hub (outbound), irrespective of
+                the outbound transport mode (see [[!ISO14083]], Sections 3.1.34 and 5.5.2).
+                <{HOC/freightMassPerTEU}> SHOULD be defined.
 
             : `tonnes`
-            :: Leaving the hub.
+            :: Mass of freight in tonnes leaving the hub (outbound) (see [[!ISO14083]], Sections 5.5.2
+                and 9.4.1, and Annex H.3).
 
-            Advisement: The enumeration of denominators will be evolved in future revisions. Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
+      <tr>
+        <td><dfn>freightMassPerTEU</dfn> : [=Decimal=]
+        <td>String
+        <td>O
+        <td>
+            The average mass of freight per TEU leaving the hub (in `kilograms`), based on the actual
+            mass of freight if known (see [[!ISO14083]], Section 5.4.2).
+
+            SHOULD be defined if <{HOC/hubActivityUnit}> is `TEU`. It is used for the conversion of
+            the GHG emission intensities to a per tonne basis (see [[#pcf-mapping-hoc]]).
 
   </table>
   <figcaption>Properties of data type `HOC`</figcaption>
 </figure>
+
+### GHG Emission Intensity Example ### {#hoc-intensity-example}
+
+<div class=example>
+  This example is based on the container terminal example of the GLEC Framework v3.2 (Module 4,
+  Sections 5.1 and 5.2). The terminal handles 4,250,000 tonnes of freight per year (outbound), of
+  which 50,000 tonnes are refrigerated. The GHG emissions of the HOC are 991,519 `kgCO2e` (WTW) and
+  283,920 `kgCO2e` (TTW). The reefer station causes 66,000 `kgCO2e` (WTW) and 0 `kgCO2e` (TTW), as
+  it uses electricity only.
+
+  The average GHG emission intensities are calculated in accordance with [[!ISO14083]], Section 9.5.2:
+
+  - <{HOC/co2eIntensityWTW}>: 991,519 `kgCO2e` / 4,250,000 `tonnes` = 0.2333 `kgCO2e` per `tonnes`
+  - <{HOC/co2eIntensityTTW}>: 283,920 `kgCO2e` / 4,250,000 `tonnes` = 0.0668 `kgCO2e` per `tonnes`
+
+  The temperature-specific GHG emission intensities are calculated in accordance with
+  [[!ISO14083]], Section 9.5.3:
+
+  - `ambient`: 925,519 `kgCO2e` / 4,250,000 `tonnes` = 0.2178 (WTW); 0.0668 (TTW)
+  - `refrigerated`: 0.2178 + 66,000 `kgCO2e` / 50,000 `tonnes` = 1.5378 (WTW); 0.0668 + 0 = 0.0668 (TTW)
+
+  The TTW values are derived from the TTW emission factors used in the GLEC Framework v3.2
+  (Module 4, Table 13): electricity 0, diesel 2.68 `kgCO2e` per `l`, diesel with 5% biodiesel 2.54
+  `kgCO2e` per `l`, and natural gas 0.21 `kgCO2e` per `kWh`.
+
+  Excerpt of the resulting <{HOC}>:
+
+  ```json
+  {
+    "hocId": "container-terminal-de",
+    "hubType": "IntermodalTerminal",
+    "temperatureControl": "mixed",
+    "co2eIntensityWTW": "0.2333",
+    "co2eIntensityTTW": "0.0668",
+    "temperatureSpecificIntensities": [
+      {
+        "temperatureControl": "ambient",
+        "co2eIntensityWTW": "0.2178",
+        "co2eIntensityTTW": "0.0668"
+      },
+      {
+        "temperatureControl": "refrigerated",
+        "co2eIntensityWTW": "1.5378",
+        "co2eIntensityTTW": "0.0668"
+      }
+    ],
+    "hubActivityUnit": "tonnes"
+  }
+  ```
+
+  Excerpt of a [=hub TCE=] for 87 tonnes of ambient freight handled at this terminal (see
+  [[#hub-tces]]). Its GHG emissions are 87 `tonnes` × 0.2178 = 18.95 `kgCO2e` (WTW) and
+  87 `tonnes` × 0.0668 = 5.81 `kgCO2e` (TTW):
+
+  ```json
+  {
+    "tceId": "tce-hub-1",
+    "hocId": "container-terminal-de",
+    "shipmentId": "shipment-1",
+    "mass": "87000",
+    "temperatureControl": "ambient",
+    "distance": {
+      "actual": "0"
+    },
+    "transportActivity": "0",
+    "co2eWTW": "18.95",
+    "co2eTTW": "5.81"
+  }
+  ```
+</div>
 
 
 ## Transport Activity Data (<dfn element>TAD</dfn>) ## {#dt-tad}
@@ -1938,8 +2224,7 @@ encoded as a JSON object.
             : `refrigerated`
             :: The consignment comprises the handling of refrigerated freight only.
 
-            Advisement: The enumeration of temperature control status will be evolved in future revisions. Account for
-            this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
     </table>
     <figcaption><{TAD}> properties</figcaption>
 </figure>
@@ -1994,8 +2279,7 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
             :: Indicates that the calculation methodology has been evaluated as compliant with ISO14083:2023. MUST
                 be included for [[!ISO14083]] conformance.
 
-            Advisement: The enumeration of standards will be evolved in future revisions. Account for this when
-            implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
       <tr>
         <td><dfn>shipmentIds</dfn>
         <td>String[]
@@ -2086,24 +2370,24 @@ emissions aggregated per transport mode and  an aggregation of all hub TCEs (see
         <td>String
         <td>M
         <td>
-            The sum total of the transport and hub activity of the shipments referenced in <{AggregatedReport/shipmentIds}>
-            with unit `tonne-kilometers`.
+            The sum total of the [=transport activity=] of the shipments referenced in <{AggregatedReport/shipmentIds}>,
+            with unit `tonne-kilometers`. Hub activity is not included (see [[#activity-convention]]).
       <tr>
         <td><dfn>co2eWTW</dfn> : [=Decimal=]
         <td>String
         <td>M
         <td>
             GHG emissions released to atmosphere during the process of producing, storing, processing and distributing
-            an energy carrier for vehicle operation + GHG emissions released to atmosphere as a result of vehicle
-            operation. The value MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}>
-            with unit `kgCO2e`.
+            an energy carrier for vehicle operation and hub equipment operation + GHG emissions released to atmosphere
+            as a result of vehicle operation and hub equipment operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
       <tr>
         <td><dfn>co2eTTW</dfn> : [=Decimal=]
         <td>String
         <td>O
         <td>
-            GHG emissions released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
-            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
+            GHG emissions released to atmosphere as a result of vehicle operation and hub equipment operation. The value
+            MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
       <tr>
         <td><dfn>noxTTW</dfn> : [=Decimal=]
         <td>String
@@ -2243,8 +2527,8 @@ Properties of data type <dfn element>Location</dfn>:
         <td><dfn>iata</dfn>
         <td>iataCode
         <td>O
-        <td>IATA code of airport. Applies only to (i) <{TCE|TCEs}> referring to a <{TOC}> with <{TOC/mode}> `Air`
-            and (ii) <{TAD}> with <{TAD/mode}> `Air`.
+        <td>IATA code of airport. Applies only to (i) <{TCE|TCEs}> referring to a <{TOC}> with <{TOC/mode}> `Air`,
+            (ii) <{TAD}> with <{TAD/mode}> `Air`, and (iii) <{HOC/hubLocation}>.
       <tr>
         <td><dfn>locode</dfn>
         <td>locode
@@ -2254,8 +2538,8 @@ Properties of data type <dfn element>Location</dfn>:
         <td><dfn>uic</dfn>
         <td>uic
         <td>O
-        <td>UIC Code of the location. Applies only to (i) <{TCE|TCEs}> referring to a <{TOC}> with <{TOC/mode}> `Rail`
-            and (ii) <{TAD}> with <{TAD/mode}> `Rail`.
+        <td>UIC Code of the location. Applies only to (i) <{TCE|TCEs}> referring to a <{TOC}> with <{TOC/mode}> `Rail`,
+            (ii) <{TAD}> with <{TAD/mode}> `Rail`, and (iii) <{HOC/hubLocation}>.
       <tr>
         <td><dfn>lat</dfn>
         <td>[=Decimal=]
@@ -2297,32 +2581,118 @@ It MUST be encoded as a String using one of the following values:
 
 </dl>
 
-NOTE: These transport modes are defined for TOC only. HOC transport modes are defined seperately.
+Note: {{TransportMode}} is used by <{TOC/mode}>, <{TAD/mode}>, <{HOC/inboundTransportModes}>,
+<{HOC/outboundTransportModes}> (and their deprecated singular forms), and
+<{ModeSpecificReport/transportMode}>. The transport modes cable car and pipeline are out of scope
+(see [[#out-of-scope]]).
 
 ### Data Type <dfn enum>HubType</dfn> ### {#dt-hub-type}
 
-The Data Type {{HubType}} is an enumeration of the main hub types as defined in the [[!GLEC]] Framework.
+The Data Type {{HubType}} is an enumeration of the main hub types as defined in the [[!GLEC]] Framework
+and aligned with the five hub types of the GLEC Framework v3.2 (Module 2).
 
 It MUST be encoded as a String using one of the following values:
 
 <dl dfn-type="enum-value" dfn-for="HubType">
 
 : <dfn>Transshipment</dfn>
-:: Refers to hubs where transshipment is the main service (>80% of goods handled)
+:: Refers to hubs where transshipment is the main service (>80% of goods handled). Hub type 1 of the
+    GLEC Framework v3.2.
 
 : <dfn>StorageAndTransshipment</dfn>
-:: Refers to hubs where both transshipment and warehousing are relevant services
+:: Refers to hubs where both transshipment and warehousing are relevant services. Hub type 2 of the
+    GLEC Framework v3.2.
 
 : <dfn>Warehouse</dfn>
-:: Refers to hubs where warehousing is the main service (>80% of goods handled)
+:: Refers to hubs where warehousing is the main service (>80% of goods handled). Hub type 3 of the
+    GLEC Framework v3.2.
 
 : <dfn>LiquidBulkTerminal</dfn>
-:: Refers to terminals equiped to handle cargo in liquid and gaseous forms
+:: Refers to terminals equipped to handle cargo in liquid and gaseous forms. Hub type 4 of the GLEC
+    Framework v3.2.
+
+: <dfn>IntermodalTerminal</dfn>
+:: Refers to intermodal terminals at seaports or inland ports (hinterland). Hub type 5 of the GLEC
+    Framework v3.2, which replaces the maritime container terminals of the GLEC Framework v3.0.
 
 : <dfn>MaritimeContainerTerminal</dfn>
-:: Refers to hubs where maritime containers are handled
+:: Refers to hubs where maritime containers are handled. Hub type 5 of the GLEC Framework v3.0.
 
 </dl>
+
+Issue: The GLEC Framework v3.2 is not yet a normative reference of these specifications (see
+[[#interop]]). The deprecation of `MaritimeContainerTerminal` in favour of `IntermodalTerminal`
+will be decided in a future revision.
+
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
+
+### Data Type <dfn enum>TemperatureControl</dfn> ### {#dt-temperature-control}
+
+The Data Type {{TemperatureControl}} is an enumeration of the temperature conditions of freight
+(see [[!ISO14083]], Sections 5.6.4 and 9.5.3, and Annex H.2). It is used by
+<{TOC/temperatureControl}>, <{HOC/temperatureControl}>, <{HOC/temperatureSpecificIntensities}>,
+and <{TCE/temperatureControl}>.
+
+It MUST be encoded as a String using one of the following values:
+
+<dl dfn-type="enum-value" dfn-for="TemperatureControl">
+
+: <dfn>ambient</dfn>
+:: Freight that is not temperature-controlled.
+
+: <dfn>chilled</dfn>
+:: Freight that is cooled to temperatures above freezing.
+
+: <dfn>frozen</dfn>
+:: Freight that is kept frozen.
+
+: <dfn>heated</dfn>
+:: Freight that is heated above ambient temperature.
+
+: <dfn>refrigerated</dfn>
+:: Freight that is cooled, without a distinction between `chilled` and `frozen`. The use of this
+    value is discouraged when the distinction is known.
+
+: <dfn>mixed</dfn>
+:: Freight of two or more of the temperature conditions above, with a single average GHG emission
+    intensity. SHOULD NOT be used when temperature-specific GHG emission intensities can be provided
+    (see [[!ISO14083]], Section 9.5.3, and <{HOC/temperatureSpecificIntensities}>).
+
+</dl>
+
+Note: These specifications do not define temperature ranges for these values. Data owners SHOULD
+state the temperature ranges used in the `comment` property of the respective data type.
+
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
+
+### Data Type <dfn enum>RefrigerantLeakageCoverage</dfn> ### {#dt-refrigerant-leakage-coverage}
+
+The Data Type {{RefrigerantLeakageCoverage}} is an enumeration of the extent to which GHG emission
+intensities include the GHG emissions from leakage of refrigerants (see [[!ISO14083]], Sections 5.2.2
+and 5.2.3). It is used by <{TOC/refrigerantLeakageCoverage}> and <{HOC/refrigerantLeakageCoverage}>.
+
+It MUST be encoded as a String using one of the following values:
+
+<dl dfn-type="enum-value" dfn-for="RefrigerantLeakageCoverage">
+
+: <dfn>Included</dfn>
+:: The GHG emissions from leakage of all refrigerants used are included.
+
+: <dfn>PartiallyIncluded</dfn>
+:: The GHG emissions from leakage of some refrigerants or of some equipment are included, others are
+    omitted. The omitted sources and the reasons for their omission MUST be stated in the `comment`
+    property of the respective data type (see [[!ISO14083]], Section 5.2.3).
+
+: <dfn>Omitted</dfn>
+:: The GHG emissions from refrigerant leakage are omitted. The reasons for the omission MUST be stated
+    in the `comment` property of the respective data type (see [[!ISO14083]], Section 5.2.3).
+
+: <dfn>NotApplicable</dfn>
+:: No refrigerants are used within the scope of the respective property.
+
+</dl>
+
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
 ### Data Type <dfn>Decimal</dfn> ### {#dt-decimal}
 
@@ -2375,7 +2745,9 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>
               The relative share of this energy carrier. Its value MUST be between `0` (excluding) and `1` (including).
 
-              The relative share of each energy carrier MUST be computed relative to the transport or hub activity.
+              The relative share of each energy carrier MUST be computed relative to the transport activity
+              (<{TOC}>, <{TAD}>, <{ModeSpecificReport}>) or as specified for the <{HOC}> in <{HOC/energyCarriers}>.
+              Transport activity and hub activity MUST NOT be mixed (see [[#activity-convention]]).
 
               Note:
                   See the respective use in <{TOC/energyCarriers|TOC}>,
@@ -2393,8 +2765,18 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>String
         <td>O
         <td>
-            Amount of energy carrier consumed per transport activity, as defined for the TOC or HOC. If defined, <{EnergyCarrier/energyConsumptionUnit}>
-            MUST be defined as well.
+            Quantity of the energy carrier consumed, with unit <{EnergyCarrier/energyConsumptionUnit}>.
+            The reference quantity depends on the context in which the <{EnergyCarrier}> is used:
+
+            - <{TOC}>: quantity per unit of <{TOC/transportActivityUnit}>, relative to the transport
+                activity of the TOC as a whole (e.g. `l` per `tkm`);
+            - <{HOC}>: quantity per unit of <{HOC/hubActivityUnit}>, relative to the [=hub activity=]
+                of the HOC as a whole (e.g. `kWh` per `tonnes`);
+            - <{TAD}>: total quantity consumed for the transport activity of the TAD;
+            - <{ModeSpecificReport}>: total quantity consumed for the activity covered by the
+                <{ModeSpecificReport}>.
+
+            If defined, <{EnergyCarrier/energyConsumptionUnit}> MUST be defined as well.
       <tr>
         <td><dfn>energyConsumptionUnit</dfn>
         <td>String
@@ -2402,6 +2784,8 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
         <td>
             Unit of the energy consumed corresponding to the <{EnergyCarrier/energyConsumption}>.
             <{EnergyCarrier/energyConsumptionUnit}> MUST be defined if <{EnergyCarrier/energyConsumption}> is defined.
+            It SHOULD be defined if <{EnergyCarrier/emissionFactorWTW}> or <{EnergyCarrier/emissionFactorTTW}>
+            is defined, as the unit of the emission factors refers to it.
 
             Possible values are:
             : `l`
@@ -2416,8 +2800,7 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
             : `MJ`
             :: For MegaJoules
 
-            Advisement: The enumeration of energy consumption units will be evolved in future revisions.
-            Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
       <tr>
         <td><dfn>emissionFactorWTW</dfn> : [=Decimal=]
         <td>String
@@ -2434,21 +2817,60 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
              The TTW fuel emission factor (certified) with unit `kgCO2e / energy consumption unit` (<{EnergyCarrier/energyConsumptionUnit}>).
 
             This property MUST be defined when <{EnergyCarrier}> is used in the context of a <{TOC}> or <{HOC}>.
+      <tr>
+        <td><dfn>emissionFactorMethod</dfn>
+        <td>String
+        <td>O
+        <td>
+            The method used to determine <{EnergyCarrier/emissionFactorWTW}> and
+            <{EnergyCarrier/emissionFactorTTW}>. This property MUST only be defined if
+            <{EnergyCarrier/energyCarrier}> is `Electric`.
+
+            If defined, the value MUST be one of the following:
+
+            : `LocationBased`
+            :: The emission factors characterize the pertinent grid, irrespective of contractual
+                instruments (location-based approach, see [[!ISO14083]], Annex J.3, and
+                [[#electricity-emission-factors]]).
+
+            If undefined, the method is not declared.
+
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
     </table>
 </figure>
 
+#### Emission Factors of Electricity #### {#electricity-emission-factors}
+
+For an <{EnergyCarrier}> with <{EnergyCarrier/energyCarrier}> `Electric`, the following applies:
+
+1. <{EnergyCarrier/emissionFactorWTW}> and <{EnergyCarrier/emissionFactorTTW}> MUST be determined
+    using the location-based approach of [[!ISO14083]], Annex J.3, i.e. with the GHG emission
+    factor that best characterizes the pertinent grid: a dedicated transmission line, or the local,
+    regional, or national grid average.
+1. <{EnergyCarrier/emissionFactorWTW}> MUST include all relevant GHG emissions associated with the
+    generation of electricity, including transmission and distribution losses and other life cycle
+    processes (see [[!ISO14083]], Annex J.3). Emission factors conveyed by contractual instruments
+    (e.g. energy attribute certificates) MUST NOT be used.
+1. <{EnergyCarrier/emissionFactorMethod}> SHOULD be set to `LocationBased`.
+
+Note: Market-based approaches are out of scope (see [[#out-of-scope]]). [[!ISO14083]], Annex J.3,
+permits them only in addition to the location-based approach, subject to quality criteria for
+contractual instruments, and requires their separate reporting.
+
 ### Data Type <dfn element>EnergyCarrierType</dfn> ### {#dt-energy-carrier-type}
 
-Data type `EnergyCarrierType` represents the substance used to generate mechanical
-movement or heat and to generate chemical or physical processes as per the [[!GLEC]] Framework.
+Data type `EnergyCarrierType` represents the substance or phenomenon used to generate mechanical
+movement or heat and to generate chemical or physical processes as per the [[!GLEC]] Framework
+(see also [[!ISO14083]], Section 3.2.2).
 
 It MUST be encoded as a String using one of the following values:
 
-Advisement: The enumeration of energy carrier types will be evolved in future revisions.
-Account for this when implementing the validation of this property.
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
 : Diesel
 :: Refers to diesel
+: Biodiesel
+:: Refers to biodiesel (fatty acid methyl ester, FAME)
 : HVO
 :: Refers to Hydrotreated Vegetable Oil
 : Petrol
@@ -2471,6 +2893,20 @@ Account for this when implementing the validation of this property.
 :: Refers to methanol
 : Electric
 :: Refers to electricity
+: Natural gas
+:: Refers to natural gas supplied via the gas grid and combusted in stationary equipment, e.g. for
+    heating. For vehicles, `CNG` or `LNG` applies. This value MUST only be used for <{HOC|HOCs}> and
+    for <{ModeSpecificReport|ModeSpecificReports}> relating to hub operations.
+: Heat
+:: Refers to purchased heat, including district heating and steam. Heat generated on site from
+    another energy carrier (e.g. natural gas) MUST be represented by that energy carrier instead.
+    The GHG emissions from generating the purchased heat are energy provision GHG emissions (see
+    [[!ISO14083]], Section 3.2.8.1); <{EnergyCarrier/emissionFactorTTW}> is therefore `0`. This
+    value MUST only be used for <{HOC|HOCs}> and for <{ModeSpecificReport|ModeSpecificReports}>
+    relating to hub operations.
+
+Issue: The encoding of blends (e.g. diesel blended with biodiesel) as one or several
+<{EnergyCarrier|EnergyCarriers}> will be specified in a future revision.
 
 ### Data Type <dfn>Feedstock</dfn> ### {#dt-feedstock}
 
@@ -2501,14 +2937,18 @@ The following properties are defined for data type <dfn element>Feedstock</dfn>:
             : Natural gas
             :: Refers to natural gas
             : Grid
-            :: Refers to grid electricity
+            :: Refers to electricity drawn from the public grid, irrespective of any contractual
+                instruments (e.g. energy attribute certificates or guarantees of origin) held for it.
             : Renewable electricity
-            :: Refers to renewable sources of electricity
+            :: Refers to electricity from renewable sources that is generated on site or delivered
+                through a dedicated transmission line, and whose energy attribute certificates have not
+                been sold or transferred to a third party. Electricity drawn from the public grid MUST
+                NOT be declared as `Renewable electricity`, even if it is covered by contractual
+                instruments.
             : Cooking oil
             :: Refers to cooking (e.g., vegetable) oil
 
-            Advisement: The enumeration of feedstocks will be evolved in future revisions.
-            Account for this when implementing the validation of this property.
+            Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
         <tr>
           <td><dfn>feedstockShare</dfn> : [0..1]
@@ -2532,8 +2972,7 @@ Service Organizer=].
 
 It MUST be encoded as a String using one of the following values:
 
-Advisement: The enumeration of packaging or transport equipment units below will be evolved in future revisions. Account for this when
-implementing the validation of this property.
+Note: This enumeration may be extended in minor versions (see [[#forward-compatibility]]).
 
 : Box
 :: Refers to boxes
@@ -2545,12 +2984,13 @@ implementing the validation of this property.
 :: Refers to containers as the `PackagingOrTrEqAmount` is in FEU (Forty-foot Equivalent Unit).
 : Container
 :: Refers to containers where the size is unknown. `PackagingOrTrEqAmount` will be the number of container.
+: SwapBody
+:: Refers to swap bodies. `PackagingOrTrEqAmount` is the number of swap bodies.
+: Trailer
+:: Refers to trailers. `PackagingOrTrEqAmount` is the number of trailers.
 
 Note: The use of value `Container` is discouraged, as it does not provide any information about the
 container equivalent unit.
-
-Advisement: The enumeration of packaging or transport equipment units above will be evolved in
-  future revisions.
 
 ### Data Type <dfn element>ModeSpecificReport</dfn> ### {#dt-mode-specific-report}
 
@@ -2597,6 +3037,9 @@ Advisement: The enumeration of packaging or transport equipment units above will
             : LiquidBulkTerminal
             :: Refers to terminals equiped to handle cargo in liquid and gaseous forms
 
+            : IntermodalTerminal
+            :: Refers to intermodal terminals at seaports or inland ports (hinterland)
+
             : Hub
             :: Refers to hub operations in general
       <tr>
@@ -2607,9 +3050,12 @@ Advisement: The enumeration of packaging or transport equipment units above will
               The non-empty array of [=EnergyCarriers=] used to generate mechanical movement or heat and to generate
               chemical or physical processes, as defined in the [[!GLEC]] Framework.
 
-              The sum of the relative shares of the energy carriers used MUST equal 1. The relative share of each energy
-              carrier MUST be computed relative to the <{AggregatedReport/totalActivity}> of the <{AggregatedReport}>,
-              with unit `tonne-kilometers`.
+              The sum of the relative shares of the energy carriers used MUST equal 1. For a <{ModeSpecificReport}>
+              relating to a transport mode, the relative share of each energy carrier MUST be computed relative to the
+              transport activity of this transport mode, with unit `tonne-kilometers` (see [[#activity-convention]]).
+
+              Issue: The basis of the relative share for a <{ModeSpecificReport}> relating to hub operations
+              (see <{ModeSpecificReport/hubOperations}>) will be specified in a future revision.
 
               To represent a single EnergyCarrierType produced from multiple feedstocks, each feedstock MUST be
               represented by a separate entry in the EnergyCarriers array. For each EnergyCarrier, the combined value of
@@ -2641,16 +3087,16 @@ Advisement: The enumeration of packaging or transport equipment units above will
         <td>M
         <td>
             GHG emissions released to atmosphere during the process of producing, storing, processing and distributing
-            an energy carrier for vehicle operation + GHG emissions released to atmosphere as a result of vehicle
-            operation. The value MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}>
-            with unit `kgCO2e`.
+            an energy carrier for vehicle operation or hub equipment operation + GHG emissions released to atmosphere
+            as a result of vehicle operation or hub equipment operation. The value MUST be calculated for the
+            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
       <tr>
         <td><dfn>co2eTTW</dfn> : [=Decimal=]
         <td>String
         <td>O
         <td>
-            GHG emissions released to atmosphere as a result of vehicle operation. The value MUST be calculated for the
-            shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
+            GHG emissions released to atmosphere as a result of vehicle operation or hub equipment operation. The value
+            MUST be calculated for the shipments referenced in <{AggregatedReport/shipmentIds}> with unit `kgCO2e`.
       <tr>
         <td><dfn>noxTTW</dfn> : [=Decimal=]
         <td>String
@@ -4260,11 +4706,17 @@ Note: Section [[#appendix-b-hoc-example]] contains an example.
         <td>CarbonFootprint
         <td>`pCfExcludingBiogenic`
         <td>
-              MUST be set to the logistics emissions intensity of the HOC defined in <{HOC/co2eIntensityWTW}>.
+              MUST be set to the logistics emissions intensity of the HOC per tonne leaving the hub, derived from
+              <{HOC/co2eIntensityWTW}>:
 
-              Note: The average weight of a container can be considered as 10 tonnes per `TEU`. For light containers, an
-              estimate of 6 tonnes per `TEU` is appropriate, while heavy containers can be assumed to average 14.5 tonnes
-              per `TEU`.
+              - if <{HOC/hubActivityUnit}> is `tonnes`, the value of <{HOC/co2eIntensityWTW}>;
+              - if <{HOC/hubActivityUnit}> is `TEU`, the value of <{HOC/co2eIntensityWTW}> multiplied by `1000` and
+                  divided by <{HOC/freightMassPerTEU}> or, if <{HOC/freightMassPerTEU}> is undefined, divided by `10`
+                  (10 tonnes per `TEU`, see [[!ISO14083]], Section 5.4.2).
+
+              Note: [[!ISO14083]], Section 5.4.2, also permits 6 tonnes per `TEU` for lightweight cargo and 14.5 tonnes
+              per `TEU` for heavyweight cargo if the use of these categories can be justified. In this case,
+              <{HOC/freightMassPerTEU}> SHOULD be set accordingly.
 
               Advisement: Version 4 of the GLEC Framework will provide guidance on biogenic emissions. Updates to this property
               will be made after its release.
@@ -4422,6 +4874,9 @@ Advisement: Currently, iLEAP Conformance ensures interoperability and syntactic 
 updates will extend coverage to include semantic correctness, ensuring that emissions calculations
 are performed accurately in end-to-end scenarios.
 
+Conformance tests, including the Automated Conformance Testing, MUST apply the rules in
+[[#forward-compatibility]].
+
 ## Conformance Matrix ## {#ileap-conformance-matrix}
 
 Issue: Matrix needs revision
@@ -4550,6 +5005,40 @@ apply for additional support, materials, and marketing opportunities.
 
 
 # Appendix A: Changelog # {#changelog}
+
+## Version 1.1.0-draft.3 (unreleased) ## {#version-1.1.0-draft.3}
+
+- addition of [[#activity-convention]]: transport activity and hub activity are distinct and MUST NOT be mixed
+- updated definitions of [=Hub Activity=], [=Transport Chain Element|TCE=], and [=Transport Activity=]
+- <{AggregatedReport/totalActivity}> no longer includes hub activity (transport activity in `tonne-kilometers` only)
+- <{AggregatedReport}> and <{ModeSpecificReport}>: `co2eWTW` and `co2eTTW` cover hub equipment operation in addition to vehicle operation
+- relative shares of <{ModeSpecificReport/energyCarriers}> are computed relative to the transport activity of the respective transport mode
+- removed references to transport activity from <{HOC/energyCarriers}>, <{HOC/co2eIntensityWTW}>, and <{HOC/co2eIntensityTTW}>
+- aligned the definitions of [=Hub Operator=], [=Transport Operator=], [=Transport Operation Category|TOC=], and [=Primary Data=] with [[!ISO14083]] (freight only)
+- [[#out-of-scope]]: emissions from electricity are quantified using the location-based approach ([[!ISO14083]], Annex J.3); market-based figures remain out of scope (semantic change)
+- [[#out-of-scope]]: refrigerant leakage is part of the system boundary of [[!ISO14083]] (Section 5.2.2); only the exchange of refrigerant-specific data remains out of scope (semantic change)
+- addition of [[#forward-compatibility]]: data recipients ignore unknown properties and do not reject unknown enumeration values; enumeration values may be added in minor versions
+- replaced the advisements on evolving enumerations with a reference to [[#forward-compatibility]]
+- addition of the definitions of [=Default Value=], [=Hub=], [=Hub Equipment=], [=Hub Operation=], [=Hub Service=], [=Hub TCE=], [=Modeled Data=], [=Throughput=], [=Transport Operation=], and [=Transport Service=]; updated definitions of [=Hub Activity=], [=Hub Operation Category|HOC=], and [=Secondary Data=] (aligned with [[!ISO14083]], freight only)
+- addition of [[#hub-tces]]: hub TCEs have zero distance and zero transport activity; their emissions are derived from the HOC intensities and the hub activity of the TCE (semantic change)
+- rewrote the note on {{TransportMode}}: the enumeration is used by TOCs, TADs, HOCs, and ModeSpecificReports
+- <{EnergyCarrier/energyConsumption}>: the reference quantity is specified per context (per unit of transport activity for TOCs, per unit of hub activity for HOCs, total quantity for TADs and ModeSpecificReports); <{EnergyCarrier/energyConsumptionUnit}> SHOULD be defined when emission factors are defined
+- addition of data type {{RefrigerantLeakageCoverage}}, used by the new properties <{TOC/refrigerantLeakageCoverage}> and <{HOC/refrigerantLeakageCoverage}>: TOC and HOC intensities MUST include GHG emissions from refrigerant leakage unless partial coverage or omission is stated (semantic change)
+- addition of [[#hoc-system-boundary]]: HOCs follow the system boundary of [[!ISO14083]]; the allocation of energy supplied to vehicles at the hub and the inclusion of optional processes MUST be stated in <{HOC/comment}>
+- corrected the description of <{HOC/comment}> (previously referring to the TOC)
+- addition of data type {{TemperatureControl}}, used by <{TOC/temperatureControl}>, <{HOC/temperatureControl}>, and the new property <{TCE/temperatureControl}>; new values `chilled`, `frozen`, and `heated`; `mixed` now covers any two or more temperature conditions (semantic change)
+- addition of <{HOC/temperatureSpecificIntensities}> for temperature-specific GHG emission intensities within one HOC ([[!ISO14083]], Section 9.5.3); hub TCEs use the intensity matching their temperature condition
+- addition of <{HOC/inboundTransportModes}> and <{HOC/outboundTransportModes}>; deprecation of <{HOC/inboundTransportMode}> and <{HOC/outboundTransportMode}>
+- addition of the <{EnergyCarrierType}> values `Biodiesel`, `Natural gas` (stationary combustion, hub operations only), and `Heat` (purchased heat, hub operations only)
+- <{HOC/hubActivityUnit}>: `TEU` is no longer restricted to sea and inland waterway outbound transport; addition of <{HOC/freightMassPerTEU}>; in [[#pcf-mapping-hoc]], the intensity of TEU-based HOCs is converted to a per tonne basis (semantic change)
+- <{TOC/transportActivityUnit}>: `TEUkm` is no longer restricted to sea and inland waterways
+- {{HubType}}: addition of `IntermodalTerminal` and alignment of the descriptions with the hub types of the GLEC Framework v3.2; `IntermodalTerminal` added to <{ModeSpecificReport/hubOperations}>
+- <{PackagingOrTrEqType}>: addition of `SwapBody` and `Trailer`
+- addition of [[#electricity-emission-factors]]: emission factors of electricity MUST be determined using the location-based approach of [[!ISO14083]], Annex J.3 (semantic change)
+- addition of <{EnergyCarrier/emissionFactorMethod}> with value `LocationBased`
+- clarified the <{Feedstock/feedstock}> values `Grid` and `Renewable electricity`: grid electricity covered by contractual instruments is `Grid` (semantic change)
+- <{HOC/hubLocation}>: IATA and UIC codes may be used; hubs that are part of a transport node SHOULD carry the code of the transport node
+- addition of [[#hoc-intensity-example]]: a HOC with average and temperature-specific GHG emission intensities and a hub TCE, based on the GLEC Framework v3.2
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
