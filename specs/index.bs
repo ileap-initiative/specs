@@ -2870,7 +2870,9 @@ Note: This enumeration may be extended in minor versions (see [[#forward-compati
 : Diesel
 :: Refers to diesel
 : Biodiesel
-:: Refers to biodiesel (fatty acid methyl ester, FAME)
+:: Refers to biodiesel (fatty acid methyl ester, FAME) or renewable alternatives to fossil-derived
+    diesel fuel. They are produced from an array of renewable feedstocks including rapeseed oil,
+    used cooking oils (UCOs) and animal fats.
 : HVO
 :: Refers to Hydrotreated Vegetable Oil
 : Petrol
