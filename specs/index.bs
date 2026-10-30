@@ -297,14 +297,6 @@ Issue: Needs revision
 : <dfn data-lt="Smart Freight Center|SFC" data-noexport>Smart Freight Centre (SFC)</dfn>
 :: The [Smart Freight Centre](https://www.smartfreightcentre.org) Organization.
 
-## Conventions ## {#conventions}
-
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-"OPTIONAL" in this document are to be interpreted as described in
-(BCP14)[https://www.rfc-editor.org/info/bcp14] [[!RFC2119]]
-[[!RFC8174]] when, and only when, they appear in all
-capitals, as shown here.
 
 ## Transport Activity and Hub Activity ## {#activity-convention}
 
@@ -337,6 +329,16 @@ To allow these specifications to evolve in minor versions (see [[#document-statu
 
 These rules apply to all enumerations of these specifications, including those defined inline
 in property descriptions.
+
+
+## Conventions ## {#conventions}
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+"OPTIONAL" in this document are to be interpreted as described in
+(BCP14)[https://www.rfc-editor.org/info/bcp14] [[!RFC2119]]
+[[!RFC8174]] when, and only when, they appear in all
+capitals, as shown here.
 
 
 # Business Cases # {#business-cases}
