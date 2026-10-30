@@ -79,6 +79,7 @@ Note: Non-normative section
 These specifications do not cover the following topics or aspects, as they are covered elsewhere or declared as out of scope of this specification:
 
 1. Methodology for the calculation of logistics-related emissions. The technical specifications' normative foundations are the [[!GLEC]] Framework and [[!ISO14083]].
+1. GHG emissions allocated to passengers. For transport and hub operations that combine passengers and [=freight=] (e.g. belly freight), only the share allocated to freight is in scope.
 1. Black Carbon Methodological and Accounting principles.
 1. Technical details on capturing necessary data for primary data-based calculations approaches, such as data collection with or through telematics systems, TMS, etc.
 1. Contracts or legal aspect of data exchange between parties, including third party entities offering digital services or tools.
@@ -164,33 +165,37 @@ The authors would like to thank the many individuals and organizations for their
 : <dfn>Distance</dfn>
 :: See [=Transport Distance=] and [=Actual Distance=]
 
+: <dfn>Freight</dfn>
+::
+    Goods, materials, commodities, parcels, etc. being transported from one location to another. See [[!ISO14083]], Section 3.1.7.
+
 : <dfn data-lt="Great Circle Distance|GCD">Great Circle Distance (GCD)</dfn>
 ::
     The shortest distance between two points by crow-line, including the curving of the Earth. It is an approach used in air transport. [[!GLEC]] Framework.
 
 : <dfn>Hub</dfn>
-:: Location where freight is transferred from one vehicle or transport mode to another before, after, or between the elements of a [=transport chain=], e.g. cross-docking sites, distribution centres, warehouses, rail/road terminals, and terminals at seaports, inland ports, and airports. See [[!ISO14083]], Section 3.1.8 and Annex H.
+:: Location where [=freight=] is transferred from one vehicle or transport mode to another before, after, or between the elements of a [=transport chain=], e.g. cross-docking sites, distribution centres, warehouses, rail/road terminals, and terminals at seaports, inland ports, and airports. See [[!ISO14083]], Section 3.1.8 and Annex H.
 
 : <dfn data-noexport>Hub Activity</dfn>
-:: Parameter that quantifies the [=throughput=] of a [=hub=]. For freight, hub activity is the quantity of freight leaving the hub (outbound), expressed in the unit given by <{HOC/hubActivityUnit}>. Hub activity is not transport activity (see [[#activity-convention]]). See [[!ISO14083]], Sections 3.1.9, 5.5.2 and 9.4.1, and the [[!GLEC]] Framework.
+:: Parameter that quantifies the [=throughput=] of a [=hub=]. For [=freight=], hub activity is the quantity of freight leaving the hub (outbound), expressed in the unit given by <{HOC/hubActivityUnit}>. Hub activity is not transport activity (see [[#activity-convention]]). See [[!ISO14083]], Sections 3.1.9, 5.5.2 and 9.4.1, and the [[!GLEC]] Framework.
 
 : <dfn data-noexport>Hub Equipment</dfn>
-:: Equipment and facilities used at a [=hub=] to transfer freight, e.g. handling, on-site transportation, and transhipment equipment, including heating and temperature control. See [[!ISO14083]], Sections 3.1.10 and 5.2.2.
+:: Equipment and facilities used at a [=hub=] to transfer [=freight=], e.g. handling, on-site transportation, and transhipment equipment, including heating and temperature control. See [[!ISO14083]], Sections 3.1.10 and 5.2.2.
 
 : <dfn data-noexport>Hub Operation</dfn>
-:: Operation to transfer freight through a [=hub=]. See [[!ISO14083]], Section 3.1.11.
+:: Operation to transfer [=freight=] through a [=hub=]. See [[!ISO14083]], Section 3.1.11.
 
 : <dfn data-lt="Hub Operation Category|HOC">Hub Operation Category (HOC)</dfn>
 :: Represents a group of [=hub operations=] sharing similar characteristics. See [[!ISO14083]], Section 3.1.12, and the [[!GLEC]] Framework.
 
 : <dfn data-noexport>Hub Operator</dfn>
-:: Refers to the entity that carries out [=hub operations=] involving freight. See [[!ISO14083]], Section 3.1.13.
+:: Refers to the entity that carries out [=hub operations=] involving [=freight=]. See [[!ISO14083]], Section 3.1.13.
 
 : <dfn data-noexport>Hub Service</dfn>
-:: Service provided within a [=hub TCE=]. See [[!ISO14083]], Section 3.1.14.
+:: Service provided within a [=hub TCE=] for handling [=freight=]. See [[!ISO14083]], Section 3.1.14.
 
 : <dfn data-noexport>Hub TCE</dfn>
-:: A [=Transport Chain Element|TCE=] within which the freight transits through a single [=hub=], i.e. a TCE taking place within a [=hub operation=]. A hub TCE is represented by a <{TCE}> that references a <{HOC}> through <{TCE/hocId}> (see [[#hub-tces]]). See [[!ISO14083]], Clause 11.
+:: A [=Transport Chain Element|TCE=] within which the [=freight=] transits through a single [=hub=], i.e. a TCE taking place within a [=hub operation=]. A hub TCE is represented by a <{TCE}> that references a <{HOC}> through <{TCE/hocId}> (see [[#hub-tces]]). See [[!ISO14083]], Clause 11.
 
 : <dfn>Modeled Data</dfn>
 :: [=Secondary data=] established by use of a model that takes into account [=primary data=] and/or GHG emission-relevant parameters of a [=transport operation=] or [=hub operation=], such as vehicle size, load factor, or fuel type. See [[!ISO14083]], Section 3.3.4.1.
@@ -224,7 +229,7 @@ The authors would like to thank the many individuals and organizations for their
     Represents the shortest practical route between two places taking into account the real operating conditions. [[!GLEC]] Framework.
 
 : <dfn data-noexport>Throughput</dfn>
-:: The quantity of freight that is handled, sorted, cross-docked, or transferred at a [=hub=], within or between transport modes. See [[!ISO14083]], Section 3.1.21.
+:: The quantity of [=freight=] that is handled, sorted, cross-docked, or transferred at a [=hub=], within or between transport modes. See [[!ISO14083]], Section 3.1.21.
 
 : <dfn>Transport Activity</dfn>
 ::
@@ -235,22 +240,22 @@ The authors would like to thank the many individuals and organizations for their
 :: A Transport Chain as defined in the [[!GLEC]] Framework. A TC consists of 1 or more [=Transport Chain Elements=]. A TC corresponds to a shipment.
 
 : <dfn data-lt="Transport Chain Element">Transport Chain Element (TCE)</dfn>
-:: Section of a transport chain within which the freight is carried by a single vehicle or transits through a single hub. A TCE therefore relates either to transport activity or to hub activity. See [[!ISO14083]], Section 3.1.26, and the [[!GLEC]] Framework.
+:: Section of a transport chain within which the [=freight=] is carried by a single vehicle or transits through a single hub. A TCE therefore relates either to transport activity or to hub activity. See [[!ISO14083]], Section 3.1.26, and the [[!GLEC]] Framework.
 
 : <dfn>Transport Distance</dfn>
-:: Refers to the distance covered from the consignor to the consignee during the transportation of the freight. [[!GLEC]] Framework. See also [[!ISO14083]] 3.1.27.
+:: Refers to the distance covered from the consignor to the consignee during the transportation of the [=freight=]. [[!GLEC]] Framework. See also [[!ISO14083]] 3.1.27.
 
 : <dfn>Transport Operation</dfn>
-:: Operation of a vehicle to transport freight. See [[!ISO14083]], Section 3.1.28.
+:: Operation of a vehicle to transport [=freight=]. See [[!ISO14083]], Section 3.1.28.
 
 : <dfn data-lt="Transport Operation Category|TOC" id='toc-dfn'>Transport Operation Category (TOC)</dfn>
 :: Represents a group of [=transport operations=] sharing similar characteristics. See [[!ISO14083]], Section 3.1.29, and the [[!GLEC]] Framework.
 
 : <dfn>Transport Operator</dfn>
-:: Refers to the entity that carries out [=transport operations=] involving the carriage of freight. See [[!ISO14083]], Section 3.1.30.
+:: Refers to the entity that carries out [=transport operations=] involving the carriage of [=freight=]. See [[!ISO14083]], Section 3.1.30.
 
 : <dfn>Transport Service</dfn>
-:: Service provided to a [=Transport Service User=] for the transport of freight from an origin to a destination. A transport service can comprise several [=Transport Chain Elements=] and require both [=transport operations=] and [=hub operations=]. See [[!ISO14083]], Section 3.1.31.
+:: Service provided to a [=Transport Service User=] for the transport of [=freight=] from an origin to a destination. A transport service can comprise several [=Transport Chain Elements=] and require both [=transport operations=] and [=hub operations=]. See [[!ISO14083]], Section 3.1.31.
 
 : <dfn>Transport Service Organizer</dfn>
 :: Refers to the party providing [=transport services=], where some of the operations are subcontracted to a third party, usually a Transport Operator. See [[!ISO14083]], Section 3.1.32.
@@ -303,7 +308,7 @@ Issue: Needs revision
 [=Transport Activity=] and [=Hub Activity=] are distinct quantities. They MUST NOT be summed,
 converted into each other, or used interchangeably.
 
-1. [=Transport Activity=] quantifies the transport of freight by vehicles. Its unit is
+1. [=Transport Activity=] quantifies the transport of [=freight=] by vehicles. Its unit is
     `tonne-kilometer` unless stated otherwise (see <{TOC/transportActivityUnit}>).
 1. [=Hub Activity=] quantifies the throughput of a hub. Its unit is the one given in
     <{HOC/hubActivityUnit}>, e.g. `tonnes` leaving the hub.
@@ -976,7 +981,7 @@ Issue: Consider adding
         <td><dfn>volume</dfn> : [=Decimal=]
         <td>String
         <td>O
-        <td>The volume of the freight (in `cubic metres`) and any packaging provided by the [=Transport Service User=].
+        <td>The volume of the [=freight=] (in `cubic metres`) and any packaging provided by the [=Transport Service User=].
       <tr>
         <td><dfn>shipmentId</dfn>
         <td>String
@@ -1125,7 +1130,7 @@ Note: The properties `tocId` and `hocId` are mutually exclusive, but one of them
         <td><dfn>mass</dfn> : [=Decimal=]
         <td>String
         <td>M
-        <td>The freight mass of the consignment (in `kilograms`) and the packaging provided for transport by the Transport Service user, excluding any additional packaging or handling equipment used by the Transport Operator or Transport Service Organizer, in accordance with the [[!GLEC]] Framework.
+        <td>The [=freight=] mass of the consignment (in `kilograms`) and the packaging provided for transport by the Transport Service user, excluding any additional packaging or handling equipment used by the Transport Operator or Transport Service Organizer, in accordance with the [[!GLEC]] Framework.
 
       <tr>
         <td><dfn>packagingOrTrEqType</dfn>
@@ -5043,6 +5048,7 @@ apply for additional support, materials, and marketing opportunities.
 - clarified the <{Feedstock/feedstock}> values `Grid` and `Renewable electricity`: grid electricity covered by contractual instruments is `Grid` (semantic change)
 - <{HOC/hubLocation}>: IATA and UIC codes may be used; hubs that are part of a transport node SHOULD carry the code of the transport node
 - addition of [[#hoc-intensity-example]]: a HOC with average and temperature-specific GHG emission intensities and a hub TCE, based on the GLEC Framework v3.2
+- addition of [=freight=] as a term. GHG emissions allocated to passengers are now explicitly out of scope; they were already implicitly excluded, as this specification defines [=transport activity=] and [=hub activity=] for freight only.
 
 ## Version 1.1.0-draft.2 (2026-06-15) ## {#version-1.1.0-draft.2}
 
