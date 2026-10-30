@@ -1527,11 +1527,11 @@ Issue: Consider adding
         <td>String
         <td>O
         <td>
-            Only for air transport. Indicates if the movement of freight is combined with passanger transport (belly freight), or a dedicated aircraft for the movement of freight (freighter).
+            Only for air transport. Indicates if the movement of freight is combined with passenger transport (belly freight), or a dedicated aircraft for the movement of freight (freighter).
 
             If defined, the value MUST be one of the following:
             : belly freight
-            :: For freight combined with passanger transport.
+            :: For freight combined with passenger transport.
             : freighter
             :: For freight moved by a dedicated aircraft.
      <tr>
