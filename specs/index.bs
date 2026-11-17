@@ -1886,10 +1886,21 @@ Issue: Consider adding
         <td>
             The non-empty array of [=EnergyCarriers=] used to generate mechanical movement or heat and to generate chemical or physical processes, as defined in the [[!GLEC]] Framework.
 
-            The sum of the relative shares of the energy carriers used in the HOC MUST equal `1`. The relative share of each energy carrier MUST be computed relative to the [=hub activity=] (with unit <{HOC/hubActivityUnit}>) of the HOC.
+            The sum of the relative shares of the energy carriers used in the HOC MUST equal `1`. The
+            relative share of each energy carrier MUST be computed as follows:
+
+            - if the energy carriers of the HOC differ in their <{EnergyCarrier/energyCarrier}> (i.e.
+                they are of different <{EnergyCarrierType|EnergyCarrierTypes}>), relative to the total
+                energy consumed by the HOC, with unit `MJ`;
+            - otherwise (i.e. all energy carriers are of the same <{EnergyCarrierType}>, e.g.
+                `Electric` from different feedstocks), relative to the total quantity of this energy
+                carrier consumed by the HOC.
+
+            Note: The need for relative shares of energy carriers in the context of hub operations will
+            be validated in pilots. A structurally different approach may be considered for v2.
 
             <div class=example>
-              Assuming the HOC represents terminal where 75% of the (representative) hub activity uses `diesel` and the remaining 25% uses electricity (grid) to generate movements, the value of <{HOC/energyCarriers}> would be:
+              Assuming the HOC represents a terminal where 75% of the energy consumed (in `MJ`) is `diesel` and the remaining 25% is electricity (grid), the value of <{HOC/energyCarriers}> would be:
 
 
               ```json
@@ -2753,7 +2764,9 @@ The following properties are defined for data type <dfn element>EnergyCarrier</d
               The relative share of this energy carrier. Its value MUST be between `0` (excluding) and `1` (including).
 
               The relative share of each energy carrier MUST be computed relative to the transport activity
-              (<{TOC}>, <{TAD}>, <{ModeSpecificReport}>) or as specified for the <{HOC}> in <{HOC/energyCarriers}>.
+              (<{TOC}>, <{TAD}>, <{ModeSpecificReport}> relating to a transport mode) or as specified for
+              <{HOC}>s in <{HOC/energyCarriers}> and for <{ModeSpecificReport}>s relating to hub operations
+              in <{ModeSpecificReport/energyCarriers}>.
               Transport activity and hub activity MUST NOT be mixed (see [[#activity-convention]]).
 
               Note:
@@ -3063,8 +3076,12 @@ container equivalent unit.
               relating to a transport mode, the relative share of each energy carrier MUST be computed relative to the
               transport activity of this transport mode, with unit `tonne-kilometers` (see [[#activity-convention]]).
 
-              Issue: The basis of the relative share for a <{ModeSpecificReport}> relating to hub operations
-              (see <{ModeSpecificReport/hubOperations}>) will be specified in a future revision.
+              For a <{ModeSpecificReport}> relating to hub operations (see <{ModeSpecificReport/hubOperations}>),
+              the relative share of each energy carrier MUST be computed relative to the total energy consumed by
+              these hub operations, with unit `MJ`, if the energy carriers differ in their
+              <{EnergyCarrier/energyCarrier}> (i.e. they are of different <{EnergyCarrierType|EnergyCarrierTypes}>).
+              Otherwise, it MUST be computed relative to the total quantity of this energy carrier consumed by
+              these hub operations.
 
               To represent a single EnergyCarrierType produced from multiple feedstocks, each feedstock MUST be
               represented by a separate entry in the EnergyCarriers array. For each EnergyCarrier, the combined value of
@@ -5022,6 +5039,7 @@ apply for additional support, materials, and marketing opportunities.
 - <{AggregatedReport/totalActivity}> no longer includes hub activity (transport activity in `tonne-kilometers` only)
 - <{AggregatedReport}> and <{ModeSpecificReport}>: `co2eWTW` and `co2eTTW` cover hub equipment operation in addition to vehicle operation
 - relative shares of <{ModeSpecificReport/energyCarriers}> are computed relative to the transport activity of the respective transport mode
+- <{HOC/energyCarriers}> and <{ModeSpecificReport/energyCarriers}> on hub operations: if energy carriers of different <{EnergyCarrierType|EnergyCarrierTypes}> are used, relative shares are computed relative to the energy consumed, with unit `MJ`; otherwise relative to the quantity of the energy carrier consumed (semantic change)
 - removed references to transport activity from <{HOC/energyCarriers}>, <{HOC/co2eIntensityWTW}>, and <{HOC/co2eIntensityTTW}>
 - aligned the definitions of [=Hub Operator=], [=Transport Operator=], [=Transport Operation Category|TOC=], and [=Primary Data=] with [[!ISO14083]] (freight only)
 - [[#out-of-scope]]: emissions from electricity are quantified using the location-based approach ([[!ISO14083]], Annex J.3); market-based figures remain out of scope (semantic change)
