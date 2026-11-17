@@ -571,6 +571,10 @@ Note: Non-normative section
 
 Issue: Missing example with Data Transaction 4.
 
+Issue: An optional data transaction for the exchange of hub activity data (e.g. energy consumption
+per energy carrier and throughput), similar to Data Transaction 3 ([[#txn3]]), is being prepared
+together with hub operators and GHG calculation tools.
+
 ## Example Case with 2 Carriers and 1 LSP ## {#example-case-1}
 
 This section provides an end-to-end example of how the ([[#txns]])
